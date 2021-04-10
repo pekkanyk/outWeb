@@ -8,6 +8,9 @@
 
 namespace App\Controller;
 
+use Symfony\Component\HttpFoundation\Response;
+
+
 /**
  * Description of OutletProductController
  *
