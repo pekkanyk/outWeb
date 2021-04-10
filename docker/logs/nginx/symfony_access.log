@@ -1,0 +1,4 @@
+192.168.50.200 - - [10/Apr/2021:10:43:23 +0000] "GET / HTTP/1.1" 500 253 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
+192.168.50.200 - - [10/Apr/2021:10:43:23 +0000] "GET /favicon.ico HTTP/1.1" 500 253 "http://nuc.local:9999/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
+192.168.50.200 - - [10/Apr/2021:12:56:25 +0000] "GET / HTTP/1.1" 500 253 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
+192.168.50.200 - - [10/Apr/2021:12:56:25 +0000] "GET /favicon.ico HTTP/1.1" 500 253 "http://nuc.local:9999/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
