@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Controller;
+namespace App\Controller;
 
 /**
  * Description of DefaultController
