@@ -9,7 +9,7 @@
 namespace App\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
-
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Description of OutletProductController
@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @author qru19
  */
 class TestController {
+    @Route("/test/number")
     public function number(): Response
     {
         $number = random_int(0, 100);
