@@ -18,10 +18,11 @@ class DefaultController extends AbstractController{
      */
     public function index(): Response
     {
-        $number1 = random_int(0, 100);
+        $today = new \DateTime();
+        $todaystr = $today->format('Y-m-d');
         $number2 = random_int(0,100);
         return $this->render('index.html.twig',[
-            'eka_numero'=>$number1,
+            'today'=>$todaystr,
             'toka_numero'=>$number2,
             ]);
     } 

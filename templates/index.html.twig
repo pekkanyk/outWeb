@@ -31,7 +31,7 @@
 	<!-- Collection of nav links, forms, and other content for toggling -->
 	<div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
 		<ul class="nav navbar-nav">
-                        <li class="nav-item"><a th:href="@{/vkoutlet/stats}" class="nav-link">Stats</a></li>
+                        <li class="nav-item"><a href="/vkoutlet/stats" class="nav-link">Stats</a></li>
                         
                         
 			<li class="nav-item dropdown">
@@ -51,7 +51,7 @@
 				</ul>
 			</li>
 			<li class="nav-item"><a href="/vkoutlet/reload" class="nav-link">Reload</a></li>
-			<li class="nav-item"><a href="/vkoutlet?activity=deleted&amp;value=&amp;alkaen=2021-04-11&amp;date=2021-04-11&amp;sort=pid&amp;nappi=haku" class="nav-link">Tänään poistuneet</a></li>
+			<li class="nav-item"><a href="/vkoutlet?activity=delete&value=&alkaen={{ today }}&date=2021-04-11&sort=pid&nappi=haku" class="nav-link">Tänään poistuneet</a></li>
                         <li class="nav-item"><a href="/vkoutlet?activity=active&amp;value=&amp;alkaen=2021-04-11&amp;date=2021-04-11&amp;sort=pid&amp;nappi=haku" class="nav-link">Tänään päivitetyt</a></li>
 		</ul>
                 <ul class="nav navbar-nav navbar-right ml-auto">
