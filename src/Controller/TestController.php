@@ -10,6 +10,7 @@ namespace App\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TestController {
     /**
@@ -18,8 +19,11 @@ class TestController {
     public function number(): Response
     {
         $number = random_int(0, 100);
-        return new Response(
+        /*return new Response(
                 '<html><body>Random numero: '.$number.'</body></html>'
         );
+         * 
+         */
+        return $this->render('test/number.html.twig',['number'=>$number]);
     }
 }
