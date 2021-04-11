@@ -8,11 +8,21 @@
 
 namespace App\Controller;
 
-/**
- * Description of DefaultController
- *
- * @author qru19
- */
-class DefaultController {
-    //put your code here
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+class DefaultController extends AbstractController{
+    /**
+     *@Route("/")
+     */
+    public function index(): Response
+    {
+        $number1 = random_int(0, 100);
+        $number2 = random_int(0,100);
+        return $this->render('index.html.twig',[
+            'eka_numero'=>$number1,
+            'toka_numero'=>$number2,
+            ]);
+    } 
 }
