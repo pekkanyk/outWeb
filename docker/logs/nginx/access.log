@@ -31,3 +31,7 @@
 192.168.50.200 - - [11/Apr/2021:03:58:56 +0000] "GET /test HTTP/1.1" 200 69 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
 192.168.50.200 - - [11/Apr/2021:03:59:27 +0000] "GET /test HTTP/1.1" 200 68 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
 192.168.50.200 - - [11/Apr/2021:11:44:18 +0000] "GET /test HTTP/1.1" 200 68 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
+192.168.50.200 - - [11/Apr/2021:14:26:44 +0000] "GET /test HTTP/1.1" 500 184429 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
+192.168.50.200 - - [11/Apr/2021:16:31:47 +0000] "GET /test HTTP/1.1" 500 270060 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
+192.168.50.200 - - [11/Apr/2021:16:32:35 +0000] "GET /test HTTP/1.1" 404 26536 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
+192.168.50.200 - - [11/Apr/2021:16:33:36 +0000] "GET /test/number HTTP/1.1" 200 68 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
