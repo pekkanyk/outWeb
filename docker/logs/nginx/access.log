@@ -49,3 +49,5 @@
 192.168.50.200 - - [11/Apr/2021:19:28:31 +0000] "GET / HTTP/1.1" 200 1421 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
 192.168.50.200 - - [11/Apr/2021:19:28:31 +0000] "GET /css/style.css HTTP/1.1" 304 0 "http://nuc.local:9999/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
 192.168.50.200 - - [11/Apr/2021:19:29:03 +0000] "GET /vkoutlet/stats HTTP/1.1" 404 27175 "http://nuc.local:9999/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
+192.168.50.200 - - [12/Apr/2021:17:08:02 +0000] "GET / HTTP/1.1" 200 1423 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
+192.168.50.200 - - [12/Apr/2021:17:08:02 +0000] "GET /css/style.css HTTP/1.1" 304 0 "http://nuc.local:9999/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"

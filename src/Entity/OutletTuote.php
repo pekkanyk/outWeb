@@ -27,7 +27,7 @@ class OutletTuote
     private $name;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
     private $outPrice;
 
@@ -37,7 +37,7 @@ class OutletTuote
     private $norPrice;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      */
     private $priceUpdatedDate;
 
