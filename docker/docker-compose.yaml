@@ -18,9 +18,9 @@ services:
     depends_on:
       - db
     environment:
-      - APP_ENV=${APP_ENV}
-      - APP_SECRET=${APP_SECRET}
-      - DATABASE_URL=${DATABASE_URL}
+      - APP_ENV=dev
+      - APP_SECRET=1fb2b20db3894c3c3265d7e8feac1208
+      - DATABASE_URL="postgresql://outweb:darkweb@127.0.0.1:15432/outweb?serverVersion=12&charset=utf8"
     volumes:
       - ./../:/var/www
 
