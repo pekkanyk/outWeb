@@ -1,0 +1,53 @@
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+         <nav class="navbar navbar-default navbar-expand-lg navbar-light">
+	<div class="navbar-header d-flex col">
+		<a class="navbar-brand" th:href="@{/vkoutlet}">Outlet<b>Web</b></a>
+                
+		<button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle navbar-toggler ml-auto">
+			<span class="navbar-toggler-icon"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+	</div>
+	<!-- Collection of nav links, forms, and other content for toggling -->
+	<div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
+		<ul class="nav navbar-nav">
+                        <li class="nav-item"><a href="/vkoutlet/stats" class="nav-link">Stats</a></li>
+                        
+                        
+			<li class="nav-item dropdown">
+				<a data-toggle="dropdown" class="nav-link dropdown-toggle" href="#">Pikahaut <b class="caret"></b></a>
+				<ul class="dropdown-menu">					
+					<li><a href="/vkoutlet?value=-999&amp;date=&amp;nappi=Ale">Alle 10% alennus, ei Applea</a></li>
+                                        <li><a href="/vkoutlet?value=0&amp;date=2021-03-28&amp;nappi=Muuttunut">Yli 14 pv vanhat (kaikki)</a></li>
+                                        <li><a href="/vkoutlet?value=98&amp;date=2021-03-28&amp;nappi=Muuttunut">Yli 14 pv vanhat, yli 100€ hintaiset</a></li>
+					<li><a href="/vkoutlet?value=348&amp;date=2021-03-28&amp;nappi=Muuttunut">Yli 14 pv vanhat, yli 350€ hintaiset</a></li>
+                                        <li><a href="/vkoutlet?value=998&amp;date=2021-03-28&amp;nappi=Muuttunut">Yli 14 pv vanhat, yli 1000€ hintaiset</a></li>
+                                        <li><a href="/vkoutlet?value=98&amp;date=2021-03-10&amp;nappi=Muuttunut">Yli 32 pv vanhat, yli 100€ hintaiset</a></li>
+                                        <li><a href="/vkoutlet?value=5&amp;nappi=D&amp;date=">Yli 5 kpl samalla PID:llä</a></li>
+                                        <li><a href="/vkoutlet?value=14&amp;nappi=A&amp;date=">Yli 14 pv vanhat ja vähintään 14 pv poistumisesta</a></li>
+                                        <li><a href="/vkoutlet?value=v&amp;nappi=D&amp;date=">Dumppituotteita jotka tilattavissa</a></li>
+                                        <li><a href="/vkoutlet?value=d_A&amp;nappi=D&amp;date=">Yli 2 kpl ja eri hinnoilla (A)</a></li>
+                                        <li><a href="/vkoutlet?value=d_B&amp;nappi=D&amp;date=">Yli 2 kpl ja eri hinnoilla (B)</a></li>
+				</ul>
+			</li>
+			<li class="nav-item"><a href="/vkoutlet/reload" class="nav-link">Reload</a></li>
+			<li class="nav-item"><a href="/vkoutlet?activity=delete&value=&alkaen={{ today }}&date=2021-04-11&sort=pid&nappi=haku" class="nav-link">Tänään poistuneet</a></li>
+                        <li class="nav-item"><a href="/vkoutlet?activity=active&amp;value=&amp;alkaen=2021-04-11&amp;date=2021-04-11&amp;sort=pid&amp;nappi=haku" class="nav-link">Tänään päivitetyt</a></li>
+		</ul>
+                <ul class="nav navbar-nav navbar-right ml-auto">
+                    <li class="nav-item">
+                        <div>Noudettu: 20:18:26</div>
+                        <div>Aktiivisia: 2292</div>
+                    </li>
+		</ul>
+	</div>
+</nav>
+                        
+            </div>
+      </div>
+                
+</div>

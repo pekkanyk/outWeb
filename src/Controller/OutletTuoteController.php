@@ -15,16 +15,19 @@ class OutletTuoteController extends AbstractController
      */
     public function show(int $outId): Response
     {
-	$outletTuote = $this->getDoctrine()
+	$outTuote = $this->getDoctrine()
 		->getRepository(OutletTuote::class)
 		->find($outId);
 	
-	if (!$outletTuote) {
+	if (!$outTuote) {
 		throw $this->createNotFoundException(
 			'Outlet ID Not found:' ,$outId
 			);
 	}
-	return new Response('Outlet ID nimi: '.$outletTuote->getName());
+        $today = (new \DateTime())->format('Y-m-d');
+        return $this->render('outlet_tuote.html.twig',[
+            'outTuote'=>$outTuote,
+            'today'=>$today]);
 	
     }
 }
