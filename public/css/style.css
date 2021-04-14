@@ -8,10 +8,14 @@ a.deleted:active,
 a.deleted:hover{
     color: lightgray;
     text-decoration: none;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
 }
 .deleted {
     color: lightgray;
     text-decoration: none;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
 }
 a.active:link,
 a.active:visited,
@@ -19,10 +23,14 @@ a.active:active,
 a.active:hover{
     color: black;
     text-decoration: none;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
 }
 .active {
     color: black;
     text-decoration: none;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
 }
 .bottom-buffer-big {
     margin-bottom: 30px;
@@ -69,6 +77,12 @@ a.active:hover{
 body{
     font-family: 'Open Sans', sans-serif;
 }
+
+table.taulukot th tr td { 
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px; 
+}
+
 .form-control {
     box-shadow: none;
     border-radius: 4px;        

@@ -59,7 +59,24 @@
 
             <div class="row">
                 <div class="col-md-12">
-                    <table class="table">
+                    <table class="table taulukot">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th class="col-md-6">Tuote</th>
+                        <th>Hinta</th>
+                        <th>Viimeisin</th>
+                        <th>Ale%</th>
+                        <th>Takuu</th>
+                        <th><span title="Kuntoluokka">Kl</span></th>
+                        <th><input type="submit" name="nappi" value="A"/></th>
+                        <th><span title="Kampanja meneillään">K</span></th>
+                        <th><input type="submit" name="nappi" value="D"/></th>
+                        <th><span title="Tuote tilattavissa, varastosa kpl">V</span></th>
+                        <th><input type="submit" name="nappi" value="Muuttunut"/></th>
+                        <th><span title="Päiviä aktiivisena (kaikkiaan / viimeisimmällä hinnalla)">pA</span></th>
+                    </tr>
+                    </thead>
                         {{ include('fragments/_outTable.html.twig') }}
                     </table>
                 </div>
