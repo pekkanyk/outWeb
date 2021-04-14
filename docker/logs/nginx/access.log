@@ -149,3 +149,8 @@
 192.168.50.200 - - [14/Apr/2021:17:29:56 +0000] "GET /css/style.css HTTP/1.1" 304 0 "http://nuc.local:9999/outid/213331" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
 192.168.50.200 - - [14/Apr/2021:17:32:44 +0000] "GET /outid/213331 HTTP/1.1" 200 2131 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
 192.168.50.200 - - [14/Apr/2021:17:32:44 +0000] "GET /css/style.css HTTP/1.1" 200 3829 "http://nuc.local:9999/outid/213331" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
+192.168.50.200 - - [14/Apr/2021:18:01:20 +0000] "GET / HTTP/1.1" 200 2549 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
+192.168.50.200 - - [14/Apr/2021:18:01:20 +0000] "GET /css/style.css HTTP/1.1" 200 3829 "http://nuc.local:9999/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
+192.168.50.200 - - [14/Apr/2021:18:01:25 +0000] "GET /reload HTTP/1.1" 302 261 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
+192.168.50.200 - - [14/Apr/2021:18:01:25 +0000] "GET / HTTP/1.1" 200 2549 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
+192.168.50.200 - - [14/Apr/2021:18:01:25 +0000] "GET /css/style.css HTTP/1.1" 304 0 "http://nuc.local:9999/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
