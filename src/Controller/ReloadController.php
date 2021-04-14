@@ -33,9 +33,16 @@ class ReloadController extends AbstractController{
      */
     public function reloadJson(): Response
     {
-        $string = $this->getJsonFromVk('0');
+        $jsonStr = $this->getJsonFromVk('0');
+        $json = json_decode($jsonStr,true);
+        $numPages = $json['numPages'];
+        $temp = $numPages;
+        
+        for ($i=0;$i<$numPages;$i++){
+            $temp++;
+        }
         
         //return $this->redirectToRoute('homepage');
-        return new Response($string);
+        return new Response($temp);
     }
 }
