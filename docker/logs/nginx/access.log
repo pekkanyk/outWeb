@@ -175,3 +175,7 @@
 192.168.50.200 - - [14/Apr/2021:19:26:49 +0000] "GET /reload HTTP/1.1" 500 53891 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
 192.168.50.200 - - [14/Apr/2021:19:29:04 +0000] "GET /reload HTTP/1.1" 200 34 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
 192.168.50.200 - - [14/Apr/2021:19:32:01 +0000] "GET /reload HTTP/1.1" 200 34 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
+192.168.50.200 - - [14/Apr/2021:21:18:59 +0000] "GET /favicon.ico HTTP/1.1" 404 27178 "http://nuc.local:9999/reload" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.128 Safari/537.36"
+192.168.50.200 - - [14/Apr/2021:21:19:03 +0000] "GET /css/style.css HTTP/1.1" 200 3829 "http://nuc.local:9999/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.128 Safari/537.36"
+192.168.50.200 - - [15/Apr/2021:18:04:08 +0000] "GET /reload HTTP/1.1" 200 34 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.128 Safari/537.36"
+192.168.50.200 - - [15/Apr/2021:19:27:31 +0000] "GET /reload HTTP/1.1" 200 34 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.128 Safari/537.36"

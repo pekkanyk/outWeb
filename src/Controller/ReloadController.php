@@ -20,7 +20,7 @@ class ReloadController extends AbstractController{
         $this->client = $client;
     }
     
-    public function getJsonFromVk(string $i):string
+    public function getJsonFromVk($i):string
     {
         $response = $this->client->request(
                 'GET',
@@ -33,7 +33,7 @@ class ReloadController extends AbstractController{
      */
     public function reloadJson(): Response
     {
-        $jsonStr = $this->getJsonFromVk('0');
+        $jsonStr = $this->getJsonFromVk(0);
         $json = json_decode($jsonStr,true);
         $numPages = $json['numPages'];
         $temp = $numPages;
