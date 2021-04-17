@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class ReloadController extends AbstractController{
     private $client;
@@ -31,18 +32,19 @@ class ReloadController extends AbstractController{
     /**
      *@Route("/reload")
      */
-    public function reloadJson(): Response
+    public function reloadJson(SerializerInterface $serializer): Response
     {
         $jsonStr = $this->getJsonFromVk(0);
         $json = json_decode($jsonStr,true);
         $numPages = $json['numPages'];
         $temp = $numPages;
-        
+        $vkProducts = $json['products'];
+        $products = $serializer->deserialize($jsonStr, vkPage::class, 'json');
         for ($i=0;$i<$numPages;$i++){
             $temp++;
         }
         
         //return $this->redirectToRoute('homepage');
-        return new Response($temp);
+        return new Response($products);
     }
 }

@@ -1340,3 +1340,198 @@ PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bund
 PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\TemplateListener::onKernelController".
 PHP message: [debug] Notified event "kernel.controller_arguments" to listener "Symfony\Component\HttpKernel\EventListener\ErrorListener::onControllerArguments".
 PHP message: [debug] Notified event "kernel.controller_arguments" to listener "Sensio\Bundle\FrameworkExtraBu
+2021/04/16 19:13:22 [error] 30#30: *7 FastCGI sent in stderr: "PHP message: [info] Matched route "app_reload_reloadjson".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\DebugHandlersListener::configure".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\ValidateRequestListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\SessionListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleListener::setDefaultLocale".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\RouterListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleAwareListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\ControllerListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\ParamConverterListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\HttpCacheListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\TemplateListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller_arguments" to listener "Symfony\Component\HttpKernel\EventListener\ErrorListener::onControllerArguments".
+PHP message: [debug] Notified event "kernel.controller_arguments" to listener "Sensio\Bundle\FrameworkExtraBu
+2021/04/16 19:13:22 [error] 30#30: *7 FastCGI sent in stderr: "entListener\LocaleAwareListener::onKernelFinishRequest"" while reading response header from upstream, client: 192.168.50.200, server: localhost, request: "GET /reload HTTP/1.1", upstream: "fastcgi://172.20.0.3:9000", host: "nuc.local:9999"
+2021/04/16 19:13:22 [error] 30#30: *7 FastCGI sent in stderr: "PHP message: 2021-04-16T19:13:22+00:00 [critical] Uncaught Error: Symfony\Component\Serializer\Serializer::decode(): Argument #1 ($data) must be of type string, array given, called in /var/www/vendor/symfony/serializer/Serializer.php on line 142" while reading upstream, client: 192.168.50.200, server: localhost, request: "GET /reload HTTP/1.1", upstream: "fastcgi://172.20.0.3:9000", host: "nuc.local:9999"
+2021/04/16 19:21:14 [error] 31#31: *11 FastCGI sent in stderr: "PHP message: [info] Matched route "app_reload_reloadjson".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\DebugHandlersListener::configure".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\ValidateRequestListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\SessionListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleListener::setDefaultLocale".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\RouterListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleAwareListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\ControllerListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\ParamConverterListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\HttpCacheListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\TemplateListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller_arguments" to listener "Symfony\Component\HttpKernel\EventListener\ErrorListener::onControllerArguments".
+PHP message: [debug] Notified event "kernel.controller_arguments" to listener "Sensio\Bundle\FrameworkExtraB
+2021/04/16 19:21:14 [error] 31#31: *11 FastCGI sent in stderr: "entListener\LocaleAwareListener::onKernelFinishRequest"" while reading response header from upstream, client: 192.168.50.200, server: localhost, request: "GET /reload HTTP/1.1", upstream: "fastcgi://172.20.0.3:9000", host: "nuc.local:9999"
+2021/04/16 19:21:14 [error] 31#31: *11 FastCGI sent in stderr: "PHP message: 2021-04-16T19:21:14+00:00 [critical] Uncaught Error: Symfony\Component\Serializer\Serializer::decode(): Argument #1 ($data) must be of type string, array given, called in /var/www/vendor/symfony/serializer/Serializer.php on line 142" while reading upstream, client: 192.168.50.200, server: localhost, request: "GET /reload HTTP/1.1", upstream: "fastcgi://172.20.0.3:9000", host: "nuc.local:9999"
+2021/04/16 19:22:00 [error] 31#31: *11 FastCGI sent in stderr: "PHP message: [info] Matched route "app_reload_reloadjson".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\DebugHandlersListener::configure".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\ValidateRequestListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\SessionListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleListener::setDefaultLocale".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\RouterListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleAwareListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\ControllerListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\ParamConverterListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\HttpCacheListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\TemplateListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller_arguments" to listener "Symfony\Component\HttpKernel\EventListener\ErrorListener::onControllerArguments".
+PHP message: [debug] Notified event "kernel.controller_arguments" to listener "Sensio\Bundle\FrameworkExtraB
+2021/04/16 19:22:00 [error] 31#31: *11 FastCGI sent in stderr: "ener::onKernelFinishRequest"" while reading response header from upstream, client: 192.168.50.200, server: localhost, request: "GET /reload HTTP/1.1", upstream: "fastcgi://172.20.0.3:9000", host: "nuc.local:9999"
+2021/04/16 19:38:52 [error] 31#31: *15 FastCGI sent in stderr: "PHP message: [info] Matched route "app_reload_reloadjson".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\DebugHandlersListener::configure".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\ValidateRequestListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\SessionListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleListener::setDefaultLocale".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\RouterListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleAwareListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\ControllerListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\ParamConverterListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\HttpCacheListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\TemplateListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller_arguments" to listener "Symfony\Component\HttpKernel\EventListener\ErrorListener::onControllerArguments".
+PHP message: [debug] Notified event "kernel.controller_arguments" to listener "Sensio\Bundle\FrameworkExtraB
+2021/04/16 19:38:52 [error] 31#31: *15 FastCGI sent in stderr: "ener::onKernelFinishRequest"" while reading response header from upstream, client: 192.168.50.200, server: localhost, request: "GET /reload HTTP/1.1", upstream: "fastcgi://172.20.0.3:9000", host: "nuc.local:9999"
+2021/04/17 13:59:06 [error] 30#30: *18 FastCGI sent in stderr: "PHP message: [info] Matched route "app_reload_reloadjson".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\DebugHandlersListener::configure".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\ValidateRequestListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\SessionListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleListener::setDefaultLocale".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\RouterListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleAwareListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\ControllerListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\ParamConverterListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\HttpCacheListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\TemplateListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller_arguments" to listener "Symfony\Component\HttpKernel\EventListener\ErrorListener::onControllerArguments".
+PHP message: [debug] Notified event "kernel.controller_arguments" to listener "Sensio\Bundle\FrameworkExtraB
+2021/04/17 13:59:06 [error] 30#30: *18 upstream prematurely closed FastCGI stdout while reading response header from upstream, client: 192.168.50.200, server: localhost, request: "GET /reload HTTP/1.1", upstream: "fastcgi://172.20.0.3:9000", host: "nuc.local:9999"
+2021/04/17 13:59:15 [error] 30#30: *18 FastCGI sent in stderr: "PHP message: [info] Matched route "homepage".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\DebugHandlersListener::configure".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\ValidateRequestListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\SessionListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleListener::setDefaultLocale".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\RouterListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleAwareListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\ControllerListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\ParamConverterListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\HttpCacheListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\TemplateListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller_arguments" to listener "Symfony\Component\HttpKernel\EventListener\ErrorListener::onControllerArguments".
+PHP message: [debug] Notified event "kernel.controller_arguments" to listener "Sensio\Bundle\FrameworkExtraBundle\EventLi
+2021/04/17 13:59:19 [error] 30#30: *18 FastCGI sent in stderr: "PHP message: [info] Matched route "app_reload_reloadjson".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\DebugHandlersListener::configure".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\ValidateRequestListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\SessionListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleListener::setDefaultLocale".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\RouterListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleAwareListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\ControllerListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\ParamConverterListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\HttpCacheListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\TemplateListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller_arguments" to listener "Symfony\Component\HttpKernel\EventListener\ErrorListener::onControllerArguments".
+PHP message: [debug] Notified event "kernel.controller_arguments" to listener "Sensio\Bundle\FrameworkExtraB
+2021/04/17 13:59:19 [error] 30#30: *18 upstream prematurely closed FastCGI stdout while reading response header from upstream, client: 192.168.50.200, server: localhost, request: "GET /reload HTTP/1.1", upstream: "fastcgi://172.20.0.3:9000", host: "nuc.local:9999"
+2021/04/17 13:59:33 [error] 30#30: *18 FastCGI sent in stderr: "PHP message: [info] Matched route "app_reload_reloadjson".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\DebugHandlersListener::configure".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\ValidateRequestListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\SessionListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleListener::setDefaultLocale".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\RouterListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleAwareListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\ControllerListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\ParamConverterListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\HttpCacheListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\TemplateListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller_arguments" to listener "Symfony\Component\HttpKernel\EventListener\ErrorListener::onControllerArguments".
+PHP message: [debug] Notified event "kernel.controller_arguments" to listener "Sensio\Bundle\FrameworkExtraB
+2021/04/17 13:59:33 [error] 30#30: *18 upstream prematurely closed FastCGI stdout while reading response header from upstream, client: 192.168.50.200, server: localhost, request: "GET /reload HTTP/1.1", upstream: "fastcgi://172.20.0.3:9000", host: "nuc.local:9999"
+2021/04/17 14:02:46 [error] 31#31: *23 FastCGI sent in stderr: "PHP message: [info] Matched route "app_reload_reloadjson".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\DebugHandlersListener::configure".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\ValidateRequestListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\SessionListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleListener::setDefaultLocale".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\RouterListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleAwareListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\ControllerListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\ParamConverterListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\HttpCacheListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\TemplateListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller_arguments" to listener "Symfony\Component\HttpKernel\EventListener\ErrorListener::onControllerArguments".
+PHP message: [debug] Notified event "kernel.controller_arguments" to listener "Sensio\Bundle\FrameworkExtraB
+2021/04/17 14:02:46 [error] 31#31: *23 FastCGI sent in stderr: "ener::onKernelFinishRequest"" while reading response header from upstream, client: 192.168.50.200, server: localhost, request: "GET /reload HTTP/1.1", upstream: "fastcgi://172.20.0.3:9000", host: "nuc.local:9999"
+2021/04/17 16:10:01 [error] 30#30: *27 FastCGI sent in stderr: "PHP message: [info] Matched route "app_reload_reloadjson".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\DebugHandlersListener::configure".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\ValidateRequestListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\SessionListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleListener::setDefaultLocale".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\RouterListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleAwareListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\ControllerListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\ParamConverterListener::onKernelController".
+PHP message: [critical] Uncaught PHP Exception ReflectionException: "Class "App\Controller\SerializerInterface" does not exist" at /var/www/vendor/doctrine/persistence/lib/Doctrine/Persistence/AbstractManagerRegistry.php line 167
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\DebugHandlersListener::configure".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\ValidateRequestListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to li
+2021/04/17 16:11:07 [error] 30#30: *29 FastCGI sent in stderr: "PHP message: [info] Matched route "app_reload_reloadjson".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\DebugHandlersListener::configure".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\ValidateRequestListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\SessionListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleListener::setDefaultLocale".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\RouterListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleAwareListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\ControllerListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\ParamConverterListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\HttpCacheListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\TemplateListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller_arguments" to listener "Symfony\Component\HttpKernel\EventListener\ErrorListener::onControllerArguments".
+PHP message: [debug] Notified event "kernel.controller_arguments" to listener "Sensio\Bundle\FrameworkExtraB
+2021/04/17 16:11:07 [error] 30#30: *29 FastCGI sent in stderr: "ener::onKernelFinishRequest"" while reading response header from upstream, client: 192.168.50.200, server: localhost, request: "GET /reload HTTP/1.1", upstream: "fastcgi://172.20.0.3:9000", host: "nuc.local:9999"
+2021/04/17 16:21:01 [error] 31#31: *2 FastCGI sent in stderr: "PHP message: [info] Matched route "app_reload_reloadjson".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\DebugHandlersListener::configure".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\ValidateRequestListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\SessionListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleListener::setDefaultLocale".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\RouterListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleAwareListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\ControllerListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\ParamConverterListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\HttpCacheListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\TemplateListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller_arguments" to listener "Symfony\Component\HttpKernel\EventListener\ErrorListener::onControllerArguments".
+PHP message: [debug] Notified event "kernel.controller_arguments" to listener "Sensio\Bundle\FrameworkExtraBu
+2021/04/17 16:21:01 [error] 31#31: *2 FastCGI sent in stderr: "ener::onKernelFinishRequest"" while reading response header from upstream, client: 192.168.50.200, server: localhost, request: "GET /reload HTTP/1.1", upstream: "fastcgi://172.20.0.4:9000", host: "nuc.local:9999"
+2021/04/17 16:25:46 [error] 31#31: *2 FastCGI sent in stderr: "PHP message: [info] Matched route "app_reload_reloadjson".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\DebugHandlersListener::configure".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\ValidateRequestListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\SessionListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleListener::setDefaultLocale".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\RouterListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.request" to listener "Symfony\Component\HttpKernel\EventListener\LocaleAwareListener::onKernelRequest".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\ControllerListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\ParamConverterListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\HttpCacheListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller" to listener "Sensio\Bundle\FrameworkExtraBundle\EventListener\TemplateListener::onKernelController".
+PHP message: [debug] Notified event "kernel.controller_arguments" to listener "Symfony\Component\HttpKernel\EventListener\ErrorListener::onControllerArguments".
+PHP message: [debug] Notified event "kernel.controller_arguments" to listener "Sensio\Bundle\FrameworkExtraBu
+2021/04/17 16:25:46 [error] 31#31: *2 FastCGI sent in stderr: "ener::onKernelFinishRequest"" while reading response header from upstream, client: 192.168.50.200, server: localhost, request: "GET /reload HTTP/1.1", upstream: "fastcgi://172.20.0.4:9000", host: "nuc.local:9999"
