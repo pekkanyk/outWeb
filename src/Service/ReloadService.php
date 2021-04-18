@@ -10,6 +10,8 @@ namespace App\Service;
 
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use App\Entity\OutletTuote;
+use Doctrine\ORM\EntityManagerInterface;
+
 
 class ReloadService{
     private $client;
@@ -17,6 +19,36 @@ class ReloadService{
     public function __construct(HttpClientInterface $client)
     {
         $this->client = $client;
+    }
+    
+    private function reloadProducts()
+    {
+        
+        $jsonStr = $this->getJsonFromVk(0);
+        $json = json_decode($jsonStr,true);
+        $numPages = $json['numPages'];
+        $outProducts = [];
+        for ($i=0;$i<$numPages;$i++){
+            $jsonStr = $this->getJsonFromVk($i);
+            $json = json_decode($jsonStr,true);
+            $vkProducts = $json['products'];
+            
+            for ($j=0;$j<count($vkProducts);$j++){
+                $outletTuote = $this->generateOutletTuoteFromTable($vkProducts[$j]);
+                array_push($outProducts,$outletTuote);
+            }
+        }
+        
+        //return $this->redirectToRou1te('homepage');
+        //return new Response(print_r($vkProducts[0]["customerReturnsInfo"]));
+        //return new Response(print_r($outProducts));
+        return $outProducts;
+    }
+    
+    public function updateDb(EntityManagerInterface $entityManager){
+        $outProducts = $this->reloadProducts();
+        $entityManager->persist($outProducts[1]);
+        $entityManager->flush();
     }
     
     private function getJsonFromVk($i):string
@@ -43,49 +75,65 @@ class ReloadService{
             $outletTuote->setNorPrice($vkProduct["price"]["original"]);
         }
         $outletTuote->setUpdated(false);
-        $outletTuote->setDumppituote($vkProduct["isFireSale"]);
+        if (array_key_exists("isFireSale", $vkProduct)){
+            $outletTuote->setDumppituote($vkProduct["isFireSale"]);
+        }
+        else{
+            $outletTuote->setDumppituote(false);
+        }
         $outletTuote->setWarranty($vkProduct["customerReturnsInfo"]["warranty"]);
         $outletTuote->setCondition($vkProduct["customerReturnsInfo"]["condition"]);
         $outletTuote->setDeleted(null);
-        
-        //$outletTuote->setPidLuotu(date('Y-m-d', strtotime($vkProduct["createdAt"])));
-        /*$outletTuote->setPriceUpdatedDate($priceUpdatedDate);
+        $outletTuote->setFirstSeen($this->strDateToDate("today"));
+        $outletTuote->setPidLuotu($this->strDateToDate($vkProduct["createdAt"]));
+        $outletTuote->setPriceUpdatedDate($this->strDateToDate("today"));
+        $alennus = 100.0*(1-($outletTuote->getOutPrice()/$outletTuote->getNorPrice()));
         $outletTuote->setAlennus($alennus);
-        $outletTuote->setKampanja($kampanja);
-        $outletTuote->setKamploppuu($kamploppuu);
-        $outletTuote->setFirstSeen($firstSeen);
-        $outletTuote->setVarastossa($varastossa);
-        $outletTuote->setOnVarasto($onVarasto);
-        $outletTuote->setKoko($koko);
-        
-        */
+        $outletTuote->setKampanja(false);
+        $outletTuote->setKamploppuu(null);
+        if (array_key_exists("discount", $vkProduct["price"])){
+            if ($vkProduct["price"]["discount"]!=null){
+                if ($vkProduct["price"]["discountAmount"]>0){
+                    $outletTuote->setKampanja(true);
+                    if ($vkProduct["price"]["discount"]["endAt"]!=null){
+                        $outletTuote->setKamploppuu($this->strDateToDate($vkProduct["price"]["discount"]["endAt"]));
+                    }
+                    
+                }
+                
+            }
+            
+        }
+        if ($vkProduct["availability"]!=null){
+            $outletTuote->setOnVarasto($vkProduct["availability"]["isPurchasable"]);
+            if ($vkProduct["availability"]["hasStock"]){
+                if(array_key_exists("web", $vkProduct["availability"]["stocks"])){
+                    $outletTuote->setVarastossa($vkProduct["availability"]["stocks"]["web"]["stock"]);
+                }
+                else{
+                    $outletTuote->setVarastossa(0);
+                }
+            }
+        }
+        else{
+            $outletTuote->setVarastossa(null);
+            $outletTuote->setOnVarasto(false);
+        }
+        $outletTuote->setKoko("K"); //TODO pid koon mukaan
+
         return $outletTuote;
     }
     
-    
-    public function reloadProducts()
+    private function strDateToDate(string $str)
     {
-        
-        $jsonStr = $this->getJsonFromVk(0);
-        $json = json_decode($jsonStr,true);
-        $numPages = $json['numPages'];
-        
-        //for ($i=0;$i<$numPages;$i++){
-        for ($i=0;$i<1;$i++){
-            $jsonStr = $this->getJsonFromVk($i);
-            $json = json_decode($jsonStr,true);
-            $vkProducts = $json['products'];
-            $outProducts[] = new \ArrayObject();
-            
-            for ($j=0;$j<1;$j++){
-                $outletTuote = $this->generateOutletTuoteFromTable($vkProducts[$j]);
-                array_push($outProducts,$outletTuote);
-            }
+        if($str == 'today'){
+            $str = "now";
         }
+        else{
+            $str = substr($str, 0, 10);
+        }
+            $date = date_create($str, new \DateTimeZone('Europe/Helsinki'));
         
-        //return $this->redirectToRou1te('homepage');
-        //return new Response(print_r($vkProducts[0]["customerReturnsInfo"]));
-        //return new Response(print_r($outProducts));
-        return $outProducts;
+        return $date;
     }
 }

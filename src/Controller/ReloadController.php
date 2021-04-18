@@ -10,6 +10,7 @@ namespace App\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Service\ReloadService;
 
@@ -18,8 +19,9 @@ class ReloadController extends AbstractController{
      *@Route("/reload")
      */
     public function reloadProducts(ReloadService $reloadService): Response {
-        $outProducts = $reloadService->reloadProducts();
-        return new Response(print_r($outProducts));
+        $entityManager = $this->getDoctrine()->getManager();
+        $reloadService->updateDb($entityManager);
+        return new Response(print("done"));
     }
 
 }
