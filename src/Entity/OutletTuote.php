@@ -110,8 +110,11 @@ class OutletTuote
      * @ORM\Column(type="date", nullable=true)
      */
     private $pidLuotu;
+    public function __construct() {
+        
+    }
 
-    public function getOutId(): ?int
+        public function getOutId(): ?int
     {
         return $this->outId;
     }
