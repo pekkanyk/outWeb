@@ -18,6 +18,18 @@ class OutletTuoteRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, OutletTuote::class);
     }
+    
+    public function setAllActiveDeleted(): void
+    {
+        $this->createQueryBuilder('o')
+            ->update()
+            ->set('o.deleted', ':today')
+            ->where('o.deleted IS NULL')
+            ->setParameter('today', date_create('now', new \DateTimeZone('Europe/Helsinki')))
+            ->getQuery()
+            ->execute()
+        ;
+    }
 
     // /**
     //  * @return OutletTuote[] Returns an array of OutletTuote objects

@@ -11,10 +11,12 @@ namespace App\Service;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use App\Entity\OutletTuote;
 use Doctrine\ORM\EntityManagerInterface;
+//use App\Repository\OutletTuoteRepository;
 
 
 class ReloadService{
     private $client;
+    //private OutletTuoteRepository $outletTuoteRepository;
  
     public function __construct(HttpClientInterface $client)
     {
@@ -38,19 +40,42 @@ class ReloadService{
                 array_push($outProducts,$outletTuote);
             }
         }
-        
-        //return $this->redirectToRou1te('homepage');
-        //return new Response(print_r($vkProducts[0]["customerReturnsInfo"]));
-        //return new Response(print_r($outProducts));
+ 
         return $outProducts;
     }
     
     public function updateDb(EntityManagerInterface $entityManager){
-        $outProducts = $this->reloadProducts();
-        $entityManager->persist($outProducts[1]);
-        $entityManager->flush();
+        set_time_limit(0);
+        $newOutProducts = $this->reloadProducts();
+        $db = $entityManager->getRepository(OutletTuote::class);
+        $db->setAllActiveDeleted();
+        for ($i=0;$i<count($newOutProducts);$i++){
+        //for ($i=0;$i<1;$i++){
+            $dbOutTuote = $db->find($newOutProducts[$i]->getOutId());
+            if ($dbOutTuote == null){
+                $entityManager->persist($newOutProducts[$i]);
+                $entityManager->flush();
+            }
+            else{
+                $dbOutTuote->setName($newOutProducts[$i]->getName());
+                $dbOutTuote->setOutPrice($newOutProducts[$i]->getOutPrice());
+                $dbOutTuote->setNorPrice($newOutProducts[$i]->getNorPrice());
+                $dbOutTuote->setDumppituote($newOutProducts[$i]->getDumppituote());
+                $dbOutTuote->setPoistotuote($newOutProducts[$i]->getPoistotuote());
+                $dbOutTuote->setWarranty($newOutProducts[$i]->getWarranty());
+                $dbOutTuote->setCondition($newOutProducts[$i]->getCondition());
+                $dbOutTuote->setDeleted(null);
+                $dbOutTuote->setKampanja($newOutProducts[$i]->getKampanja());
+                $dbOutTuote->setKamploppuu($newOutProducts[$i]->getKamploppuu());
+                $dbOutTuote->setOnVarasto($newOutProducts[$i]->getOnVarasto());
+                $dbOutTuote->setVarastossa($newOutProducts[$i]->getVarastossa());
+                $dbOutTuote->setKoko($newOutProducts[$i]->getKoko());
+                $entityManager->flush();
+            }
+        }
+        
     }
-    
+       
     private function getJsonFromVk($i):string
     {
         $response = $this->client->request(
