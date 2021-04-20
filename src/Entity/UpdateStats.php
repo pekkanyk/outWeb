@@ -26,8 +26,12 @@ class UpdateStats
      * @ORM\Column(type="integer")
      */
     private $totalItems;
+    
+    public function __construct() {
+        
+    }
 
-    public function getId(): ?int
+        public function getId(): ?int
     {
         return $this->id;
     }

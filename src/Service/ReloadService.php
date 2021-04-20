@@ -10,14 +10,13 @@ namespace App\Service;
 
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use App\Entity\OutletTuote;
+use App\Entity\UpdateStats;
 use Doctrine\ORM\EntityManagerInterface;
-//use App\Repository\OutletTuoteRepository;
 
 
 class ReloadService{
     private $client;
-    //private OutletTuoteRepository $outletTuoteRepository;
- 
+     
     public function __construct(HttpClientInterface $client)
     {
         $this->client = $client;
@@ -50,7 +49,6 @@ class ReloadService{
         $db = $entityManager->getRepository(OutletTuote::class);
         $db->setAllActiveDeleted();
         for ($i=0;$i<count($newOutProducts);$i++){
-        //for ($i=0;$i<1;$i++){
             $dbOutTuote = $db->find($newOutProducts[$i]->getOutId());
             if ($dbOutTuote == null){
                 $entityManager->persist($newOutProducts[$i]);
@@ -73,7 +71,12 @@ class ReloadService{
                 $entityManager->flush();
             }
         }
-        
+        //$updatedb = $entityManager->getRepository(UpdateStats::class);
+        $updatetime = new UpdateStats();
+        $updatetime->setTimestamp(date_create('now', new \DateTimeZone('Europe/Helsinki')));
+        $updatetime->setTotalItems(count($newOutProducts));
+        $entityManager->persist($updatetime);
+        $entityManager->flush();
     }
        
     private function getJsonFromVk($i):string
