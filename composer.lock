@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c435821999ae8efd56a51bac4c3ee815",
+    "content-hash": "d3979ac85af0cb8ef600cabd128c846d",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -1357,6 +1357,63 @@
             "time": "2020-07-30T16:57:33+00:00"
         },
         {
+            "name": "dragonmantank/cron-expression",
+            "version": "v3.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dragonmantank/cron-expression.git",
+                "reference": "7a8c6e56ab3ffcc538d05e8155bb42269abf1a0c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dragonmantank/cron-expression/zipball/7a8c6e56ab3ffcc538d05e8155bb42269abf1a0c",
+                "reference": "7a8c6e56ab3ffcc538d05e8155bb42269abf1a0c",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2|^8.0",
+                "webmozart/assert": "^1.7.0"
+            },
+            "replace": {
+                "mtdowling/cron-expression": "^1.0"
+            },
+            "require-dev": {
+                "phpstan/extension-installer": "^1.0",
+                "phpstan/phpstan": "^0.12",
+                "phpstan/phpstan-webmozart-assert": "^0.12.7",
+                "phpunit/phpunit": "^7.0|^8.0|^9.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Cron\\": "src/Cron/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Tankersley",
+                    "email": "chris@ctankersley.com",
+                    "homepage": "https://github.com/dragonmantank"
+                }
+            ],
+            "description": "CRON for PHP: Calculate the next or previous run date and determine if a CRON expression is due",
+            "keywords": [
+                "cron",
+                "schedule"
+            ],
+            "funding": [
+                {
+                    "url": "https://github.com/dragonmantank",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-11-24T19:55:57+00:00"
+        },
+        {
             "name": "friendsofphp/proxy-manager-lts",
             "version": "v1.0.3",
             "source": {
@@ -1953,6 +2010,57 @@
                 "source": "https://github.com/php-fig/log/tree/1.1.3"
             },
             "time": "2020-03-23T09:12:05+00:00"
+        },
+        {
+            "name": "rewieer/taskschedulerbundle",
+            "version": "0.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rewieer/TaskSchedulerBundle.git",
+                "reference": "eb6a27226b6dba8beb1febe88197b68f6830f6ba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rewieer/TaskSchedulerBundle/zipball/eb6a27226b6dba8beb1febe88197b68f6830f6ba",
+                "reference": "eb6a27226b6dba8beb1febe88197b68f6830f6ba",
+                "shasum": ""
+            },
+            "require": {
+                "dragonmantank/cron-expression": "^2.3|^3.0",
+                "php": "^7.2|^8.0",
+                "symfony/console": "^3.4|^4.4|^5.1",
+                "symfony/framework-bundle": "^3.4|^4.4|^5.1"
+            },
+            "require-dev": {
+                "monolog/monolog": "^1.25",
+                "phpunit/phpunit": "^8.5",
+                "symfony/phpunit-bridge": "^5.1"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Rewieer\\TaskSchedulerBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anthony Cyrille",
+                    "email": "rewieer@gmail.com"
+                }
+            ],
+            "description": "Task Scheduler with CRON for Symfony",
+            "keywords": [
+                "bundle",
+                "cron",
+                "scheduler",
+                "symfony",
+                "task"
+            ],
+            "time": "2020-12-28T11:56:15+00:00"
         },
         {
             "name": "sensio/framework-extra-bundle",

@@ -16,10 +16,12 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class ReloadService{
     private $client;
-     
-    public function __construct(HttpClientInterface $client)
+    private $entityManager;
+        
+    public function __construct(HttpClientInterface $client, EntityManagerInterface $entityManager)
     {
         $this->client = $client;
+        $this->entityManager = $entityManager;
     }
     
     private function reloadProducts()
@@ -43,16 +45,16 @@ class ReloadService{
         return $outProducts;
     }
     
-    public function updateDb(EntityManagerInterface $entityManager){
+    public function updateDb(){
         set_time_limit(0);
         $newOutProducts = $this->reloadProducts();
-        $db = $entityManager->getRepository(OutletTuote::class);
+        $db = $this->entityManager->getRepository(OutletTuote::class);
         $db->setAllActiveDeleted();
         for ($i=0;$i<count($newOutProducts);$i++){
             $dbOutTuote = $db->find($newOutProducts[$i]->getOutId());
             if ($dbOutTuote == null){
-                $entityManager->persist($newOutProducts[$i]);
-                $entityManager->flush();
+                $this->entityManager->persist($newOutProducts[$i]);
+                $this->entityManager->flush();
             }
             else{
                 $dbOutTuote->setName($newOutProducts[$i]->getName());
@@ -68,15 +70,15 @@ class ReloadService{
                 $dbOutTuote->setOnVarasto($newOutProducts[$i]->getOnVarasto());
                 $dbOutTuote->setVarastossa($newOutProducts[$i]->getVarastossa());
                 $dbOutTuote->setKoko($newOutProducts[$i]->getKoko());
-                $entityManager->flush();
+                $this->entityManager->flush();
             }
         }
         //$updatedb = $entityManager->getRepository(UpdateStats::class);
         $updatetime = new UpdateStats();
         $updatetime->setTimestamp(date_create('now', new \DateTimeZone('Europe/Helsinki')));
         $updatetime->setTotalItems(count($newOutProducts));
-        $entityManager->persist($updatetime);
-        $entityManager->flush();
+        $this->entityManager->persist($updatetime);
+        $this->entityManager->flush();
     }
        
     private function getJsonFromVk($i):string
