@@ -353,4 +353,25 @@ class OutletTuote
 
         return $this;
     }
+    public function daysActive(){
+        $today = date_create("now", new \DateTimeZone('Europe/Helsinki'));
+        if ($this->deleted != null){
+            $da = $this->firstSeen->diff($this->deleted)->format('%d');
+        }
+        else {
+            $da = $this->firstSeen->diff($today)->format('%d');
+        }
+        return $da;
+    }
+    
+    public function daysWithLastPrice(){
+        $today = date_create("now", new \DateTimeZone('Europe/Helsinki'));
+        if ($this->deleted != null){
+            $da = $this->priceUpdatedDate->diff($this->deleted)->format('%d');
+        }
+        else {
+            $da = $this->priceUpdatedDate->diff($today)->format('%d');
+        }
+        return $da;
+    }
 }

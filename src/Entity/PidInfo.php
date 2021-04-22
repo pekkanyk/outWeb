@@ -40,8 +40,17 @@ class PidInfo
      * @ORM\Column(type="integer", nullable=true)
      */
     private $volume;
+    
+    public function __construct($pid, $width, $depth, $weight, $height, $volume) {
+        $this->pid = $pid;
+        $this->width = $width;
+        $this->depth = $depth;
+        $this->weight = $weight;
+        $this->height = $height;
+        $this->volume = $volume;
+    }
 
-    public function getPid(): ?int
+        public function getPid(): ?int
     {
         return $this->pid;
     }
@@ -111,5 +120,8 @@ class PidInfo
         $this->volume = $volume;
 
         return $this;
+    }
+    public function sizeStr() {
+        return (($this->width)/10)." x ".(($this->height)/10)." x ".(($this->depth)/10);
     }
 }

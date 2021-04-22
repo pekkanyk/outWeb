@@ -21,11 +21,10 @@ class ReloadController extends AbstractController{
     /**
      *@Route("/reload")
      */
-    //public function reloadProducts(ReloadService $reloadService): Response {
     public function reloadProducts(): Response {
-        //$entityManager = $this->getDoctrine()->getManager();
         $this->reloadService->updateDb();
-        return new Response(print("done"));
+        //return new Response(print("done"));
+        return $this->redirectToRoute('homepage');
     }
 
 }

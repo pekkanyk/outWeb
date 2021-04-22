@@ -30,6 +30,34 @@ class OutletTuoteRepository extends ServiceEntityRepository
             ->execute()
         ;
     }
+    
+    /*
+    public function findByPid($pid, $status)
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.pid = :val')
+                ->setParameter('val', $pid)
+            ->andWhere('o.deleted IS NULL')
+                //->setParameter('status', $status)
+            ->orderBy('o.outId', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+     * 
+     */
+    
+    public function findByPidDeleted($pid)
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.pid = :val')
+            ->andWhere('o.deleted IS NOT NULL')
+            ->setParameter('val', $pid)
+            ->orderBy('o.deleted', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
     // /**
     //  * @return OutletTuote[] Returns an array of OutletTuote objects

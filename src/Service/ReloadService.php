@@ -11,6 +11,7 @@ namespace App\Service;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use App\Entity\OutletTuote;
 use App\Entity\UpdateStats;
+use App\Entity\PidInfo;
 use Doctrine\ORM\EntityManagerInterface;
 
 
@@ -91,7 +92,8 @@ class ReloadService{
     }
     
     private function generateOutletTuoteFromTable($vkProduct): OutletTuote
-    {
+    {   
+        $pidDb = $this->entityManager->getRepository(PidInfo::class);
         $outletTuote = new OutletTuote();
         $outletTuote->setOutId($vkProduct["customerReturnsInfo"]["id"]);
         $outletTuote->setPid($vkProduct["customerReturnsInfo"]["pid"]);
@@ -149,11 +151,23 @@ class ReloadService{
             $outletTuote->setVarastossa(null);
             $outletTuote->setOnVarasto(false);
         }
-        $outletTuote->setKoko("K"); //TODO pid koon mukaan
-
+        $dbPidInfo = $pidDb->find($vkProduct["customerReturnsInfo"]["pid"]);
+        if ($dbPidInfo == null){
+                $pidInfo = new PidInfo($vkProduct["customerReturnsInfo"]["pid"]
+                        , $vkProduct["package"]["width"]
+                        , $vkProduct["package"]["depth"]
+                        , $vkProduct["package"]["weight"]
+                        , $vkProduct["package"]["height"]
+                        , $vkProduct["package"]["volume"]);
+                $this->entityManager->persist($pidInfo);
+            }
+        if ($vkProduct["package"]["volume"]<=1200000) {$outletTuote->setKoko("P");}    
+        else if ($vkProduct["package"]["volume"]<=10000000) {$outletTuote->setKoko("K");}
+        else {$outletTuote->setKoko("I");}
+        
         return $outletTuote;
     }
-    
+       
     private function strDateToDate(string $str)
     {
         if($str == 'today'){

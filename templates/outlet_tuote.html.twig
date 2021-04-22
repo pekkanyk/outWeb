@@ -8,38 +8,39 @@
         </header>
         <div class="container">
             <div class="row">
-                <div class="col-md-12">OUT123456 - Tuotteen nimi, musta 64 GB</div>
+                <div class="col-md-12"><h3>{{ outTuotteet[0].outId }} - {{ outTuotteet[0].name }}</h3></div>
                 <div class="col-md-4 col-xs-12">
                     <table class="table taulukot">
-                        <tr><td>Hinta</td><td>1000 €</td></tr>
-                        <tr><td>Normaali hinta</td><td> 1500 €</td></tr>
-                        <tr><td>Alennus</td><td> 500 €</td></tr>
-                        <tr><td>Alennusprosentti</td><td>33,33%</td></tr>
-                        <tr><td>Takuu</td><td>12 kk</td></tr>
+                        <tr><td>Hinta</td><td>{{ outTuotteet[0].outPrice|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }}</td></tr>
+                        <tr><td>Normaali hinta</td><td>{{ outTuotteet[0].norPrice|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }}</td></tr>
+                        {% set alennus =  outTuotteet[0].norPrice - outTuotteet[0].outPrice%}
+                        <tr><td>Alennus</td><td>{{ alennus|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }}</td></tr>
+                        <tr><td>Alennusprosentti</td><td>{{ outTuotteet[0].alennus|round(1,'common') }} %</td></tr>
+                        <tr><td>Takuu</td><td>{{ outTuotteet[0].warranty }} kk</td></tr>
                     </table>
                 </div>
                 <div class="col-md-4 col-xs-12">
                     <table class="table taulukot">
-                        <tr><td>Pid</td><td>56722</td></tr>
-                        <tr><td>Pid luotu</td><td>2018-01-23</td></tr>
-                        <tr><td>Ensikertaa nähty</td><td>2021-01-03</td></tr>
-                        <tr><td>Hinta muuttunut viimeksi</td><td>2021-02-06</td></tr>
-                        <tr><td>Pakkauksen koko</td><td>30 x 20 x 20</td></tr>
+                        <tr><td>Pid</td><td>{{ outTuotteet[0].pid }}</td></tr>
+                        <tr><td>Pid luotu</td><td>{{ outTuotteet[0].pidLuotu|format_date('short', locale='fi') }}</td></tr>
+                        <tr><td>Ensikertaa nähty</td><td>{{ outTuotteet[0].firstSeen|format_date('short', locale='fi') }}</td></tr>
+                        <tr><td>Hinta muuttunut viimeksi</td><td>{{ outTuotteet[0].priceUpdatedDate|format_date('short', locale='fi') }}</td></tr>
+                        <tr><td>Pakkauksen koko</td><td>{{ outTuotteet[3].sizeStr() }} cm</td></tr>
                     </table>
                 </div>
                 <div class="col-md-4 col-xs-12">
                     <table class="table taulukot">
-                        <tr><td>Päiviä aktiivisena</td><td>32 pv</td></tr>
-                        <tr><td>Viimeisimmällä hinnalla</td><td>4 pv</td></tr>
-                        <tr><td>Samoja aktiivisena</td><td>5 kpl</td></tr>
-                        <tr><td>Samoja poistunut</td><td>15 kpl</td></tr>
+                        <tr><td>Päiviä aktiivisena</td><td>{{ outTuotteet[0].daysActive() }} pv</td></tr>
+                        <tr><td>Viimeisimmällä hinnalla</td><td>{{ outTuotteet[0].daysWithLastPrice() }} pv</td></tr>
+                        <tr><td>Samoja aktiivisena</td><td>{{ active }} kpl</td></tr>
+                        <tr><td>Samoja poistunut</td><td>{{ deleted }} kpl</td></tr>
                     </table>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
                     <table class="table taulukot">
-                        <caption>Myynnissä - 5kpl</caption>
+                        <caption>Myynnissä - {{ active }} kpl</caption>
                         {{ include('fragments/_outTable.html.twig') }}
                     </table>
                 </div>
@@ -47,7 +48,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <table class="table taulukot">
-                        <caption>Poistuneet - 5kpl</caption>
+                        <caption>Poistuneet - {{ deleted }}kpl</caption>
                         {{ include('fragments/_outTable.html.twig') }}
                     </table>
                 </div>

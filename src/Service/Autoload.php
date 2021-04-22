@@ -6,6 +6,7 @@
  * and open the template in the editor.
  */
 
+/*
 namespace App\Service;
 
 use Rewieer\TaskSchedulerBundle\Task\AbstractScheduledTask;
@@ -28,4 +29,6 @@ class Autoload extends AbstractScheduledTask{
         $this->reloadControler->reloadProducts();
     }
 }
+ * 
+ */
 
