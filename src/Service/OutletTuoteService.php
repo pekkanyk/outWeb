@@ -50,8 +50,16 @@ class OutletTuoteService{
         $active = $this->getActiveWithPid($pid);
         $deleted = $this->getDeletedWithPid($pid);
         $pidStats->setName($this->getPidName($active, $deleted));
-        $pidStats->setActive_kaOutPrice($this->kaHinta($active));
-        $pidStats->setDeleted_kaOutPrice($this->kaHinta($deleted));
+        $pidStats->setActive_kaOutPrice($this->keskiarvo($active,"outPrice"));
+        $pidStats->setDeleted_kaOutPrice($this->keskiarvo($deleted,"outPrice"));
+        $pidStats->setActive_kaAlennus($this->keskiarvo($active,"alennus"));
+        $pidStats->setDeleted_kaAlennus($this->keskiarvo($deleted,"alennus"));
+        $pidStats->setActive_kaAlennusProsentti($this->keskiarvo($active,"alePros"));
+        $pidStats->setDeleted_kaAlennusProsentti($this->keskiarvo($deleted,"alePros"));
+        $pidStats->setActive_kaActiveDays($this->keskiarvo($active,"days"));
+        $pidStats->setDeleted_kaActiveDays($this->keskiarvo($deleted,"days"));
+        $pidStats->setPid($pid);
+        $pidStats->setPidSize($this->getPidInfo($pid)->sizeStr());
         return $pidStats;
     }
     
@@ -65,12 +73,15 @@ class OutletTuoteService{
         return $name;
     }
     
-    private function kaHinta($outletit) {
+    private function keskiarvo($outletit,$type) {
         $sum = 0;
         $count = count($outletit);
         if ($count>0){
             for ($i=0;$i<$count;$i++){
-                $sum += $outletit[$i]->getOutPrice();
+                if ($type=="outPrice") { $sum += $outletit[$i]->getOutPrice(); }
+                elseif ($type=="alennus"){ $sum += ($outletit[$i]->getNorPrice() - $outletit[$i]->getOutPrice()); }
+                elseif ($type=="alePros"){ $sum += $outletit[$i]->getAlennus(); }
+                elseif ($type=="days"){ $sum += $outletit[$i]->daysWithLastPrice(); }
             }
             $ka = $sum / $count;
         }
@@ -79,4 +90,16 @@ class OutletTuoteService{
         }
         return $ka;
     }
+    /*
+    private function kaAlennus($outletit) {
+        $sum =0;
+        $count = count($outletit);
+        if ($count>0){
+            for ($i=0;$i<$count;$i++){
+                
+            }
+        }
+    }
+     * 
+     */
 }

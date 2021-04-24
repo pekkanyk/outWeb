@@ -8,7 +8,7 @@
         </header>
         <div class="container">
             <div class="row">
-                <div class="col-md-12"><h3>pid123456 - Nimi Nimi</h3></div>
+                <div class="col-md-12"><h3>PID{{ pidStats.pid }} - {{ pidStats.name }}</h3></div>
                 <div class="col-md-8 col-xs-12">
                     <table class="table taulukot">
                         <thead>
@@ -20,33 +20,33 @@
                         </thead>
                         <tr>
                             <td>Hinta</td>
-                            <td>{{ pidStats.active_kaOutPrice }}</td>
-                            <td>{{ pidStats.deleted_kaOutPrice }}</td>
+                            <td>{{ pidStats.active_kaOutPrice|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }}</td>
+                            <td>{{ pidStats.deleted_kaOutPrice|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }}</td>
                         </tr>
                         <tr>
                             <td>Alennus</td>
-                            <td>13</td>
-                            <td>15</td>
+                            <td>{{ pidStats.active_kaAlennus|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }}</td>
+                            <td>{{ pidStats.deleted_kaAlennus|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }}</td>
                         </tr>
                         <tr>
                             <td>Alennusprosentti</td>
-                            <td>25 %</td>
-                            <td>28 %</td>
+                            <td>{{ pidStats.active_kaAlennusProsentti|round(1,'common') }} %</td>
+                            <td>{{ pidStats.deleted_kaAlennusProsentti|round(1,'common') }} %</td>
                         </tr>
                         <tr>
                             <td>Päiviä aktiivisena</td>
-                            <td>15.6</td>
-                            <td>16.1</td>
+                            <td>{{ pidStats.active_kaActiveDays|round(1,'common') }}</td>
+                            <td>{{ pidStats.deleted_kaActiveDays|round(1,'common') }}</td>
                         </tr>
                     </table>
                 </div>
                 <div class="col-md-4 col-xs-12">
                     <table class="table taulukot">
-                        <tr><td>Pid</td><td>123456</td></tr>
+                        <tr><td>Pid</td><td>{{ pidStats.pid }}</td></tr>
                         <tr><td>Pid luotu</td><td>1.2.2018</td></tr>
                         <tr><td>Aktiivisia</td><td>2</td></tr>
                         <tr><td>Poistuneita</td><td>5</td></tr>
-                        <tr><td>Pakkauksen koko</td><td>10 x 10 x 10 cm</td></tr>
+                        <tr><td>Pakkauksen koko</td><td>{{ pidStats.pidSize }} cm</td></tr>
                     </table>
                 </div>
                 

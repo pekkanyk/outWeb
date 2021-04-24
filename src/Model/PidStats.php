@@ -15,11 +15,20 @@ class PidStats
     private $pidCreated;
     private $pid;
     private $name;
+    private $pidSize;
   
     public function __construct() {
         
     }
-    public function getName() {
+    public function getPidSize() {
+        return $this->pidSize;
+    }
+
+    public function setPidSize($pidSize): void {
+        $this->pidSize = $pidSize;
+    }
+
+        public function getName() {
         return $this->name;
     }
 
