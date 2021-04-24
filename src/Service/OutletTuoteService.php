@@ -11,6 +11,7 @@ namespace App\Service;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use App\Entity\OutletTuote;
 use App\Entity\PidInfo;
+use App\Model\PidStats;
 use Doctrine\ORM\EntityManagerInterface;
 
 
@@ -22,20 +23,60 @@ class OutletTuoteService{
         $this->entityManager = $entityManager;
     }
     
-    public function getOutIdInfo($outId){
-        //$outIds = [["current"],["active"],["deleted"]];
-        $outIds = [];
+    public function getOutletTuote($outId): ?OutletTuote{
         $db = $this->entityManager->getRepository(OutletTuote::class);
-        $pidDb = $this->entityManager->getRepository(PidInfo::class);
-        $outletTuote = $db->find($outId);
-        if ($outletTuote!=null){
-            array_push($outIds,$outletTuote);
-            array_push($outIds,$db->findBy(array('pid'=>$outletTuote->getPid(),'deleted'=>null)));
-            array_push($outIds,$db->findByPidDeleted($outletTuote->getPid()));
-            array_push($outIds,$pidDb->find($outletTuote->getPid()));
-        }
-        
-        return $outIds;
+        return $db->find($outId);
+    }
+
+
+    public function getActiveWithPid($pid){
+        $db = $this->entityManager->getRepository(OutletTuote::class);
+        return  $db->findBy(array('pid'=>$pid,'deleted'=>null));
     }
     
+    public function getDeletedWithPid($pid){
+        $db = $this->entityManager->getRepository(OutletTuote::class);
+        return $db->findByPidDeleted($pid);
+    }
+    
+    public function getPidInfo($pid){
+        $pidDb = $this->entityManager->getRepository(PidInfo::class);
+        return $pidDb->find($pid);
+    }
+    
+    public function getPidStats($pid) {
+        $db = $this->entityManager->getRepository(OutletTuote::class);
+        $pidStats = new PidStats();
+        $active = $this->getActiveWithPid($pid);
+        $deleted = $this->getDeletedWithPid($pid);
+        $pidStats->setName($this->getPidName($active, $deleted));
+        $pidStats->setActive_kaOutPrice($this->kaHinta($active));
+        $pidStats->setDeleted_kaOutPrice($this->kaHinta($deleted));
+        return $pidStats;
+    }
+    
+    private function getPidName($active,$deleted) {
+        if ($active != null){
+            $name = $active[0]->getName();
+        }
+        else{
+            $name = $deleted[0]->getName();
+        }
+        return $name;
+    }
+    
+    private function kaHinta($outletit) {
+        $sum = 0;
+        $count = count($outletit);
+        if ($count>0){
+            for ($i=0;$i<$count;$i++){
+                $sum += $outletit[$i]->getOutPrice();
+            }
+            $ka = $sum / $count;
+        }
+        else{
+            $ka = 0;
+        }
+        return $ka;
+    }
 }

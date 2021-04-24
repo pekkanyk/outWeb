@@ -8,48 +8,65 @@
         </header>
         <div class="container">
             <div class="row">
-                <div class="col-md-12"><h3>{{ outTuotteet[0].outId }} - {{ outTuotteet[0].name }}</h3></div>
+                <div class="col-md-12"><h3>{{ outletTuote.outId }} - {{ outletTuote.name }}</h3></div>
                 <div class="col-md-4 col-xs-12">
                     <table class="table taulukot">
-                        <tr><td>Hinta</td><td>{{ outTuotteet[0].outPrice|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }}</td></tr>
-                        <tr><td>Normaali hinta</td><td>{{ outTuotteet[0].norPrice|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }}</td></tr>
-                        {% set alennus =  outTuotteet[0].norPrice - outTuotteet[0].outPrice%}
+                        <tr><td>Hinta</td><td>{{ outletTuote.outPrice|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }}</td></tr>
+                        <tr><td>Normaali hinta</td><td>{{ outletTuote.norPrice|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }}</td></tr>
+                        {% set alennus =  outletTuote.norPrice - outletTuote.outPrice%}
                         <tr><td>Alennus</td><td>{{ alennus|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }}</td></tr>
-                        <tr><td>Alennusprosentti</td><td>{{ outTuotteet[0].alennus|round(1,'common') }} %</td></tr>
-                        <tr><td>Takuu</td><td>{{ outTuotteet[0].warranty }} kk</td></tr>
+                        <tr><td>Alennusprosentti</td><td>{{ outletTuote.alennus|round(1,'common') }} %</td></tr>
+                        <tr><td>Takuu</td><td>{{ outletTuote.warranty }} kk</td></tr>
                     </table>
                 </div>
                 <div class="col-md-4 col-xs-12">
                     <table class="table taulukot">
-                        <tr><td>Pid</td><td>{{ outTuotteet[0].pid }}</td></tr>
-                        <tr><td>Pid luotu</td><td>{{ outTuotteet[0].pidLuotu|format_date('short', locale='fi') }}</td></tr>
-                        <tr><td>Ensikertaa nähty</td><td>{{ outTuotteet[0].firstSeen|format_date('short', locale='fi') }}</td></tr>
-                        <tr><td>Hinta muuttunut viimeksi</td><td>{{ outTuotteet[0].priceUpdatedDate|format_date('short', locale='fi') }}</td></tr>
-                        <tr><td>Pakkauksen koko</td><td>{{ outTuotteet[3].sizeStr() }} cm</td></tr>
+                        <tr><td>Pid</td><td>{{ outletTuote.pid }}</td></tr>
+                        <tr><td>Pid luotu</td><td>{{ outletTuote.pidLuotu|format_date('short', locale='fi') }}</td></tr>
+                        <tr><td>Ensikertaa nähty</td><td>{{ outletTuote.firstSeen|format_date('short', locale='fi') }}</td></tr>
+                        <tr><td>Hinta muuttunut viimeksi</td><td>{{ outletTuote.priceUpdatedDate|format_date('short', locale='fi') }}</td></tr>
+                        <tr><td>Pakkauksen koko</td><td>{{ pidInfo.sizeStr() }} cm</td></tr>
                     </table>
                 </div>
                 <div class="col-md-4 col-xs-12">
                     <table class="table taulukot">
-                        <tr><td>Päiviä aktiivisena</td><td>{{ outTuotteet[0].daysActive() }} pv</td></tr>
-                        <tr><td>Viimeisimmällä hinnalla</td><td>{{ outTuotteet[0].daysWithLastPrice() }} pv</td></tr>
-                        <tr><td>Samoja aktiivisena</td><td>{{ active }} kpl</td></tr>
-                        <tr><td>Samoja poistunut</td><td>{{ deleted }} kpl</td></tr>
+                        <tr><td>Päiviä aktiivisena</td><td>{{ outletTuote.daysActive() }} pv</td></tr>
+                        <tr><td>Viimeisimmällä hinnalla</td><td>{{ outletTuote.daysWithLastPrice() }} pv</td></tr>
+                        <tr><td>Samoja aktiivisena</td><td>{{ activeLkm }} kpl</td></tr>
+                        <tr><td>Samoja poistunut</td><td>{{ deletedLkm }} kpl</td></tr>
+                        {% if outletTuote.deleted !=null %}
+                        <tr><td>Poistunut</td><td>{{ outletTuote.deleted|format_date('short', locale='fi') }}</td></tr>
+                        {% else %}
+                        <tr><td>Poistunut</td><td>-</td></tr>
+                        {% endif %}
                     </table>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
                     <table class="table taulukot">
-                        <caption>Myynnissä - {{ active }} kpl</caption>
-                        {{ include('fragments/_outTable.html.twig') }}
+                        <caption>Myynnissä - {{ activeLkm }} kpl</caption>
+                        {% set dateType = "Muuttunut" %}
+                        {{ include('fragments/_outTable_header.html.twig') }}
+                        {% if active|length >0 %}
+                            {% for outTuote in active %}
+                                {{ include('fragments/_outTable.html.twig') }}
+                            {% endfor %}
+                        {% endif %}
                     </table>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
                     <table class="table taulukot">
-                        <caption>Poistuneet - {{ deleted }}kpl</caption>
-                        {{ include('fragments/_outTable.html.twig') }}
+                        <caption>Poistuneet - {{ deletedLkm }}kpl</caption>
+                        {% set dateType = "Poistunut" %}
+                        {{ include('fragments/_outTable_header.html.twig') }}
+                        {% if deleted|length >0 %}
+                            {% for outTuote in deleted %}
+                                {{ include('fragments/_outTable.html.twig') }}
+                            {% endfor %}
+                        {% endif %}
                     </table>
                 </div>
             </div>

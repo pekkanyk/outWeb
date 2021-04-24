@@ -374,4 +374,17 @@ class OutletTuote
         }
         return $da;
     }
+    public function myynnissa() {
+        if ($this->deleted == null) {return "active";}
+        else {return "deleted";}
+    }
+    public function onkoA() {
+        if (!($this->poistotuote)) {return "Ei";}        
+    }
+    public function onkoK() {
+        if ($this->kampanja && !($this->kamploppuu->null)) {return "K";}
+    }
+    public function onkoD() {
+        if ($this->dumppituote) {return "D";}
+    }
 }

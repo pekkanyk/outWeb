@@ -1,0 +1,58 @@
+<html xmlns="http://www.w3.org/1999/xhtml" >
+    <head lang="en">
+        {{ include('fragments/_head.html.twig') }}
+    </head>
+    <body> {% block body %}
+        <header>
+            {{ include('fragments/_top_navi.html.twig') }}   
+        </header>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12"><h3>pid123456 - Nimi Nimi</h3></div>
+                <div class="col-md-8 col-xs-12">
+                    <table class="table taulukot">
+                        <thead>
+                            <tr>
+                                <th>Keskiarvo</th>
+                                <th>Aktiiviset</th>
+                                <th>Poistuneet</th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td>Hinta</td>
+                            <td>{{ pidStats.active_kaOutPrice }}</td>
+                            <td>{{ pidStats.deleted_kaOutPrice }}</td>
+                        </tr>
+                        <tr>
+                            <td>Alennus</td>
+                            <td>13</td>
+                            <td>15</td>
+                        </tr>
+                        <tr>
+                            <td>Alennusprosentti</td>
+                            <td>25 %</td>
+                            <td>28 %</td>
+                        </tr>
+                        <tr>
+                            <td>Päiviä aktiivisena</td>
+                            <td>15.6</td>
+                            <td>16.1</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-4 col-xs-12">
+                    <table class="table taulukot">
+                        <tr><td>Pid</td><td>123456</td></tr>
+                        <tr><td>Pid luotu</td><td>1.2.2018</td></tr>
+                        <tr><td>Aktiivisia</td><td>2</td></tr>
+                        <tr><td>Poistuneita</td><td>5</td></tr>
+                        <tr><td>Pakkauksen koko</td><td>10 x 10 x 10 cm</td></tr>
+                    </table>
+                </div>
+                
+            </div>
+                    
+
+        </div>
+            {% endblock %}
+    </body>

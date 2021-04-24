@@ -1,15 +1,20 @@
-<tr class="table">
-    <td><a class="active" title="PID22544" href="/vkoutlet/?value=22544&amp;date=&amp;nappi=haku&amp;activity=both">519091</a></td>
-    <td><a class="active" title="PID luotu: 18.4.2005" href="/vkoutlet/?value=Sony+AC-L%25%25%25+verkkoadapteri+Sony+Handycam+digikameroille&amp;date=&amp;alkaen=&amp;nappi=haku&amp;activity=both&amp;sort=pid">Sony AC-L200 verkkoadapteri Sony Handycam digikameroille</a></td>
-    <td><span class="active">39,00€</span></td>
-    <td><span class="active">64,90€</span></td>
-    <td><span class="active">40 %</span></td>
-    <td><span class="active">6 kk</span></td>
-    <td><span class="active">B</span></td>
-    <td><span class="active"></span></td>
-    <td><span class="active"></span></td>
-    <td><span class="active"></span></td>
-    <td><span class="active"><div><span title="Tilattavissa. Varastossa kpl">0</span></div></span></td>
-    <td><span class="active">2021-04-13</span></td>
-    <td><span class="active">0/0</span></td>
+<tr>
+    <td><span class="{{ outTuote.myynnissa()}}" title="{{ outTuote.pid }}" href="/vkoutlet/?value=22544&amp;date=&amp;nappi=haku&amp;activity=both">{{ outTuote.outId }}</a></td>
+    <td><span class="{{ outTuote.myynnissa()}}" title="PID luotu: {{ outTuote.pidLuotu|format_date('short', locale='fi') }}" href="/vkoutlet/?value=Sony+AC-L%25%25%25+verkkoadapteri+Sony+Handycam+digikameroille&amp;date=&amp;alkaen=&amp;nappi=haku&amp;activity=both&amp;sort=pid">{{ outTuote.name }}</a></td>
+    <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.outPrice|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }}</span></td>
+    <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.norPrice|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }}</span></td>
+    <td><span class="{{ outTuote.myynnissa()}}">{{ outletTuote.alennus|round(1,'common') }} %</span></td>
+    <td><span class="{{ outTuote.myynnissa()}}">{{ outletTuote.warranty }} kk</span></td>
+    <td><span class="{{ outTuote.myynnissa()}}">{{ outletTuote.condition }}</span></td>
+    <td><span class="{{ outTuote.myynnissa()}}">{{ outletTuote.onkoA() }}</span></td>
+    <td><span class="{{ outTuote.myynnissa()}}">{{ outletTuote.onkoK() }}</span></td>
+    <td><span class="{{ outTuote.myynnissa()}}">{{ outletTuote.onkoD() }}</span></td>
+    <td><span class="{{ outTuote.myynnissa()}}"><div><span title="Tilattavissa. Varastossa kpl">{{ outTuote.varastossa }}</span></div></span></td>
+    {% if dateType == "Muuttunut" %}
+        <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.priceUpdatedDate|format_date('short', locale='fi') }}</span></td>
+    {% else %}
+        <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.deleted|format_date('short', locale='fi') }}</span></td>
+    {% endif %}
+    
+    <td><span class="{{ outTuote.myynnissa()}}">0/0</span></td>
 </tr>

@@ -53,7 +53,7 @@ class OutletTuoteRepository extends ServiceEntityRepository
             ->andWhere('o.pid = :val')
             ->andWhere('o.deleted IS NOT NULL')
             ->setParameter('val', $pid)
-            ->orderBy('o.deleted', 'ASC')
+            ->orderBy('o.deleted', 'DESC')
             ->getQuery()
             ->getResult()
         ;
