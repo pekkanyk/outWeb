@@ -37,15 +37,20 @@ class OutletTuoteController extends AbstractController
     /**
      * @Route("/pid/{pid}", name="pid_infosivu")
      */
-    public function showPid(int $pid): Response
+    public function showPid($pid): Response
     {
+        $pid = intval($pid);
 	$today = (new \DateTime())->format('Y-m-d');
         $pidStats = $this->outletTuoteService->getPidStats($pid);
-        //$active = $this->outletTuoteService->getActiveWithPid($outletTuote->getPid());
-        //$deleted = $this->outletTuoteService->getDeletedWithPid($outletTuote->getPid());
+        $active = $this->outletTuoteService->getActiveWithPid($pid);
+        $deleted = $this->outletTuoteService->getDeletedWithPid($pid);
         return $this->render('pid_tuote.html.twig',[
             'today'=>$today,
-            'pidStats'=>$pidStats
+            'pidStats'=>$pidStats,
+            'active'=>$active,
+            'activeLkm'=>count($active),
+            'deletedLkm'=>count($deleted),
+            'deleted'=>$deleted
             ]
                 );
     }

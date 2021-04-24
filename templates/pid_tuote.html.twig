@@ -43,15 +43,46 @@
                 <div class="col-md-4 col-xs-12">
                     <table class="table taulukot">
                         <tr><td>Pid</td><td>{{ pidStats.pid }}</td></tr>
-                        <tr><td>Pid luotu</td><td>1.2.2018</td></tr>
-                        <tr><td>Aktiivisia</td><td>2</td></tr>
-                        <tr><td>Poistuneita</td><td>5</td></tr>
+                        {% if pidStats.pidCreated==null %}
+                            <tr><td>Pid luotu</td><td>-</td></tr>
+                        {% else %}
+                        <tr><td>Pid luotu</td><td>{{ pidStats.pidCreated|format_date('short', locale='fi') }}</td></tr>
+                        {% endif %}
+                        <tr><td>Aktiivisia</td><td>{{ activeLkm }}</td></tr>
+                        <tr><td>Poistuneita</td><td>{{ deletedLkm }}</td></tr>
                         <tr><td>Pakkauksen koko</td><td>{{ pidStats.pidSize }} cm</td></tr>
                     </table>
                 </div>
                 
             </div>
-                    
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table taulukot">
+                        <caption>Myynnissä - {{ activeLkm }} kpl</caption>
+                        {% set dateType = "Muuttunut" %}
+                        {{ include('fragments/_outTable_header.html.twig') }}
+                        {% if active|length >0 %}
+                            {% for outTuote in active %}
+                                {{ include('fragments/_outTable.html.twig') }}
+                            {% endfor %}
+                        {% endif %}
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table taulukot">
+                        <caption>Poistuneet - {{ deletedLkm }}kpl</caption>
+                        {% set dateType = "Poistunut" %}
+                        {{ include('fragments/_outTable_header.html.twig') }}
+                        {% if deleted|length >0 %}
+                            {% for outTuote in deleted %}
+                                {{ include('fragments/_outTable.html.twig') }}
+                            {% endfor %}
+                        {% endif %}
+                    </table>
+                </div>
+            </div>        
 
         </div>
             {% endblock %}

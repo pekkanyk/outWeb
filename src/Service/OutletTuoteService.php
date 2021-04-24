@@ -23,6 +23,11 @@ class OutletTuoteService{
         $this->entityManager = $entityManager;
     }
     
+    public function getAllWithPid($pid){
+        $db = $this->entityManager->getRepository(OutletTuote::class);
+        return  $db->findBy(array('pid'=>$pid));
+    }
+    
     public function getOutletTuote($outId): ?OutletTuote{
         $db = $this->entityManager->getRepository(OutletTuote::class);
         return $db->find($outId);
@@ -45,34 +50,28 @@ class OutletTuoteService{
     }
     
     public function getPidStats($pid) {
-        $db = $this->entityManager->getRepository(OutletTuote::class);
+        $exampleOutTuote = $this->getAllWithPid($pid);
         $pidStats = new PidStats();
-        $active = $this->getActiveWithPid($pid);
-        $deleted = $this->getDeletedWithPid($pid);
-        $pidStats->setName($this->getPidName($active, $deleted));
-        $pidStats->setActive_kaOutPrice($this->keskiarvo($active,"outPrice"));
-        $pidStats->setDeleted_kaOutPrice($this->keskiarvo($deleted,"outPrice"));
-        $pidStats->setActive_kaAlennus($this->keskiarvo($active,"alennus"));
-        $pidStats->setDeleted_kaAlennus($this->keskiarvo($deleted,"alennus"));
-        $pidStats->setActive_kaAlennusProsentti($this->keskiarvo($active,"alePros"));
-        $pidStats->setDeleted_kaAlennusProsentti($this->keskiarvo($deleted,"alePros"));
-        $pidStats->setActive_kaActiveDays($this->keskiarvo($active,"days"));
-        $pidStats->setDeleted_kaActiveDays($this->keskiarvo($deleted,"days"));
-        $pidStats->setPid($pid);
-        $pidStats->setPidSize($this->getPidInfo($pid)->sizeStr());
+        if ($exampleOutTuote!=null){
+            $active = $this->getActiveWithPid($pid);
+            $deleted = $this->getDeletedWithPid($pid);
+            $pidStats->setName($exampleOutTuote[0]->getName());
+            $pidStats->setActive_kaOutPrice($this->keskiarvo($active,"outPrice"));
+            $pidStats->setDeleted_kaOutPrice($this->keskiarvo($deleted,"outPrice"));
+            $pidStats->setActive_kaAlennus($this->keskiarvo($active,"alennus"));
+            $pidStats->setDeleted_kaAlennus($this->keskiarvo($deleted,"alennus"));
+            $pidStats->setActive_kaAlennusProsentti($this->keskiarvo($active,"alePros"));
+            $pidStats->setDeleted_kaAlennusProsentti($this->keskiarvo($deleted,"alePros"));
+            $pidStats->setActive_kaActiveDays($this->keskiarvo($active,"days"));
+            $pidStats->setDeleted_kaActiveDays($this->keskiarvo($deleted,"days"));
+            $pidStats->setPid($pid);
+            $pidStats->setPidSize($this->getPidInfo($pid)->sizeStr());
+            $pidStats->setPidCreated($exampleOutTuote[0]->getPidLuotu());
+        }
+        
         return $pidStats;
     }
-    
-    private function getPidName($active,$deleted) {
-        if ($active != null){
-            $name = $active[0]->getName();
-        }
-        else{
-            $name = $deleted[0]->getName();
-        }
-        return $name;
-    }
-    
+        
     private function keskiarvo($outletit,$type) {
         $sum = 0;
         $count = count($outletit);
@@ -90,16 +89,5 @@ class OutletTuoteService{
         }
         return $ka;
     }
-    /*
-    private function kaAlennus($outletit) {
-        $sum =0;
-        $count = count($outletit);
-        if ($count>0){
-            for ($i=0;$i<$count;$i++){
-                
-            }
-        }
-    }
-     * 
-     */
+    
 }

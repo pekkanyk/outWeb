@@ -18,7 +18,13 @@ class PidStats
     private $pidSize;
   
     public function __construct() {
-        
+        $this->name = "Not in database";
+        $this->active_kaOutPrice = $this->deleted_kaOutPrice = 0;
+        $this->active_kaAlennus = $this->deleted_kaAlennus = 0;
+        $this->active_kaAlennusProsentti = $this->deleted_kaAlennusProsentti = 0;
+        $this->active_kaActiveDays = $this->deleted_kaActiveDays = 0;
+        $this->pidCreated = null;
+        $this->pidSize = "-";
     }
     public function getPidSize() {
         return $this->pidSize;
