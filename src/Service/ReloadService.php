@@ -49,37 +49,44 @@ class ReloadService{
     public function updateDb(){
         set_time_limit(0);
         $newOutProducts = $this->reloadProducts();
+        $this->entityManager->getConnection()->beginTransaction();
         $db = $this->entityManager->getRepository(OutletTuote::class);
-        $db->setAllActiveDeleted();
-        for ($i=0;$i<count($newOutProducts);$i++){
-            $dbOutTuote = $db->find($newOutProducts[$i]->getOutId());
-            if ($dbOutTuote == null){
-                $this->entityManager->persist($newOutProducts[$i]);
-                $this->entityManager->flush();
+        try {
+            $db->setAllActiveDeleted();
+            for ($i=0;$i<count($newOutProducts);$i++){
+                $dbOutTuote = $db->find($newOutProducts[$i]->getOutId());
+                if ($dbOutTuote == null){
+                    $this->entityManager->persist($newOutProducts[$i]);
+                    $this->entityManager->flush();
+                }
+                else{
+                    $dbOutTuote->setName($newOutProducts[$i]->getName());
+                    $dbOutTuote->setOutPrice($newOutProducts[$i]->getOutPrice());
+                    $dbOutTuote->setNorPrice($newOutProducts[$i]->getNorPrice());
+                    $dbOutTuote->setDumppituote($newOutProducts[$i]->getDumppituote());
+                    $dbOutTuote->setPoistotuote($newOutProducts[$i]->getPoistotuote());
+                    $dbOutTuote->setWarranty($newOutProducts[$i]->getWarranty());
+                    $dbOutTuote->setCondition($newOutProducts[$i]->getCondition());
+                    $dbOutTuote->setDeleted(null);
+                    $dbOutTuote->setKampanja($newOutProducts[$i]->getKampanja());
+                    $dbOutTuote->setKamploppuu($newOutProducts[$i]->getKamploppuu());
+                    $dbOutTuote->setOnVarasto($newOutProducts[$i]->getOnVarasto());
+                    $dbOutTuote->setVarastossa($newOutProducts[$i]->getVarastossa());
+                    $dbOutTuote->setKoko($newOutProducts[$i]->getKoko());
+                    $this->entityManager->flush();
+                }
             }
-            else{
-                $dbOutTuote->setName($newOutProducts[$i]->getName());
-                $dbOutTuote->setOutPrice($newOutProducts[$i]->getOutPrice());
-                $dbOutTuote->setNorPrice($newOutProducts[$i]->getNorPrice());
-                $dbOutTuote->setDumppituote($newOutProducts[$i]->getDumppituote());
-                $dbOutTuote->setPoistotuote($newOutProducts[$i]->getPoistotuote());
-                $dbOutTuote->setWarranty($newOutProducts[$i]->getWarranty());
-                $dbOutTuote->setCondition($newOutProducts[$i]->getCondition());
-                $dbOutTuote->setDeleted(null);
-                $dbOutTuote->setKampanja($newOutProducts[$i]->getKampanja());
-                $dbOutTuote->setKamploppuu($newOutProducts[$i]->getKamploppuu());
-                $dbOutTuote->setOnVarasto($newOutProducts[$i]->getOnVarasto());
-                $dbOutTuote->setVarastossa($newOutProducts[$i]->getVarastossa());
-                $dbOutTuote->setKoko($newOutProducts[$i]->getKoko());
-                $this->entityManager->flush();
-            }
-        }
-        //$updatedb = $entityManager->getRepository(UpdateStats::class);
         $updatetime = new UpdateStats();
         $updatetime->setTimestamp(date_create('now', new \DateTimeZone('Europe/Helsinki')));
         $updatetime->setTotalItems(count($newOutProducts));
         $this->entityManager->persist($updatetime);
         $this->entityManager->flush();
+        $this->entityManager->getConnection()->commit();
+        } catch (Exception $ex) {
+            $this->entityManager->getConnection()->rollBack();
+            throw $ex;
+        }
+        
     }
        
     private function getJsonFromVk($i):string

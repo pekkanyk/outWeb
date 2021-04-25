@@ -18,6 +18,16 @@ class UpdateStatsRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, UpdateStats::class);
     }
+    
+    public function findLastInserted()
+    {
+    return $this
+        ->createQueryBuilder("o")
+        ->orderBy("o.id", "DESC")
+        ->setMaxResults(1)
+        ->getQuery()
+        ->getOneOrNullResult();
+    }
 
     // /**
     //  * @return UpdateStats[] Returns an array of UpdateStats objects

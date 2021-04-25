@@ -40,8 +40,8 @@
 		</ul>
                 <ul class="nav navbar-nav navbar-right ml-auto">
                     <li class="nav-item">
-                        <div>Noudettu: 20:18:26</div>
-                        <div>Aktiivisia: 2292</div>
+                        <div>Noudettu: {{ headerStats.timestamp|format_datetime('short','short', locale='fi') }}</div>
+                        <div>Aktiivisia: {{ headerStats.totalItems }}</div>
                     </li>
 		</ul>
 	</div>

@@ -22,6 +22,17 @@ class OutletTuoteService{
     {
         $this->entityManager = $entityManager;
     }
+    public function makeDummy($outId){
+        $today = date_create("now", new \DateTimeZone('Europe/Helsinki'));
+        $outletTuote = new OutletTuote();
+        $outletTuote->setPid(0);
+        $outletTuote->setName("Not in database");
+        $outletTuote->setOutId($outId);
+        $outletTuote->setFirstSeen($today);
+        $outletTuote->setPriceUpdatedDate($today);
+        
+        return $outletTuote;
+    }
     
     public function getAllWithPid($pid){
         $db = $this->entityManager->getRepository(OutletTuote::class);
@@ -74,15 +85,26 @@ class OutletTuoteService{
         
     private function keskiarvo($outletit,$type) {
         $sum = 0;
+        $sum2 = 0;
         $count = count($outletit);
         if ($count>0){
             for ($i=0;$i<$count;$i++){
                 if ($type=="outPrice") { $sum += $outletit[$i]->getOutPrice(); }
                 elseif ($type=="alennus"){ $sum += ($outletit[$i]->getNorPrice() - $outletit[$i]->getOutPrice()); }
-                elseif ($type=="alePros"){ $sum += $outletit[$i]->getAlennus(); }
+                //elseif ($type=="alePros"){ $sum += $outletit[$i]->getAlennus(); }
                 elseif ($type=="days"){ $sum += $outletit[$i]->daysWithLastPrice(); }
+                elseif ($type=="alePros"){
+                    $sum += $outletit[$i]->getOutPrice();
+                    $sum2 += $outletit[$i]->getNorPrice();
+                }
             }
-            $ka = $sum / $count;
+            if ($type=="alePros"){
+                $ka = 100* (1-($sum/$sum2));
+            }
+            else{
+                $ka = $sum / $count;
+            }
+            
         }
         else{
             $ka = 0;
