@@ -63,11 +63,13 @@ class ReloadService{
                     $dbOutTuote->setName($newOutProducts[$i]->getName());
                     $dbOutTuote->setOutPrice($newOutProducts[$i]->getOutPrice());
                     $dbOutTuote->setNorPrice($newOutProducts[$i]->getNorPrice());
+                    $dbOutTuote->setAlennus($newOutProducts[$i]->getAlennus());
                     $dbOutTuote->setDumppituote($newOutProducts[$i]->getDumppituote());
                     $dbOutTuote->setPoistotuote($newOutProducts[$i]->getPoistotuote());
                     $dbOutTuote->setWarranty($newOutProducts[$i]->getWarranty());
                     $dbOutTuote->setCondition($newOutProducts[$i]->getCondition());
                     $dbOutTuote->setDeleted(null);
+                    if ( $dbOutTuote->getOutPrice() != $newOutProducts[$i]->getOutPrice()) { $dbOutTuote->setPriceUpdatedDate($newOutProducts[$i]->getPriceUpdatedDate()); }
                     $dbOutTuote->setKampanja($newOutProducts[$i]->getKampanja());
                     $dbOutTuote->setKamploppuu($newOutProducts[$i]->getKamploppuu());
                     $dbOutTuote->setOnVarasto($newOutProducts[$i]->getOnVarasto());

@@ -55,6 +55,16 @@ class OutletTuoteService{
         return $db->findByPidDeleted($pid);
     }
     
+    public function getActiveFirstSeen(\DateTime $date) {
+        $db = $this->entityManager->getRepository(OutletTuote::class);
+        return $db->findBy(array('firstSeen'=>$date, 'deleted'=>null));
+    }
+    public function getDeletedFirstSeen(\DateTime $date){
+        $db = $this->entityManager->getRepository(OutletTuote::class);
+        return $db->findByFirstSeenDeleted($date);
+    }
+
+
     public function getPidInfo($pid){
         $pidDb = $this->entityManager->getRepository(PidInfo::class);
         return $pidDb->find($pid);
@@ -92,7 +102,7 @@ class OutletTuoteService{
                 if ($type=="outPrice") { $sum += $outletit[$i]->getOutPrice(); }
                 elseif ($type=="alennus"){ $sum += ($outletit[$i]->getNorPrice() - $outletit[$i]->getOutPrice()); }
                 //elseif ($type=="alePros"){ $sum += $outletit[$i]->getAlennus(); }
-                elseif ($type=="days"){ $sum += $outletit[$i]->daysWithLastPrice(); }
+                elseif ($type=="days"){ $sum += $outletit[$i]->daysActive();  }
                 elseif ($type=="alePros"){
                     $sum += $outletit[$i]->getOutPrice();
                     $sum2 += $outletit[$i]->getNorPrice();

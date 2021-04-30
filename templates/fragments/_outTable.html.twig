@@ -1,11 +1,12 @@
 <tr>
-    <td><a class="{{ outTuote.myynnissa()}}" title="PID {{ outTuote.pid }}"  href="/pid/{{ outTuote.pid }}">{{ outTuote.outId }}</a>
-        <a class="{{ outTuote.myynnissa()}}" title="To OutID"  href="/outid/{{ outTuote.outId }}">.</a>
+    <td><a class="{{ outTuote.myynnissa()}}" title="PID {{ outTuote.pid }}"  href="/outid/{{ outTuote.outid }}">{{ outTuote.outId }}</a></td>
+    <td>
+        <a class="{{ outTuote.myynnissa()}}" title="To PID"  href="/pid/{{ outTuote.pid }}">.</a>
+        <a class="{{ outTuote.myynnissa()}}" title="PID luotu: {{ outTuote.pidLuotu|format_date('short', locale='fi') }}" href="/vkoutlet/?value=Sony+AC-L%25%25%25+verkkoadapteri+Sony+Handycam+digikameroille&amp;date=&amp;alkaen=&amp;nappi=haku&amp;activity=both&amp;sort=pid">{{ outTuote.name }}</a>
     </td>
-    <td><a class="{{ outTuote.myynnissa()}}" title="PID luotu: {{ outTuote.pidLuotu|format_date('short', locale='fi') }}" href="/vkoutlet/?value=Sony+AC-L%25%25%25+verkkoadapteri+Sony+Handycam+digikameroille&amp;date=&amp;alkaen=&amp;nappi=haku&amp;activity=both&amp;sort=pid">{{ outTuote.name }}</a></td>
     <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.outPrice|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }}</span></td>
     <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.norPrice|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }}</span></td>
-    <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.alennus|round(1,'common') }} %</span></td>
+    <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.alennus|round(1,'common') }}%</span></td>
     <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.warranty }} kk</span></td>
     <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.condition }}</span></td>
     <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.onkoA() }}</span></td>
@@ -18,5 +19,5 @@
         <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.deleted|format_date('short', locale='fi') }}</span></td>
     {% endif %}
     
-    <td><span class="{{ outTuote.myynnissa()}}">0/0</span></td>
+    <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.daysActive() }}/{{ outTuote.daysWithLastPrice() }}</span></td>
 </tr>

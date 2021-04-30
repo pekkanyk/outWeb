@@ -1,0 +1,41 @@
+<html xmlns="http://www.w3.org/1999/xhtml" >
+    <head lang="en">
+        {{ include('fragments/_head.html.twig') }}
+    </head>
+    <body> {% block body %}
+        <header>
+            {{ include('fragments/_top_navi.html.twig') }}   
+        </header>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">Päivittäiset statsit</div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table taulukot">
+                        <caption>Lukumäärät</caption>
+                        <thead>
+                            <tr>
+                                <th>Päivämäärä</th>
+                                <th>Päivitetty</th>
+                                <th>Poistuneita</th>
+                                <th>Uusia</th>
+                                <th>Tuotteita (ka.)</th>
+                            </tr>
+                        </thead>
+                        
+                        <tr>
+                            <td>1.1.2021</td>
+                            <td>125</td>
+                            <td>53</td>
+                            <td>87</td>
+                            <td><a href="/dailygraph/">3587.4</a></td>
+                        </tr>
+                        
+                    </table>
+                </div>
+            </div>
+        </div>
+            {% endblock %}
+    </body>

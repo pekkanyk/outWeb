@@ -58,6 +58,18 @@ class OutletTuoteRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+    
+    public function findByFirstSeenDeleted($date)
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.firstSeen = :val')
+            ->andWhere('o.deleted IS NOT NULL')
+            ->setParameter('val', $date)
+            ->orderBy('o.deleted', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
     // /**
     //  * @return OutletTuote[] Returns an array of OutletTuote objects

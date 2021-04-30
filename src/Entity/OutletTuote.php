@@ -356,10 +356,10 @@ class OutletTuote
     public function daysActive(){
         $today = date_create("now", new \DateTimeZone('Europe/Helsinki'));
         if ($this->deleted != null){
-            $da = $this->firstSeen->diff($this->deleted)->format('%d');
+            $da = $this->firstSeen->diff($this->deleted)->format('%a');
         }
         else {
-            $da = $this->firstSeen->diff($today)->format('%d');
+            $da = $this->firstSeen->diff($today)->format('%a');
         }
         return $da;
     }
@@ -367,10 +367,10 @@ class OutletTuote
     public function daysWithLastPrice(){
         $today = date_create("now", new \DateTimeZone('Europe/Helsinki'));
         if ($this->deleted != null){
-            $da = $this->priceUpdatedDate->diff($this->deleted)->format('%d');
+            $da = $this->priceUpdatedDate->diff($this->deleted)->format('%a');
         }
         else {
-            $da = $this->priceUpdatedDate->diff($today)->format('%d');
+            $da = $this->priceUpdatedDate->diff($today)->format('%a');
         }
         return $da;
     }
@@ -382,9 +382,10 @@ class OutletTuote
         if (!($this->poistotuote)) {return "Ei";}        
     }
     public function onkoK() {
-        if ($this->kampanja && !($this->kamploppuu->null)) {return "K";}
+        if ($this->kampanja && !($this->kamploppuu == null)) {return "K";}
     }
     public function onkoD() {
         if ($this->dumppituote) {return "D";}
     }
+    
 }

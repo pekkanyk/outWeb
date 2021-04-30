@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" >
+    <head lang="en">
+        {{ include('fragments/_head.html.twig') }}
+    </head>
+        <meta charset="UTF-8" />
+        <title>ListaGenerator</title>
+    </head>
+    <body>
+            <div>
+            {{ form_start(form) }}
+                {{ form_widget(form.string,{'attr':{'placeholder': 'Insert list', 'rows':'40', 'wrap':'none'}}) }}</div>
+                {{ form_widget(form.Generate) }}</div>
+                    {{ form_end(form) }}
+        </div>
+    </body>
+</html>

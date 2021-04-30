@@ -9,8 +9,10 @@ use App\Service\OutletTuoteService;
 use App\Service\UpdateStatsService;
 use App\Form\Type\PidType;
 use App\Form\Type\OutIdType;
+use App\Form\Type\DateHakuType;
 use App\Model\SearchPid;
 use App\Model\SearchOutId;
+use App\Model\SearchDate;
 use Symfony\Component\HttpFoundation\Request;
 
 
@@ -90,4 +92,43 @@ class OutletTuoteController extends AbstractController
             ]
                 );
     }
+    
+    /**
+     * @Route("/firstseen/")
+     */
+    public function fistSeenPage(): Response{
+        return $this->redirect("/firstseen/0");
+    }
+    /**
+     * @Route("/firstseen/{date}")
+     */
+    public function firstSeen($date, Request $request): Response
+    {
+        $today = (new \DateTime())->format('Y-m-d');
+        $date = $this->validateDate($date);
+        $active = $this->outletTuoteService->getActiveFirstSeen($date);
+        $deleted = $this->outletTuoteService->getDeletedFirstSeen($date);
+        $form = $this->createForm(DateHakuType::class,new SearchDate());
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            return $this->redirect("/firstseen/".$form->getData()->getDate()->format('Y-m-d'));
+        }
+        return $this->render('first_seen.html.twig',[
+            'headerStats'=>$this->updateStatsService->getStats(),
+            'form'=> $form->createView(),
+            'today'=>$today,
+            'date'=>$date,
+            'active'=>$active,
+            'deleted'=>$deleted,
+            'activeLkm'=>count($active),
+            'deletedLkm'=>count($deleted)]
+                );
+    }
+    
+    private function validateDate($date, $format = 'Y-m-d'){
+    $d = \DateTime::createFromFormat($format, $date);
+    //return $d && $d->format($format) === $date;
+    if ($d && $d->format($format) === $date){ return $d;}
+    else {return new \DateTime();}
+}
 }

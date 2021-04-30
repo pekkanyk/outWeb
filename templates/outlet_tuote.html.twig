@@ -29,10 +29,10 @@
                         <tr><td>Pid luotu</td><td>{{ outletTuote.pidLuotu|format_date('short', locale='fi') }}</td></tr>
                         <tr><td>Ensikertaa nähty</td><td>{{ outletTuote.firstSeen|format_date('short', locale='fi') }}</td></tr>
                         <tr><td>Hinta muuttunut viimeksi</td><td>{{ outletTuote.priceUpdatedDate|format_date('short', locale='fi') }}</td></tr>
-                        {% if pidInfo == null %}
-                            <tr><td>Pakkauksen koko</td><td>- cm</td></tr>
+                        {% if outletTuote.deleted !=null %}
+                        <tr><td>Poistunut</td><td>{{ outletTuote.deleted|format_date('short', locale='fi') }}</td></tr>
                         {% else %}
-                            <tr><td>Pakkauksen koko</td><td>{{ pidInfo.sizeStr() }} cm</td></tr>
+                        <tr><td>Poistunut</td><td>-</td></tr>
                         {% endif %}
                     </table>
                 </div>
@@ -42,10 +42,10 @@
                         <tr><td>Viimeisimmällä hinnalla</td><td>{{ outletTuote.daysWithLastPrice() }} pv</td></tr>
                         <tr><td>Samoja aktiivisena</td><td>{{ activeLkm }} kpl</td></tr>
                         <tr><td>Samoja poistunut</td><td>{{ deletedLkm }} kpl</td></tr>
-                        {% if outletTuote.deleted !=null %}
-                        <tr><td>Poistunut</td><td>{{ outletTuote.deleted|format_date('short', locale='fi') }}</td></tr>
+                        {% if pidInfo == null %}
+                            <tr><td>Pakkauksen koko</td><td>- cm</td></tr>
                         {% else %}
-                        <tr><td>Poistunut</td><td>-</td></tr>
+                            <tr><td>Pakkauksen koko</td><td>{{ pidInfo.sizeStr() }} cm</td></tr>
                         {% endif %}
                     </table>
                 </div>

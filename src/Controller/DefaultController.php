@@ -8,22 +8,36 @@
 
 namespace App\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Service\OutletTuoteService;
+use App\Service\UpdateStatsService;
+use App\Form\Type\PidType;
+use App\Form\Type\OutIdType;
+use App\Model\SearchPid;
+use App\Model\SearchOutId;
+use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends AbstractController{
+    
+    private OutletTuoteService $outletTuoteService;
+    private UpdateStatsService $updateStatsService;
+    
+    public function __construct(OutletTuoteService $outletTuoteService, UpdateStatsService $updateStatsService) {
+        $this->outletTuoteService = $outletTuoteService;
+        $this->updateStatsService = $updateStatsService;
+    }
+    
     /**
      *@Route("/", name="homepage")
      */
     public function index(): Response
     {
-        $today = new \DateTime();
-        $todaystr = $today->format('Y-m-d');
-        $number2 = random_int(0,100);
+        $today = (new \DateTime())->format('Y-m-d');
         return $this->render('index.html.twig',[
-            'today'=>$todaystr,
-            'toka_numero'=>$number2,
+            'headerStats'=>$this->updateStatsService->getStats(),
+            'today'=>$today
             ]);
     } 
 }

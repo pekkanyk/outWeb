@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" >
+    <head lang="en">
+        {{ include('fragments/_head.html.twig') }}
+    </head>
+        <meta charset="UTF-8" />
+        <title>ListaGenerator</title>
+    </head>
+    <body>
+            <div>
+            {% for key,value in listarivit %}
+                {{ value }}<br>
+            {% endfor %}
+        </div>
+    </body>
+</html>
