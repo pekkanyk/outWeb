@@ -1,0 +1,1 @@
+5,15,25,35,45,55 * * * * wget http://nginx/reload >> /dev/null 2>&1

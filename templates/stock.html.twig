@@ -1,0 +1,24 @@
+<html xmlns="http://www.w3.org/1999/xhtml" >
+    <head lang="en">
+        {{ include('fragments/_head.html.twig') }}
+    </head>
+    <body> {% block body %}
+        <header>
+            {{ include('fragments/_top_navi.html.twig') }}   
+        </header>
+        <div class="container">
+            <div class="row">
+                {{ form_start(form) }}
+                <div class="col-md-2 col-sm-8">{{ form_widget(form.alku) }}</div>
+                <div class="col-md-2 col-sm-8">{{ form_widget(form.loppu) }}</div>
+                <div class="col-md-1 col-sm-4">{{ form_widget(form.hae) }}</div>
+                    {{ form_end(form) }}
+            </div>
+            <div id="div_chart"></div>
+                <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                <script type="text/javascript">
+                {{ gc_draw(chart, 'div_chart') }}
+             </script>
+        </div>
+            {% endblock %}
+    </body>

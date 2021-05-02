@@ -31,6 +31,55 @@ class OutletTuoteRepository extends ServiceEntityRepository
         ;
     }
     
+    public function getDates($alkaen, $asti) {
+         return $this->createQueryBuilder('o')
+                 ->select('DISTINCT o.deleted')
+                 ->andWhere('o.deleted IS NOT NULL')
+                 ->andWhere('o.deleted BETWEEN :alkaen AND :asti')
+                 ->setParameter('alkaen',$alkaen->format('Y-m-d'))
+                 ->setParameter('asti',$asti->format('Y-m-d'))
+                 ->orderBy('o.deleted', 'DESC')
+                 ->getQuery()
+                 ->getResult();
+    }
+    
+    public function countUpdatedOn($date) {
+        return $this->createQueryBuilder('o')
+                ->select('COUNT (o)')
+                ->andWhere('o.priceUpdatedDate = :pvm')
+                ->andWhere('o.deleted IS NULL')
+                ->setParameter('pvm',$date->format('Y-m-d'))
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
+    
+    public function countDeleted($date) {
+        return $this->createQueryBuilder('o')
+                ->select('COUNT (o)')
+                ->andWhere('o.deleted = :pvm')
+                ->setParameter('pvm',$date->format('Y-m-d'))
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
+
+    public function countFirstSeen($date) {
+        return $this->createQueryBuilder('o')
+                ->select('COUNT (o)')
+                ->andWhere('o.firstSeen = :pvm')
+                ->setParameter('pvm',$date->format('Y-m-d'))
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
+    public function countFirstSeenActive($date) {
+        return $this->createQueryBuilder('o')
+                ->select('COUNT (o)')
+                ->andWhere('o.firstSeen = :pvm')
+                ->andWhere('o.deleted IS NULL')
+                ->setParameter('pvm',$date->format('Y-m-d'))
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
+
     /*
     public function findByPid($pid, $status)
     {

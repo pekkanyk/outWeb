@@ -28,6 +28,26 @@ class UpdateStatsRepository extends ServiceEntityRepository
         ->getQuery()
         ->getOneOrNullResult();
     }
+     
+    public function avgProdsFor($alkaen, $asti) {
+        return $this->createQueryBuilder('o')
+                ->select('AVG (o.totalItems)')
+                ->andWhere('o.timestamp BETWEEN :alkaen AND :asti')
+                ->setParameter('alkaen',$alkaen->format('Y-m-d 00:00:01'))
+                ->setParameter('asti',$asti->format('Y-m-d 23:59:59'))
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
+    
+    public function getDayStats($alkaen,$asti){
+        return $this->createQueryBuilder('o')
+                ->andWhere('o.timestamp BETWEEN :alkaen AND :asti')
+                ->setParameter('alkaen',$alkaen->format('Y-m-d 00:00:01'))
+                ->setParameter('asti',$asti->format('Y-m-d 23:59:59'))
+                ->orderBy("o.timestamp", "ASC")
+                ->getQuery()
+                ->getResult();
+    }
 
     // /**
     //  * @return UpdateStats[] Returns an array of UpdateStats objects

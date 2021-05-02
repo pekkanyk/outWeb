@@ -7,78 +7,10 @@
             {{ include('fragments/_top_navi.html.twig') }}   
         </header>
         <div class="container">
-            <form method="GET" action="/vkoutlet" enctype="multipart/form-data" id="outlet">
-                    <div class="row">
-                        <div class="col-md-2">Haun rivit: 952</div>
-                        <div class="col-md-2">Keskim. ale: 33,2 %</div>
-                        <div class="col-md-5">Kuntoluokittain: A: 29.09% B: 33.52% C: 46.32% </div>
-                        <div class="col-md-3">Summa: 129481.79999999997</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-1">
-                            <select name="activity" id="activity">
-                                
-                                <span><option value="both">Kaikki</option></span>
-                                <span><option selected value="active">Aktiiviset</option></span>
-                                
-                                
-                                <span><option value="deleted">Poistuneet</option></span>
-                            </select>
-                        </div>
-                        
-                        <div class="col-md-3"><input class="inputbox-pitka" type="text" name="value" placeholder="arvo" value=""/></div>
-                        <div class="col-md-2"><input type="date" name="alkaen" value="2021-04-13"/></div>
-                        <div class="col-md-2"><input type="date" name="date" value="2021-04-13"/></div>
-                        <div class="col-md-2">
-                            <select name="sort" id="sort">
-                                <span><option selected value="pid">Pid&dArr;</option></span>
-                                
-                                
-                                <span><option value="pidD">Pid&uArr;</option></span>
-                                
-                                <span><option value="date">Päivämäärä&dArr;</option></span>
-                                
-                                <span><option value="dateD">Päivämäärä&uArr;</option></span>
-                                
-                                <span><option value="outId">OutletId&dArr;</option></span>
-                                
-                                <span><option value="outIdD">OutletId&uArr;</option></span>
-                                
-                                <span><option value="ale">Alennusprosentti&dArr;</option></span>
-                                
-                                <span><option value="aleD">Alennusprosentti&uArr;</option></span>
-                                
-                                <span><option value="price">Hinta&dArr;</option></span>
-                                
-                                <span><option value="priceD">Hinta&uArr;</option></span>
-                            </select>
-                        </div>
-                        <div class="col-md-1"><button name="nappi" type="submit" value="haku" class="btn btn-default"><i class="fa fa-search"></i></button></div>
-                    </div>
-            </form>
-
             <div class="row">
                 <div class="col-md-12">
-                    <table class="table taulukot">
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th class="col-md-6">Tuote</th>
-                        <th>Hinta</th>
-                        <th>Viimeisin</th>
-                        <th>Ale%</th>
-                        <th>Takuu</th>
-                        <th><span title="Kuntoluokka">Kl</span></th>
-                        <th><input type="submit" name="nappi" value="A"/></th>
-                        <th><span title="Kampanja meneillään">K</span></th>
-                        <th><input type="submit" name="nappi" value="D"/></th>
-                        <th><span title="Tuote tilattavissa, varastosa kpl">V</span></th>
-                        <th><input type="submit" name="nappi" value="Muuttunut"/></th>
-                        <th><span title="Päiviä aktiivisena (kaikkiaan / viimeisimmällä hinnalla)">pA</span></th>
-                    </tr>
-                    </thead>
-                        
-                    </table>
+                    TODO
+                    
                 </div>
             </div>
         </div>

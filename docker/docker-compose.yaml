@@ -4,6 +4,8 @@ services:
   outweb_db:
     container_name: outweb_db
     image: postgres:12
+    logging:
+      driver: local
     restart: always
     environment:
         POSTGRES_PASSWORD: darkweb
@@ -15,6 +17,8 @@ services:
     container_name: php-fpm
     build:
       context: ./php-fpm
+    logging:
+      driver: local
     depends_on:
       - outweb_db
     environment:
@@ -37,7 +41,7 @@ services:
     depends_on:
       - php-fpm
     ports:
-      - "9999:80"
+      - "80:80"
       - "443:443"
 
   adminer:

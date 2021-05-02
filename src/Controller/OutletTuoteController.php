@@ -130,5 +130,5 @@ class OutletTuoteController extends AbstractController
     //return $d && $d->format($format) === $date;
     if ($d && $d->format($format) === $date){ return $d;}
     else {return new \DateTime();}
-}
+    }
 }

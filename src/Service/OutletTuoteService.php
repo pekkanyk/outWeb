@@ -11,6 +11,7 @@ namespace App\Service;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use App\Entity\OutletTuote;
 use App\Entity\PidInfo;
+use App\Entity\UpdateStats;
 use App\Model\PidStats;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -122,4 +123,24 @@ class OutletTuoteService{
         return $ka;
     }
     
+    public function getDates($alkaen, $asti){
+        $db = $this->entityManager->getRepository(OutletTuote::class);
+        return $db->getDates($alkaen,$asti);
+    }
+    
+    public function getNumbersFor($date){
+        $db = $this->entityManager->getRepository(OutletTuote::class);
+        $statsDb = $this->entityManager->getRepository(UpdateStats::class);
+        $updated = $db->countUpdatedOn($date);
+        $deleted = $db->countDeleted($date);
+        $firstSeen = $db->countFirstSeen($date);
+        $firstSeenActive = $db->countFirstSeenActive($date);
+        $avgCount = $statsDb->avgProdsFor($date,$date);
+        
+        return ['updated'=>$updated,
+                'deletedCount'=>$deleted,
+                'firstCount'=>$firstSeen,
+                'avgCount'=>$avgCount,
+                'firstSeenActive'=>$firstSeenActive];
+    }
 }

@@ -25,7 +25,7 @@
                 </div>
                 <div class="col-md-4 col-xs-12">
                     <table class="table taulukot">
-                        <tr><td>Pid</td><td>{{ outletTuote.pid }}</td></tr>
+                        <tr><td>Pid</td><td><a href="/pid/{{ outletTuote.pid }}">{{ outletTuote.pid }}</a></td></tr>
                         <tr><td>Pid luotu</td><td>{{ outletTuote.pidLuotu|format_date('short', locale='fi') }}</td></tr>
                         <tr><td>Ensikertaa nähty</td><td>{{ outletTuote.firstSeen|format_date('short', locale='fi') }}</td></tr>
                         <tr><td>Hinta muuttunut viimeksi</td><td>{{ outletTuote.priceUpdatedDate|format_date('short', locale='fi') }}</td></tr>

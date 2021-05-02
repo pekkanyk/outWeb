@@ -25,4 +25,9 @@ class UpdateStatsService{
         return  $db->findLastInserted();
     }
     
+    public function getDayStats($alkaen, $asti){
+        $db = $this->entityManager->getRepository(UpdateStats::class);
+        return $db->getDayStats($alkaen,$asti);
+    }
+    
 }

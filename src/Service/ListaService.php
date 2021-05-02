@@ -30,7 +30,7 @@ class ListaService{
         for ($i=0;$i<12;$i++){
             if ($rivit[$i]!=null) {
                 $header = $this->makeHeader($i);
-                if ($i==11){
+                if ($i==11 || $i==10){
                     $pagePart = array_merge($header,$rivit[$i]);
                 }
                 else{
@@ -65,7 +65,8 @@ class ListaService{
     private function makeHeader($i){
         if($i==10){$paikka = "MATKAHUOLTO / MUUT";}
         elseif($i==11){$paikka= "Moniriviset";}
-        else {$paikka = $i;}
+        elseif($i==9) {$paikka="0";}
+        else {$paikka = $i+1;}
         return ["********** ".$paikka." **********"];
     }
     
