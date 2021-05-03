@@ -2,7 +2,7 @@
     <td><a class="{{ outTuote.myynnissa()}}" title="PID {{ outTuote.pid }}"  href="/outid/{{ outTuote.outid }}">{{ outTuote.outId }}</a></td>
     <td>
         <a class="{{ outTuote.myynnissa()}}" title="To PID"  href="/pid/{{ outTuote.pid }}">.</a>
-        <a class="{{ outTuote.myynnissa()}}" title="PID luotu: {{ outTuote.pidLuotu|format_date('short', locale='fi') }}" href="/vkoutlet/?value=Sony+AC-L%25%25%25+verkkoadapteri+Sony+Handycam+digikameroille&amp;date=&amp;alkaen=&amp;nappi=haku&amp;activity=both&amp;sort=pid">{{ outTuote.name }}</a>
+        <span class="{{ outTuote.myynnissa()}}" title="PID luotu: {{ outTuote.pidLuotu|format_date('short', locale='fi') }}">{{ outTuote.name }}</span>
     </td>
     <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.outPrice|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }}</span></td>
     <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.norPrice|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }}</span></td>

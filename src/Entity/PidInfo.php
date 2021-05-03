@@ -125,6 +125,6 @@ class PidInfo
         return (($this->width)/10)." x ".(($this->height)/10)." x ".(($this->depth)/10);
     }
     public function sizeStrSm() {
-        return (($this->width)/10)."x".(($this->height)/10)."/".(($this->depth)/10);
+        return (($this->width)/10)."x".(($this->height)/10)."x".(($this->depth)/10);
     }
 }

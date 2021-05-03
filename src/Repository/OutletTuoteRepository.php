@@ -79,7 +79,40 @@ class OutletTuoteRepository extends ServiceEntityRepository
                 ->getQuery()
                 ->getSingleScalarResult();
     }
-
+    
+    public function searchActive($alkaen,$asti,$minprice,$maxprice,$orderby,$direction,$searchStr){
+        return $this->createQueryBuilder('o')
+                ->andWhere('o.deleted IS NULL')
+                ->andWhere('o.priceUpdatedDate BETWEEN :alkaen AND :asti')
+                ->andWhere('o.outPrice >= :minprice')
+                ->andWhere('o.outPrice <= :maxprice')
+                ->andWhere('UPPER(o.name) LIKE UPPER(:searchStr)')
+                ->orderBy('o.'.$orderby,$direction)
+                ->setParameter('alkaen',$alkaen)
+                ->setParameter('asti',$asti)
+                ->setParameter('minprice',$minprice)
+                ->setParameter('maxprice',$maxprice)
+                ->setParameter('searchStr',$searchStr)
+                ->getQuery()
+                ->getResult();
+    }
+    
+    public function searchDeleted($alkaen,$asti,$minprice,$maxprice,$orderby,$direction,$searchStr){
+        return $this->createQueryBuilder('o')
+                ->andWhere('o.deleted IS NOT NULL')
+                ->andWhere('o.deleted BETWEEN :alkaen AND :asti')
+                ->andWhere('o.outPrice >= :minprice')
+                ->andWhere('o.outPrice <= :maxprice')
+                ->andWhere('UPPER(o.name) LIKE UPPER(:searchStr)')
+                ->orderBy('o.'.$orderby,$direction)
+                ->setParameter('alkaen',$alkaen)
+                ->setParameter('asti',$asti)
+                ->setParameter('minprice',$minprice)
+                ->setParameter('maxprice',$maxprice)
+                ->setParameter('searchStr',$searchStr)
+                ->getQuery()
+                ->getResult();
+    }
     /*
     public function findByPid($pid, $status)
     {

@@ -35,6 +35,67 @@ class OutletTuoteService{
         return $outletTuote;
     }
     
+    public function searchWith($formData){
+        $db = $this->entityManager->getRepository(OutletTuote::class);
+        $result = [];
+        $activity = $formData->getActivity();
+        $alkaen = $this->makeDate($formData->getAlkaen(), "2020-01-01");
+        $asti = $this->makeDate($formData->getAsti(), (new \DateTime("now"))->format('Y-m-d'));
+        $minprice = intval($formData->getMinprice());
+        $maxprice = $this->makeMaxPrice($formData->getMaxprice());
+        $orderby = $formData->getOrderBy();
+        $direction = $formData->getDirection();
+        $searchStr = "%".$formData->getSearchStr()."%";
+        if ($activity == "both"){
+            $orderby= $this->makeOrderBy($orderby, 'active');
+            $result['active'] = $db->searchActive($alkaen,$asti,$minprice,$maxprice,$orderby,$direction,$searchStr);
+            $orderby= $this->makeOrderBy($orderby, 'deleted');
+            $result['deleted'] = $db->searchDeleted($alkaen,$asti,$minprice,$maxprice,$orderby,$direction,$searchStr);
+        }
+        elseif ($activity=="active"){
+            $orderby= $this->makeOrderBy($orderby, 'active');
+            $result['active'] = $db->searchActive($alkaen,$asti,$minprice,$maxprice,$orderby,$direction,$searchStr);
+            $result['deleted'] = null;
+        }
+        else{
+            $result['active'] = null;
+            $orderby= $this->makeOrderBy($orderby, 'deleted');
+            $result['deleted'] = $db->searchDeleted($alkaen,$asti,$minprice,$maxprice,$orderby,$direction,$searchStr);
+        }
+        return $result;
+    }
+    
+    private function validateDate($date, $format = 'Y-m-d'){
+    $d = \DateTime::createFromFormat($format, $date);
+    //return $d && $d->format($format) === $date;
+    if ($d && $d->format($format) === $date){ return $d;}
+    else {return null;}
+    }
+    
+    private function makeDate($date,$default) {
+        $dtz = new \DateTimeZone('Europe/Helsinki');
+        //$date = $this->validateDate($date);
+        if ($date!=null) { return $date; }
+        else { return new \DateTime($default,$dtz); }
+        
+    }
+    
+    private function makeMaxPrice($price) {
+        $price = intval($price);
+        if ($price==0){return PHP_INT_MAX;}
+        else {return $price;}
+    }
+    
+    private function makeOrderBy($orderBy,$activity) {
+        if ($orderBy == 'hakupvm' && $activity=='active'){
+            return 'priceUpdatedDate';
+        }
+        elseif($orderBy == 'hakupvm' && $activity=='deleted'){
+            return 'deleted';
+        }
+        else return $orderBy;
+    }
+    
     public function getAllWithPid($pid){
         $db = $this->entityManager->getRepository(OutletTuote::class);
         return  $db->findBy(array('pid'=>$pid));
