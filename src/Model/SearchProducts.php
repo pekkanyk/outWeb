@@ -12,11 +12,20 @@ class SearchProducts
     private $direction;
     private $alkaen;
     private $asti;
+    private $kl;
     
     public function __construct() {
         
     }
-    public function getAlkaen() {
+    public function getKl() {
+        return $this->kl;
+    }
+
+    public function setKl($kl): void {
+        $this->kl = $kl;
+    }
+
+        public function getAlkaen() {
         return $this->alkaen;
     }
 

@@ -97,37 +97,59 @@ class OutletTuoteRepository extends ServiceEntityRepository
                 ->getResult();
     }
     
-    public function searchDeleted($alkaen,$asti,$minprice,$maxprice,$orderby,$direction,$searchStr){
+    public function searchDeleted($alkaen,$asti,$minprice,$maxprice,$orderby,$direction,$searchStr,$kl){
         return $this->createQueryBuilder('o')
                 ->andWhere('o.deleted IS NOT NULL')
                 ->andWhere('o.deleted BETWEEN :alkaen AND :asti')
                 ->andWhere('o.outPrice >= :minprice')
                 ->andWhere('o.outPrice <= :maxprice')
                 ->andWhere('UPPER(o.name) LIKE UPPER(:searchStr)')
+                ->andWhere('o.condition IN (:kl)')
                 ->orderBy('o.'.$orderby,$direction)
                 ->setParameter('alkaen',$alkaen)
                 ->setParameter('asti',$asti)
                 ->setParameter('minprice',$minprice)
                 ->setParameter('maxprice',$maxprice)
                 ->setParameter('searchStr',$searchStr)
+                ->setParameter('kl',$kl)
                 ->getQuery()
                 ->getResult();
     }
-    /*
-    public function findByPid($pid, $status)
-    {
+    
+    public function sumDeletedPrices($price,$alkaen,$asti,$minprice,$maxprice,$kl) {
         return $this->createQueryBuilder('o')
-            ->andWhere('o.pid = :val')
-                ->setParameter('val', $pid)
-            ->andWhere('o.deleted IS NULL')
-                //->setParameter('status', $status)
-            ->orderBy('o.outId', 'ASC')
-            ->getQuery()
-            ->getResult()
-        ;
+                ->select('SUM (o.'.$price.')')
+                ->andWhere('o.deleted IS NOT NULL')
+                ->andWhere('o.deleted BETWEEN :alkaen AND :asti')
+                ->andWhere('o.outPrice >= :minprice')
+                ->andWhere('o.outPrice <= :maxprice')
+                ->andWhere('o.condition IN (:kl)')
+                ->setParameter('alkaen',$alkaen)
+                ->setParameter('asti',$asti)
+                ->setParameter('minprice',$minprice)
+                ->setParameter('maxprice',$maxprice)
+                ->setParameter('kl',$kl)
+                ->getQuery()
+                ->getSingleScalarResult();
     }
-     * 
-     */
+    
+    public function sumActivePrices($price,$alkaen,$asti,$minprice,$maxprice,$kl) {
+        return $this->createQueryBuilder('o')
+                ->select('SUM (o.'.$price.')')
+                ->andWhere('o.deleted IS NULL')
+                ->andWhere('o.priceUpdatedDate BETWEEN :alkaen AND :asti')
+                ->andWhere('o.outPrice >= :minprice')
+                ->andWhere('o.outPrice <= :maxprice')
+                ->andWhere('o.condition IN (:kl)')
+                ->setParameter('alkaen',$alkaen)
+                ->setParameter('asti',$asti)
+                ->setParameter('minprice',$minprice)
+                ->setParameter('maxprice',$maxprice)
+                ->setParameter('kl',$kl)
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
+    
     
     public function findByPidDeleted($pid)
     {
@@ -152,6 +174,77 @@ class OutletTuoteRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+    
+    public function countActiveRows(){
+        return $this->createQueryBuilder('o')
+                ->select('COUNT (o)')
+                ->andWhere('o.deleted IS NULL')
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
+    public function countDeletedRows(){
+        return $this->createQueryBuilder('o')
+                ->select('COUNT (o)')
+                ->andWhere('o.deleted IS NOT NULL')
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
+    public function countDistinctDeletedRows(){
+        return $this->createQueryBuilder('o')
+                ->select('COUNT (DISTINCT o.pid)')
+                ->andWhere('o.deleted IS NOT NULL')
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
+    public function countDistinctActiveRows(){
+        return $this->createQueryBuilder('o')
+                ->select('COUNT (DISTINCT o.pid)')
+                ->andWhere('o.deleted IS NULL')
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
+    
+    public function countActiveRowsCondition($condition){
+        return $this->createQueryBuilder('o')
+                ->select('COUNT (o)')
+                ->andWhere('o.deleted IS NULL')
+                ->andWhere('o.condition = :condition')
+                ->setParameter('condition',$condition)
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
+    public function countDeletedRowsCondition($condition){
+        return $this->createQueryBuilder('o')
+                ->select('COUNT (o)')
+                ->andWhere('o.deleted IS NOT NULL')
+                ->andWhere('o.condition = :condition')
+                ->setParameter('condition',$condition)
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
+    public function top10DistinctActiveNumbers() {
+        return $this->createQueryBuilder('o')
+                ->select('(o.pid),COUNT(o.pid) AS CountOf')
+                ->andWhere('o.deleted IS NULL')
+                ->groupBy('o.pid')
+                ->orderBy('CountOf', 'DESC')
+                ->setMaxResults(10)
+                ->getQuery()
+                ->getResult();
+    }
+    
+    public function top10DistinctDeletedNumbers() {
+        return $this->createQueryBuilder('o')
+                ->select('(o.pid),COUNT(o.pid) AS CountOf')
+                ->andWhere('o.deleted IS NOT NULL')
+                ->groupBy('o.pid')
+                ->orderBy('CountOf', 'DESC')
+                ->setMaxResults(10)
+                ->getQuery()
+                ->getResult();
+    }
+    
+    
 
     // /**
     //  * @return OutletTuote[] Returns an array of OutletTuote objects

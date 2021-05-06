@@ -35,17 +35,24 @@ class DefaultController extends AbstractController{
         $form = $this->createForm(SearchType::class,new SearchProducts());
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            $active = $this->outletTuoteService->searchWith($form->getData())['active'];
-            $deleted = $this->outletTuoteService->searchWith($form->getData())['deleted'];
+            $products = $this->outletTuoteService->searchWith($form->getData());
+            $active = $products['active'];
+            $deleted = $products['deleted'];
+            $aleprosentit = $this->outletTuoteService->aleprosentit($form->getData());
+            $deleted_prosentit = $aleprosentit['deleted'];
+            $active_prosentit = $aleprosentit['active'];
             
             return $this->render('index.html.twig',[
             'active'=> $active,
             'deleted'=> $deleted,
+            'deleted_prosentit'=>$deleted_prosentit,
+            'active_prosentit'=>$active_prosentit,
             'form'=> $form->createView(),
             'headerStats'=>$this->updateStatsService->getStats()
         
             ]);
         }
+        
         
         return $this->render('index.html.twig',[
             'active'=>null,
@@ -54,6 +61,7 @@ class DefaultController extends AbstractController{
             'headerStats'=>$this->updateStatsService->getStats()
         
             ]);
+        
     }
     
 }

@@ -47,6 +47,9 @@
                         {% else %}
                             <tr><td>Pakkauksen koko</td><td>{{ pidInfo.sizeStr() }} cm</td></tr>
                         {% endif %}
+                        {% if outletTuote.deleted == null %}
+                        <tr><td>Osta</td><td><a href="https://www.verkkokauppa.com/fi/outlet/yksittaiskappaleet/{{ outletTuote.outId }}"</a>verkkokauppa.com</td></tr>
+                        {% endif %}
                     </table>
                 </div>
             </div>

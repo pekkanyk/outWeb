@@ -134,4 +134,16 @@ class StatsController extends AbstractController
     else {return null;}
     }
     
+    /**
+     * @Route("/dbstats")
+     */
+    public function dbstats(): Response
+    {
+        $dbstats = $this->outletTuoteService->dbStats();
+        return $this->render('dbstats.html.twig',[
+            'stats'=>$dbstats,
+            'headerStats'=>$this->updateStatsService->getStats()
+            ]);
+        
+    }
 }

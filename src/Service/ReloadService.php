@@ -60,6 +60,7 @@ class ReloadService{
                     $this->entityManager->flush();
                 }
                 else{
+                    if ( $dbOutTuote->getOutPrice() != $newOutProducts[$i]->getOutPrice()) { $dbOutTuote->setPriceUpdatedDate($newOutProducts[$i]->getPriceUpdatedDate()); }
                     $dbOutTuote->setName($newOutProducts[$i]->getName());
                     $dbOutTuote->setOutPrice($newOutProducts[$i]->getOutPrice());
                     $dbOutTuote->setNorPrice($newOutProducts[$i]->getNorPrice());
@@ -69,7 +70,6 @@ class ReloadService{
                     $dbOutTuote->setWarranty($newOutProducts[$i]->getWarranty());
                     $dbOutTuote->setCondition($newOutProducts[$i]->getCondition());
                     $dbOutTuote->setDeleted(null);
-                    if ( $dbOutTuote->getOutPrice() != $newOutProducts[$i]->getOutPrice()) { $dbOutTuote->setPriceUpdatedDate($newOutProducts[$i]->getPriceUpdatedDate()); }
                     $dbOutTuote->setKampanja($newOutProducts[$i]->getKampanja());
                     $dbOutTuote->setKamploppuu($newOutProducts[$i]->getKamploppuu());
                     $dbOutTuote->setOnVarasto($newOutProducts[$i]->getOnVarasto());

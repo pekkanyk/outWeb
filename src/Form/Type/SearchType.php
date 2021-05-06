@@ -14,7 +14,7 @@ class SearchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->setMethod('POST')
+            ->setMethod('GET')
             ->add('activity',ChoiceType::class,[
                 'choices'=>['Aktiiviset'=>'active',
                             'Poistuneet'=>'deleted',
@@ -27,11 +27,18 @@ class SearchType extends AbstractType
             ->add('searchStr', TextType::class,['required'=>false])
             ->add('minprice', TextType::class,['required'=>false])
             ->add('maxprice', TextType::class,['required'=>false])
+            ->add('kl',ChoiceType::class,[
+                'choices'=>['ANY'=> 'ANY',
+                            'A'=>'A',
+                            'B'=>'B',
+                            'C'=>'C',
+                            'D'=>'D']
+                ])
             ->add('orderBy',ChoiceType::class,[
                 'choices'=>['Alennus %'=> 'alennus',
                             'Nimi'=> 'name',
                             'Pid'=> 'pid',
-                            'OutID'=> 'outiD',
+                            'OutID'=> 'outId',
                             'Päivämäärä'=> 'hakupvm',
                             'Hinta (out)'=> 'outPrice',
                             'Hinta (nor)'=>'norPrice']

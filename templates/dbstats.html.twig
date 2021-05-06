@@ -1,0 +1,97 @@
+<html xmlns="http://www.w3.org/1999/xhtml" >
+    <head lang="en">
+        {{ include('fragments/_head.html.twig') }}
+    </head>
+    <body> {% block body %}
+        <header>
+            {{ include('fragments/_top_navi.html.twig') }}   
+        </header>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                <table class="table taulukot">
+                    <thead>
+                        <tr>
+                        <td></td>
+                        <td>Aktiiviset</td>
+                        <td>Poistuneet</td>
+                        <td>Yhteensä</td>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td>Lukumäärät</td>
+                        <td>{{ stats.getActive_count() }}</td>
+                        <td>{{ stats.getDeleted_count() }}</td>
+                        <td>{{ stats.getActive_count()+stats.getDeleted_count() }}</td>
+                    </tr>
+                    <tr>
+                        <td>Uniikit</td>
+                        <td>{{ stats.getActive_uniikit() }}</td>
+                        <td>{{ stats.getDeleted_uniikit() }}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Kuntoluokka A</td>
+                        <td>{{ stats.getActive_count_A() }}</td>
+                        <td>{{ stats.getDeleted_count_A() }}</td>
+                        <td>{{ stats.getActive_count_A()+stats.getDeleted_count_A() }}</td>
+                    </tr>
+                    <tr>
+                        <td>Kuntoluokka B</td>
+                        <td>{{ stats.getActive_count_B() }}</td>
+                        <td>{{ stats.getDeleted_count_B() }}</td>
+                        <td>{{ stats.getActive_count_B()+stats.getDeleted_count_B() }}</td>
+                    </tr>
+                    <tr>
+                        <td>Kuntoluokka C</td>
+                        <td>{{ stats.getActive_count_C() }}</td>
+                        <td>{{ stats.getDeleted_count_C() }}</td>
+                        <td>{{ stats.getActive_count_C()+stats.getDeleted_count_C() }}</td>
+                    </tr>
+                    <tr>
+                        <td>Kuntoluokka D</td>
+                        <td>{{ stats.getActive_count_D() }}</td>
+                        <td>{{ stats.getDeleted_count_D() }}</td>
+                        <td>{{ stats.getActive_count_D()+stats.getDeleted_count_D() }}</td>
+                    </tr>
+                </table>
+                <table class="table taulukot">
+                    <caption>Top 10 aktiiviset (kpl)</caption>
+                    <thead>
+                        <tr>
+                        <td>Kpl</td>
+                        <td>PID</td>
+                        <td>Nimi</td>
+                        </tr>
+                    </thead>
+                    {% for top10row in stats.getActive_top10() %}
+                    <tr>
+                        <td><span class="active">{{ top10row.getCount() }}</span></td>
+                        <td><a class="active" href="/pid/{{ top10row.getPid() }}">{{ top10row.getPid() }}</a></td>
+                        <td><span class="active">{{ top10row.getName() }}</span></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                <table class="table taulukot">
+                    <caption>Top 10 poistuneet (kpl)</caption>
+                    <thead>
+                        <tr>
+                        <td>Kpl</td>
+                        <td>PID</td>
+                        <td>Nimi</td>
+                        </tr>
+                    </thead>
+                    {% for top10row in stats.getDeleted_top10() %}
+                    <tr>
+                        <td><span class="active">{{ top10row.getCount() }}</span></td>
+                        <td><a class="active" href="/pid/{{ top10row.getPid() }}">{{ top10row.getPid() }}</a></td>
+                        <td><span class="active">{{ top10row.getName() }}</span></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                </div>
+            </div>
+                <br>
+        </div>    
+            {% endblock %}
+    </body>
