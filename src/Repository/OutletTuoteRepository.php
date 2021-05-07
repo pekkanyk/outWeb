@@ -80,19 +80,21 @@ class OutletTuoteRepository extends ServiceEntityRepository
                 ->getSingleScalarResult();
     }
     
-    public function searchActive($alkaen,$asti,$minprice,$maxprice,$orderby,$direction,$searchStr){
+    public function searchActive($alkaen,$asti,$minprice,$maxprice,$orderby,$direction,$searchStr,$kl){
         return $this->createQueryBuilder('o')
                 ->andWhere('o.deleted IS NULL')
                 ->andWhere('o.priceUpdatedDate BETWEEN :alkaen AND :asti')
                 ->andWhere('o.outPrice >= :minprice')
                 ->andWhere('o.outPrice <= :maxprice')
                 ->andWhere('UPPER(o.name) LIKE UPPER(:searchStr)')
+                ->andWhere('o.condition IN (:kl)')
                 ->orderBy('o.'.$orderby,$direction)
                 ->setParameter('alkaen',$alkaen)
                 ->setParameter('asti',$asti)
                 ->setParameter('minprice',$minprice)
                 ->setParameter('maxprice',$maxprice)
                 ->setParameter('searchStr',$searchStr)
+                ->setParameter('kl',$kl)
                 ->getQuery()
                 ->getResult();
     }
