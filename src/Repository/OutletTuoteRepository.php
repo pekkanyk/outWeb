@@ -246,6 +246,25 @@ class OutletTuoteRepository extends ServiceEntityRepository
                 ->getResult();
     }
     
+    public function hyllypaikkaInvis($vikat){
+        return $this->createQueryBuilder('o')
+                ->andWhere('mod((o.outId-:haku),100) = 0')
+                ->andWhere('o.deleted IS NULL')
+                ->orderBy('o.outId', 'ASC')
+                ->setParameter('haku',$vikat)
+                ->getQuery()
+                ->getResult();
+    }
+    
+    public function hyllypaikkaInvisCount($vikat){
+        return $this->createQueryBuilder('o')
+                ->select('COUNT(o.outId)')
+                ->andWhere('mod((o.outId-:haku),100) = 0')
+                ->andWhere('o.deleted IS NULL')
+                ->setParameter('haku',$vikat)
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
     
 
     // /**

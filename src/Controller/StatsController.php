@@ -146,4 +146,30 @@ class StatsController extends AbstractController
             ]);
         
     }
+    
+    /**
+     * @Route("/invis/{digits}")
+     */
+    public function hyllyPaikka(int $digits): Response
+    {
+        $vikat = intval($digits);
+        $tuotteet = $this->outletTuoteService->hyllypaikkaHaku($vikat);
+        return $this->render('inventaario_print.html.twig',[
+            'tuotteet'=>$tuotteet,
+            'headerStats'=>$this->updateStatsService->getStats()
+            ]);
+         
+    }
+    /**
+     * @Route("/invis")
+     */
+    public function inventaariolista(): Response
+    {
+        $hyllypaikkaCount = $this->outletTuoteService->hyllyStats();
+        return $this->render('inventaario.html.twig',[
+            'hyllypaikkaCount'=> $hyllypaikkaCount,
+            'headerStats'=>$this->updateStatsService->getStats()
+            ]);
+         
+    }
 }

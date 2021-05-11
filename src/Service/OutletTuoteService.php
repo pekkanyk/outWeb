@@ -283,4 +283,20 @@ class OutletTuoteService{
                 'avgCount'=>$avgCount,
                 'firstSeenActive'=>$firstSeenActive];
     }
+    
+    public function hyllypaikkaHaku($vikat) {
+        $db = $this->entityManager->getRepository(OutletTuote::class);
+        return $db->hyllypaikkaInvis($vikat);
+    }
+    
+    public function hyllyStats() {
+        $db = $this->entityManager->getRepository(OutletTuote::class);
+        $hyllypaikkaCount= array_fill(0,10,[]);
+        for ($i=0;$i<10;$i++){
+            for ($j=0;$j<10;$j++){
+                array_push($hyllypaikkaCount[$i],$db->hyllypaikkaInvisCount($i.$j));
+            }
+        }
+        return $hyllypaikkaCount;
+    }
 }

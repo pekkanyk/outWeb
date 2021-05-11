@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3.org/1999/xhtml" >
+    <head lang="en">
+       
+    </head>
+    <body> {% block body %}
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">{{ tuotteet|length }} kpl. Tulostettu: {{ "now"|date('Y-m-d\\ H:i:s', "Europe/Helsinki") }}<br><br></div>
+            <div class="col-md-12">
+                    <table class="table taulukot">
+                        
+                            {% for outTuote in tuotteet %}
+                                <tr>
+                                    <td>o </td>
+                                    <td>OUT{{ outTuote.outId }}</td>
+                                    <td>{{ outTuote.name }}</td>
+                                    <td>{{ outTuote.koko }}</td>
+                                    <td>{{ outTuote.daysActive() }}/{{ outTuote.daysWithLastPrice() }}</td>
+</tr>
+                            {% endfor %}
+                    </table>
+                </div>
+            </div>
+            
+        </div>
+            {% endblock %}
+    </body>

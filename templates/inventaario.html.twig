@@ -1,0 +1,44 @@
+<html xmlns="http://www.w3.org/1999/xhtml" >
+    <head lang="en">
+        {{ include('fragments/_head.html.twig') }}
+    </head>
+    <body> {% block body %}
+        <header>
+            {{ include('fragments/_top_navi.html.twig') }}   
+        </header>
+        <div class="container">
+            <div class="row">
+             <div class="col-md-12">
+                    <table class="table taulukot">
+                        <caption>Jakauma</caption>
+                        <thead>
+                        <tr>
+                            <th>0</th>
+                            <th>1</th>
+                            <th>2</th>
+                            <th>3</th>
+                            <th>4</th>
+                            <th>5</th>
+                            <th>6</th>
+                            <th>7</th>
+                            <th>8</th>
+                            <th>9</th>
+                        </tr>
+                        </thead>
+                        
+                            {% for key,vika in hyllypaikkaCount %}
+                                <tr>
+                                {% set vikaNro = key %}
+                                {% for key,lukema in vika %}
+                                    <td><a class="active" href="/invis/{{ key }}{{ vikaNro }}">{{ key }}{{ vikaNro }} (<b>{{ lukema }}</b> kpl)</a></td>
+                                {% endfor %}
+                                </tr>
+                            {% endfor %}
+                    </table>
+                </div>   
+            </div>
+            
+            
+        </div>
+            {% endblock %}
+    </body>
