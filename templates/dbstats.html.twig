@@ -9,7 +9,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                <table class="table taulukot">
+                <table class="table taulukot active">
                     <thead>
                         <tr>
                         <td></td>
@@ -54,6 +54,24 @@
                         <td>{{ stats.getDeleted_count_D() }}</td>
                         <td>{{ stats.getActive_count_D()+stats.getDeleted_count_D() }}</td>
                     </tr>
+                    <tr>
+                        <td>Vanhin id</td>
+                        <td><a class="active" href="/outid/{{ stats.getOldest() }}">{{ stats.getOldest() }}</a></td>
+                        <td><a class="active" href="/outid/{{ stats.getOldest_deleted() }}">{{ stats.getOldest_deleted() }}</a></td>
+                        <td> </td>
+                    </tr>
+                    <tr>
+                        <td>Uusin id</td>
+                        <td><a class="active" href="/outid/{{ stats.getNewest() }}">{{ stats.getNewest() }}</a></td>
+                        <td><a class="active" href="/outid/{{ stats.getNewest_deleted() }}">{{ stats.getNewest_deleted() }}</a></td>
+                        <td> </td>
+                    </tr>
+                    <tr>
+                        <td>Keskim id</td>
+                        <td>{{ stats.getAvgId()|round(0,'common') }}</td>
+                        <td>{{ stats.getAvgId_deleted()|round(0,'common') }}</td>
+                        <td> </td>
+                    </tr>    
                 </table>
                 <table class="table taulukot">
                     <caption>Top 10 aktiiviset (kpl)</caption>

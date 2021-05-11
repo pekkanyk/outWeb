@@ -266,6 +266,40 @@ class OutletTuoteRepository extends ServiceEntityRepository
                 ->getSingleScalarResult();
     }
     
+    public function getOldest_deleted(){
+        return $this->createQueryBuilder('o')
+                ->select('o.outId')
+                ->andWhere('o.deleted IS NOT NULL')
+                ->orderBy('o.outId','ASC')
+                ->setMaxResults(1)
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
+    
+    public function getNewest_deleted(){
+        return $this->createQueryBuilder('o')
+                ->select('o.outId')
+                ->andWhere('o.deleted IS NOT NULL')
+                ->orderBy('o.outId','DESC')
+                ->setMaxResults(1)
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
+    
+    public function getAvgDeletedOutId(){
+        return $this->createQueryBuilder('o')
+                ->select('AVG (o.outId)')
+                ->andWhere('o.deleted IS NOT NULL')
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
+    public function getAvgActiveOutId(){
+        return $this->createQueryBuilder('o')
+                ->select('AVG (o.outId)')
+                ->andWhere('o.deleted IS NULL')
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
 
     // /**
     //  * @return OutletTuote[] Returns an array of OutletTuote objects

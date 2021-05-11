@@ -22,11 +22,48 @@ class DbStats
     private $deleted_top10;
     private $oldest;
     private $newest;
+    private $avgId;
+    private $oldest_deleted;
+    private $newest_deleted;
+    private $avgId_deleted;
   
     public function __construct() {
     
     }
-    public function getActive_uniikit() {
+    
+    public function getOldest_deleted() {
+        return $this->oldest_deleted;
+    }
+
+    public function getNewest_deleted() {
+        return $this->newest_deleted;
+    }
+
+    public function getAvgId_deleted() {
+        return $this->avgId_deleted;
+    }
+
+    public function setOldest_deleted($oldest_deleted): void {
+        $this->oldest_deleted = $oldest_deleted;
+    }
+
+    public function setNewest_deleted($newest_deleted): void {
+        $this->newest_deleted = $newest_deleted;
+    }
+
+    public function setAvgId_deleted($avgId_deleted): void {
+        $this->avgId_deleted = $avgId_deleted;
+    }
+
+        public function getAvgId() {
+        return $this->avgId;
+    }
+
+    public function setAvgId($avgId): void {
+        $this->avgId = $avgId;
+    }
+
+        public function getActive_uniikit() {
         return $this->active_uniikit;
     }
 

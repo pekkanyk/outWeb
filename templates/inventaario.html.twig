@@ -28,9 +28,9 @@
                         
                             {% for key,vika in hyllypaikkaCount %}
                                 <tr>
-                                {% set vikaNro = key %}
+                                {% set tokaVikaNro = key %}
                                 {% for key,lukema in vika %}
-                                    <td><a class="active" href="/invis/{{ key }}{{ vikaNro }}">{{ key }}{{ vikaNro }} (<b>{{ lukema }}</b> kpl)</a></td>
+                                    <td><a class="active" href="/invis/{{ tokaVikaNro }}{{ key }}">{{ tokaVikaNro }}{{ key }} (<b>{{ lukema }}</b> kpl)</a></td>
                                 {% endfor %}
                                 </tr>
                             {% endfor %}

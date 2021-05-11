@@ -52,6 +52,12 @@ class OutletTuoteService{
         $dbstats->setDeleted_count_B($db->countDeletedRowsCondition('B'));
         $dbstats->setDeleted_count_C($db->countDeletedRowsCondition('C'));
         $dbstats->setDeleted_count_D($db->countDeletedRowsCondition('D'));
+        $dbstats->setOldest($db->findOneBy(['deleted'=>null],['outId'=>'ASC'])->getOutId());
+        $dbstats->setOldest_deleted($db->getOldest_deleted());
+        $dbstats->setNewest($db->findOneBy(['deleted'=>null],['outId'=>'DESC'])->getOutId());
+        $dbstats->setNewest_deleted($db->getNewest_deleted());
+        $dbstats->setAvgId($db->getAvgActiveOutId());
+        $dbstats->setAvgId_deleted($db->getAvgDeletedOutId());
         return $dbstats;
     }
     
@@ -294,7 +300,7 @@ class OutletTuoteService{
         $hyllypaikkaCount= array_fill(0,10,[]);
         for ($i=0;$i<10;$i++){
             for ($j=0;$j<10;$j++){
-                array_push($hyllypaikkaCount[$i],$db->hyllypaikkaInvisCount($i.$j));
+                array_push($hyllypaikkaCount[$j],$db->hyllypaikkaInvisCount($j.$i));
             }
         }
         return $hyllypaikkaCount;
