@@ -1,17 +1,24 @@
-<html xmlns="http://www.w3.org/1999/xhtml" >
+<!DOCTYPE html>
+<html>
     <head lang="en">
-       
+         <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
     </head>
     <body> {% block body %}
-        
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">{{ tuotteet|length }} kpl. Tulostettu: {{ "now"|date('Y-m-d\\ H:i:s', "Europe/Helsinki") }}<br><br></div>
-            <div class="col-md-12">
-                    <table class="table taulukot">
+        <audio found id="found">
+            <source src="/sfx/ding.wav" type="audio/wav">
+         </audio>
+        <audio not_found id="not_found">
+            <source src="/sfx/horn.mp3" type="audio/mpeg">
+         </audio>
+        <input type="text" id="input" value="" placeholder="OUTxxxxxx">
+                <button>OK</button>
+                
+                <div>Tulostettu: {{ "now"|date('Y-m-d\\ H:i:s', "Europe/Helsinki") }}<br><br></div>
+            
+                    <table>
                         
                             {% for outTuote in tuotteet %}
-                                <tr>
+                                <tr class="OUT{{outTuote.outId}}">
                                     <td>o </td>
                                     <td>OUT{{ outTuote.outId }}</td>
                                     <td>{{ outTuote.name }}</td>
@@ -20,9 +27,44 @@
                                 </tr>
                             {% endfor %}
                     </table>
-                </div>
-            </div>
+                    
+                    
             
-        </div>
+        <script>
+            $( "button" ).click(function() {
+                var outid = $("#input").val();
+                
+                if ($("."+outid)[0]){
+                    outid = "."+outid;
+                    $( outid ).remove();
+                    $("#input").val("");
+                    $("#found")[0].play();
+                }
+                else{
+                    $("#input").val("");
+                    $("#not_found")[0].play();
+                }
+                });
+                
+            $('#input').keypress(function (e) {
+                var key = e.which;
+                if(key == 13)  // the enter key code
+                {
+                var outid = $("#input").val();
+                
+                if ($("."+outid)[0]){
+                    outid = "."+outid;
+                    $( outid ).remove();
+                    $("#input").val("");
+                    $("#found")[0].play();
+                }
+                else{
+                    $("#input").val("");
+                    $("#not_found")[0].play();
+                    }
+                }
+                });   
+        </script>
             {% endblock %}
     </body>
+    </html>
