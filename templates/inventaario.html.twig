@@ -13,16 +13,10 @@
                         <caption>Jakauma</caption>
                         <thead>
                         <tr>
-                            <th>0</th>
-                            <th>1</th>
-                            <th>2</th>
-                            <th>3</th>
-                            <th>4</th>
-                            <th>5</th>
-                            <th>6</th>
-                            <th>7</th>
-                            <th>8</th>
-                            <th>9</th>
+                            {% for key,count in isotNumerot %}
+                                <th><a class="active" href="/invis/{{ key }}">{{ key }} ({{ count }}) kpl</a></th>
+                            {% endfor %}
+                            
                         </tr>
                         </thead>
                         

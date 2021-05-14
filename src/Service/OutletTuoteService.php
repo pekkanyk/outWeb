@@ -290,9 +290,17 @@ class OutletTuoteService{
                 'firstSeenActive'=>$firstSeenActive];
     }
     
-    public function hyllypaikkaHaku($vikat) {
+    public function hyllypaikkaHaku($vikat, $kerroin) {
         $db = $this->entityManager->getRepository(OutletTuote::class);
-        return $db->hyllypaikkaInvis($vikat);
+        return $db->hyllypaikkaInvis($vikat, $kerroin);
+    }
+    public function hyllyIsotNumerot(){
+        $db = $this->entityManager->getRepository(OutletTuote::class);
+        $mainHyllyCount= [];
+        for ($i=0;$i<10;$i++){
+            array_push($mainHyllyCount,$db->hyllypaikkaInvisCount($i,10));
+        }
+        return $mainHyllyCount;
     }
     
     public function hyllyStats() {
@@ -300,7 +308,7 @@ class OutletTuoteService{
         $hyllypaikkaCount= array_fill(0,10,[]);
         for ($i=0;$i<10;$i++){
             for ($j=0;$j<10;$j++){
-                array_push($hyllypaikkaCount[$j],$db->hyllypaikkaInvisCount($j.$i));
+                array_push($hyllypaikkaCount[$j],$db->hyllypaikkaInvisCount($j.$i, 100));
             }
         }
         return $hyllypaikkaCount;

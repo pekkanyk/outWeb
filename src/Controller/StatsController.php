@@ -150,12 +150,21 @@ class StatsController extends AbstractController
     /**
      * @Route("/invis/{digits}")
      */
-    public function hyllyPaikka(int $digits): Response
+    public function hyllyPaikka($digits): Response
     {
+        //$digits = substr($digits, 1);
+        if (strlen($digits)==1){
+            $kerroin = 10;
+        }
+        else{
+            $kerroin = 100;
+        }
         $vikat = intval($digits);
-        $tuotteet = $this->outletTuoteService->hyllypaikkaHaku($vikat);
+        $next = ($digits+($kerroin/10))%$kerroin;
+        $tuotteet = $this->outletTuoteService->hyllypaikkaHaku($vikat, $kerroin);
         return $this->render('inventaario_print.html.twig',[
             'tuotteet'=>$tuotteet,
+            'next'=>$next,
             'headerStats'=>$this->updateStatsService->getStats()
             ]);
          
@@ -168,6 +177,7 @@ class StatsController extends AbstractController
         $hyllypaikkaCount = $this->outletTuoteService->hyllyStats();
         return $this->render('inventaario.html.twig',[
             'hyllypaikkaCount'=> $hyllypaikkaCount,
+            'isotNumerot'=>$this->outletTuoteService->hyllyIsotNumerot(),
             'headerStats'=>$this->updateStatsService->getStats()
             ]);
          
