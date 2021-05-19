@@ -42,12 +42,14 @@ class StatsController extends AbstractController
             array_push($datestats_rows,$row_with_date);
         }
         
-        $chartArr = [['Päivä','Deleted','Uusia','Total']];
+        //$chartArr = [['Päivä','Deleted','Uusia','Total']];
+        $chartArr = [['Päivä','Deleted','Uusia']];
         for ($i=count($datestats_rows)-1;$i>=0;$i--){
-            array_push($chartArr,[$datestats_rows[$i]['deleted']->format('d.m.Y'),
+            //array_push($chartArr,[$datestats_rows[$i]['deleted']->format('d.m.Y'),
+            array_push($chartArr,[$datestats_rows[$i]['deleted'],
                                     $datestats_rows[$i]['deletedCount'],
                                     $datestats_rows[$i]['firstCount'],
-                                    intval($datestats_rows[$i]['avgCount'])
+                                    //intval($datestats_rows[$i]['avgCount'])
                                     ]);
         }
         
@@ -57,11 +59,19 @@ class StatsController extends AbstractController
         $chart->getOptions()
             ->setHeight(400)
             ->setWidth(1200);
+                /*
+            ->setSeries([['axis' => 'All'],
+                        //['axis' => 'Uusia']
+                ])
+            ->setAxes(['y' => 
+                        //['Uusia' => ['label' => '(kpl)','format'=>['pattern'=>'']]],
+                        ['All' => ['label' => '(kpl)','format'=>['pattern'=>'']]]
+                ]);
             //->setSeries([['axis' => 'Deleted'],
                 //        ['axis' =>'Uusia'],
                 //        ['axis'=>'Total']
               //  ]) ;
-        
+        */
         return $this->render('daystats.html.twig',[
             'chart'=> $chart,
             'form'=> $form->createView(),
@@ -105,7 +115,8 @@ class StatsController extends AbstractController
         $daystats = $this->updateStatsService->getDayStats($alkaen,$asti);
         $chartArr = [['Aika','Aktiivisia']];
         for ($i=0;$i<count($daystats);$i++){
-            array_push($chartArr,[$daystats[$i]->getTimestamp()->format('d.m.Y H:i'),$daystats[$i]->getTotalItems()]);
+            //array_push($chartArr,[$daystats[$i]->getTimestamp()->format('d.m.Y H:i'),$daystats[$i]->getTotalItems()]);
+            array_push($chartArr,[$daystats[$i]->getTimestamp(),$daystats[$i]->getTotalItems()]);
         }
         
 	$chart = new \CMEN\GoogleChartsBundle\GoogleCharts\Charts\Material\LineChart();
@@ -116,7 +127,7 @@ class StatsController extends AbstractController
             ->setHeight(400)
             ->setWidth(1200)
             ->setSeries([['axis' => 'Aktiivisia']])
-            ->setAxes(['y' => ['Aktiivisia' => ['label' => 'Aktiivisia (kpl)']]]);
+            ->setAxes(['y' => ['Aktiivisia' => ['label' => 'Aktiivisia (kpl)','format'=>['pattern'=>'']]]]);
 
         //return new Response(print_r($daystats));
         return $this->render('stock.html.twig',[
@@ -178,6 +189,18 @@ class StatsController extends AbstractController
         return $this->render('inventaario.html.twig',[
             'hyllypaikkaCount'=> $hyllypaikkaCount,
             'isotNumerot'=>$this->outletTuoteService->hyllyIsotNumerot(),
+            'headerStats'=>$this->updateStatsService->getStats()
+            ]);
+         
+    }
+    /**
+     * @Route("/distinct")
+     */
+    public function distinctProds(): Response
+    {
+        
+        return $this->render('distinct.html.twig',[
+            'topDistinct'=>$this->outletTuoteService->distinctProducts(),
             'headerStats'=>$this->updateStatsService->getStats()
             ]);
          

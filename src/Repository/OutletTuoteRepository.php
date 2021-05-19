@@ -246,6 +246,17 @@ class OutletTuoteRepository extends ServiceEntityRepository
                 ->getResult();
     }
     
+    public function topDistinctActiveNumbers() {
+        return $this->createQueryBuilder('o')
+                ->select('(o.pid),COUNT(o.pid) AS CountOf')
+                ->andWhere('o.deleted IS NULL')
+                ->groupBy('o.pid')
+                ->orderBy('CountOf', 'DESC')
+                ->setMaxResults(500)
+                ->getQuery()
+                ->getResult();
+    }
+    
     public function hyllypaikkaInvis($vikat, $kerroin){
         return $this->createQueryBuilder('o')
                 ->andWhere('mod((o.outId-:haku),:kerroin) = 0')

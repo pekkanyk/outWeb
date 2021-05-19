@@ -75,6 +75,11 @@ class OutletTuoteService{
         return $top10rows;
     }
     
+    public function distinctProducts(){
+        $db = $this->entityManager->getRepository(OutletTuote::class);
+        return $this->getTop10($db->topDistinctActiveNumbers());
+    }
+    
     public function aleprosentit($formData){
         $db = $this->entityManager->getRepository(OutletTuote::class);
         $result = [];

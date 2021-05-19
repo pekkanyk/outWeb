@@ -128,7 +128,10 @@ class ReloadService{
         $outletTuote->setFirstSeen($this->strDateToDate("today"));
         $outletTuote->setPidLuotu($this->strDateToDate($vkProduct["createdAt"]));
         $outletTuote->setPriceUpdatedDate($this->strDateToDate("today"));
-        $alennus = 100.0*(1-($outletTuote->getOutPrice()/$outletTuote->getNorPrice()));
+        if ($outletTuote->getNorPrice()!=0){
+            $alennus = 100.0*(1-($outletTuote->getOutPrice()/$outletTuote->getNorPrice()));
+        }
+        else { $alennus = 0;}
         $outletTuote->setAlennus($alennus);
         $outletTuote->setKampanja(false);
         $outletTuote->setKamploppuu(null);
