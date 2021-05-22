@@ -31,6 +31,92 @@ class OutletTuoteRepository extends ServiceEntityRepository
         ;
     }
     
+    public function getLongest_deleted(){
+        return $this->createQueryBuilder('o')
+                ->select('o.outId')
+                ->andWhere('o.deleted IS NOT NULL')
+                ->orderBy('DATE_DIFF (o.deleted, o.firstSeen)','DESC')
+                ->setMaxResults(1)
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
+    
+    public function getLongest_active(){
+        return $this->createQueryBuilder('o')
+                ->select('o.outId')
+                ->andWhere('o.deleted IS NULL')
+                ->orderBy('DATE_DIFF (CURRENT_DATE(), o.firstSeen)','DESC')
+                ->setMaxResults(1)
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
+    public function getLongestTop10(){
+        return $this->createQueryBuilder('o')
+                ->andWhere('o.deleted IS NULL')
+                ->orderBy('DATE_DIFF (CURRENT_DATE(), o.firstSeen)','DESC')
+                ->setMaxResults(10)
+                ->getQuery()
+                ->getResult();
+    }
+    public function activeSumOut(){
+        return $this->createQueryBuilder('o')
+                ->select('SUM (o.outPrice)')
+                ->andWhere('o.deleted IS NULL')
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
+    
+    public function activeSumNor(){
+        return $this->createQueryBuilder('o')
+                ->select('SUM (o.norPrice)')
+                ->andWhere('o.deleted IS NULL')
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
+    public function deletedSumOut(){
+        return $this->createQueryBuilder('o')
+                ->select('SUM (o.outPrice)')
+                ->andWhere('o.deleted IS NOT NULL')
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
+    
+    public function deletedSumNor(){
+        return $this->createQueryBuilder('o')
+                ->select('SUM (o.norPrice)')
+                ->andWhere('o.deleted IS NOT NULL')
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
+    
+    public function activeSumDays(){
+        return $this->createQueryBuilder('o')
+                ->select('SUM (DATE_DIFF (CURRENT_DATE(),o.firstSeen))')
+                ->andWhere('o.deleted IS NULL')
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
+    public function deletedSumDays(){
+        return $this->createQueryBuilder('o')
+                ->select('SUM (DATE_DIFF (o.deleted, o.firstSeen))')
+                ->andWhere('o.deleted IS NOT NULL')
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
+    public function activeSumDaysUpdated(){
+        return $this->createQueryBuilder('o')
+                ->select('SUM (DATE_DIFF (CURRENT_DATE(),o.priceUpdatedDate))')
+                ->andWhere('o.deleted IS NULL')
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
+    public function deletedSumDaysUpdated(){
+        return $this->createQueryBuilder('o')
+                ->select('SUM (DATE_DIFF (o.deleted, o.priceUpdatedDate))')
+                ->andWhere('o.deleted IS NOT NULL')
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
     public function getDates($alkaen, $asti) {
          return $this->createQueryBuilder('o')
                  ->select('DISTINCT o.deleted')

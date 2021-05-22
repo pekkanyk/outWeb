@@ -71,7 +71,34 @@
                         <td>{{ stats.getAvgId()|round(0,'common') }}</td>
                         <td>{{ stats.getAvgId_deleted()|round(0,'common') }}</td>
                         <td> </td>
-                    </tr>    
+                    </tr>
+                    <tr>
+                        <td>Summa (tot)</td>
+                        <td>{{ stats.getActive_sumOut()|format_currency('EUR') }}</td>
+                        <td>{{ stats.getDeleted_sumOut()|format_currency('EUR') }}</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Alennus (avg)</td>
+                        <td>{{ (100*(1-(stats.getActive_sumOut()/stats.getActive_sumNor()))) |round(2,'common')}} %</td>
+                        <td>{{ (100*(1-(stats.getDeleted_sumOut()/stats.getDeleted_sumNor())))|round(2,'common') }} %</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Aktiivisena pv (avg)</td>
+                        <td>{{ (stats.getActive_days()/ stats.getActive_count())|round(1,'common') }} / 
+                        {{ (stats.getActive_daysUpdated()/ stats.getActive_count())|round(1,'common') }}</td>
+                        <td>{{ (stats.getDeleted_days()/ stats.getDeleted_count())|round(1,'common') }} / 
+                        {{ (stats.getDeleted_daysUpdated()/ stats.getDeleted_count())|round(1,'common') }}</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Pisimpään aktiivisena</td>
+                        <td><a class="active" href="/outid/{{ stats.getActive_longest() }}">{{ stats.getActive_longest() }}</a></td>
+                        <td><a class="active" href="/outid/{{ stats.getDeleted_longest() }}">{{ stats.getDeleted_longest() }}</a></td>
+                        <td>-</td>
+                    </tr>
+
                 </table>
                 <table class="table taulukot">
                     <caption><a class="active" href="/distinct">Top 10 aktiiviset (kpl)</a></caption>
@@ -107,6 +134,17 @@
                     </tr>
                     {% endfor %}
                 </table>
+                <table class="table taulukot">
+                        
+                        <caption>Top 10 pisimpään aktiivisena</caption>
+                        {% set dateType = "Muuttunut" %}
+                        {{ include('fragments/_outTable_header.html.twig') }}
+                        
+                            {% for outTuote in stats.getLongestTop10() %}
+                                {{ include('fragments/_outTable.html.twig') }}
+                            {% endfor %}
+                        
+                    </table>
                 </div>
             </div>
                 <br>

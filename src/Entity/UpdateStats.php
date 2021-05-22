@@ -27,8 +27,23 @@ class UpdateStats
      */
     private $totalItems;
     
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $sum;
+    
+    
     public function __construct() {
         
+    }
+    
+    public function getSum(): ?float {
+        return $this->sum;
+    }
+
+    public function setSum(float $sum): self {
+        $this->sum = $sum;
+        return $this;
     }
 
         public function getId(): ?int

@@ -11,6 +11,7 @@ class DbStats
     private $active_count_C;
     private $active_count_D;
     private $active_days;
+    private $active_daysUpdated;
     private $active_top10;
     private $deleted_uniikit;
     private $deleted_count;
@@ -19,6 +20,7 @@ class DbStats
     private $deleted_count_C;
     private $deleted_count_D;
     private $deleted_days;
+    private $deleted_daysUpdated;
     private $deleted_top10;
     private $oldest;
     private $newest;
@@ -26,12 +28,90 @@ class DbStats
     private $oldest_deleted;
     private $newest_deleted;
     private $avgId_deleted;
+    private $active_sumOut;
+    private $deleted_sumOut;
+    private $active_sumNor;
+    private $deleted_sumNor;
+    private $active_longest;
+    private $deleted_longest;
+    private $longestTop10;
   
     public function __construct() {
     
     }
+    public function getActive_daysUpdated() {
+        return $this->active_daysUpdated;
+    }
     
-    public function getOldest_deleted() {
+    public function getLongestTop10() {
+        return $this->longestTop10;
+    }
+
+    public function setLongestTop10($longestTop10): void {
+        $this->longestTop10 = $longestTop10;
+    }
+
+        public function getDeleted_daysUpdated() {
+        return $this->deleted_daysUpdated;
+    }
+
+    public function setActive_daysUpdated($active_daysUpdated): void {
+        $this->active_daysUpdated = $active_daysUpdated;
+    }
+
+    public function setDeleted_daysUpdated($deleted_daysUpdated): void {
+        $this->deleted_daysUpdated = $deleted_daysUpdated;
+    }
+
+        public function getActive_sumOut() {
+        return $this->active_sumOut;
+    }
+
+    public function getDeleted_sumOut() {
+        return $this->deleted_sumOut;
+    }
+
+    public function getActive_sumNor() {
+        return $this->active_sumNor;
+    }
+
+    public function getDeleted_sumNor() {
+        return $this->deleted_sumNor;
+    }
+
+    public function getActive_longest() {
+        return $this->active_longest;
+    }
+
+    public function getDeleted_longest() {
+        return $this->deleted_longest;
+    }
+
+    public function setActive_sumOut($active_sumOut): void {
+        $this->active_sumOut = $active_sumOut;
+    }
+
+    public function setDeleted_sumOut($deleted_sumOut): void {
+        $this->deleted_sumOut = $deleted_sumOut;
+    }
+
+    public function setActive_sumNor($active_sumNor): void {
+        $this->active_sumNor = $active_sumNor;
+    }
+
+    public function setDeleted_sumNor($deleted_sumNor): void {
+        $this->deleted_sumNor = $deleted_sumNor;
+    }
+
+    public function setActive_longest($active_longest): void {
+        $this->active_longest = $active_longest;
+    }
+
+    public function setDeleted_longest($deleted_longest): void {
+        $this->deleted_longest = $deleted_longest;
+    }
+
+        public function getOldest_deleted() {
         return $this->oldest_deleted;
     }
 

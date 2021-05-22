@@ -113,10 +113,9 @@ class StatsController extends AbstractController
         }
         //$today = date_create("now", new \DateTimeZone('Europe/Helsinki'));
         $daystats = $this->updateStatsService->getDayStats($alkaen,$asti);
-        $chartArr = [['Aika','Aktiivisia']];
+        $chartArr = [['Aika','Aktiivisia','Summa']];
         for ($i=0;$i<count($daystats);$i++){
-            //array_push($chartArr,[$daystats[$i]->getTimestamp()->format('d.m.Y H:i'),$daystats[$i]->getTotalItems()]);
-            array_push($chartArr,[$daystats[$i]->getTimestamp(),$daystats[$i]->getTotalItems()]);
+            array_push($chartArr,[$daystats[$i]->getTimestamp(),$daystats[$i]->getTotalItems(),$daystats[$i]->getSum()]);
         }
         
 	$chart = new \CMEN\GoogleChartsBundle\GoogleCharts\Charts\Material\LineChart();
@@ -126,10 +125,14 @@ class StatsController extends AbstractController
         $chart->getOptions()
             ->setHeight(400)
             ->setWidth(1200)
-            ->setSeries([['axis' => 'Aktiivisia']])
-            ->setAxes(['y' => ['Aktiivisia' => ['label' => 'Aktiivisia (kpl)','format'=>['pattern'=>'']]]]);
-
-        //return new Response(print_r($daystats));
+            ->setSeries([['axis' => 'Aktiivisia'],
+                ['axis'=>'Summa']])
+            ->setAxes(['y' => ['Aktiivisia' => ['label' => 'Aktiivisia (kpl)'],
+                            'Summa' => ['side' => 'right','label' => 'Summa (€)']
+                            ]]);
+        $chart->getOptions()
+                ->getVAxis()
+                ->setFormat('');
         return $this->render('stock.html.twig',[
             'form'=> $form->createView(),
             'chart'=> $chart,

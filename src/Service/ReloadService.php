@@ -51,9 +51,11 @@ class ReloadService{
         $newOutProducts = $this->reloadProducts();
         $this->entityManager->getConnection()->beginTransaction();
         $db = $this->entityManager->getRepository(OutletTuote::class);
+        $sum = 0;
         try {
             $db->setAllActiveDeleted();
             for ($i=0;$i<count($newOutProducts);$i++){
+                $sum=$sum+$newOutProducts[$i]->getOutPrice();
                 $dbOutTuote = $db->find($newOutProducts[$i]->getOutId());
                 if ($dbOutTuote == null){
                     $this->entityManager->persist($newOutProducts[$i]);
@@ -81,6 +83,7 @@ class ReloadService{
         $updatetime = new UpdateStats();
         $updatetime->setTimestamp(date_create('now', new \DateTimeZone('Europe/Helsinki')));
         $updatetime->setTotalItems(count($newOutProducts));
+        $updatetime->setSum($sum);
         $this->entityManager->persist($updatetime);
         $this->entityManager->flush();
         $this->entityManager->getConnection()->commit();

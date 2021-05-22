@@ -58,6 +58,17 @@ class OutletTuoteService{
         $dbstats->setNewest_deleted($db->getNewest_deleted());
         $dbstats->setAvgId($db->getAvgActiveOutId());
         $dbstats->setAvgId_deleted($db->getAvgDeletedOutId());
+        $dbstats->setActive_sumOut($db->activeSumOut());
+        $dbstats->setDeleted_sumOut($db->deletedSumOut());
+        $dbstats->setActive_sumNor($db->activeSumNor());
+        $dbstats->setDeleted_sumNor($db->deletedSumNor());
+        $dbstats->setActive_days($db->activeSumDays());
+        $dbstats->setDeleted_days($db->deletedSumDays());
+        $dbstats->setActive_daysUpdated($db->activeSumDaysUpdated());
+        $dbstats->setDeleted_daysUpdated($db->deletedSumDaysUpdated());
+        $dbstats->setDeleted_longest($db->getLongest_deleted());
+        $dbstats->setActive_longest($db->getLongest_active());
+        $dbstats->setLongestTop10($db->getLongestTop10());
         return $dbstats;
     }
     
