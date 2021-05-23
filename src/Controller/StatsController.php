@@ -208,4 +208,55 @@ class StatsController extends AbstractController
             ]);
          
     }
+    
+    /**
+     * @Route("/dayspread")
+     */
+    public function daySpread(): Response
+    {
+        $chartData = $this->outletTuoteService->daySpread();
+        $chart = new \CMEN\GoogleChartsBundle\GoogleCharts\Charts\Material\ColumnChart();
+        $chartArr = [ ['Days', 'Kpl'] ];
+        
+        for ($i=0;$i<count($chartData);$i++){
+            array_push($chartArr,[$chartData[$i]['Days'],$chartData[$i]['CountOf']]);
+        }
+        $chart->getData()->setArrayToDataTable($chartArr);
+        $chart->getOptions()->getChart()
+            ->setTitle('Päiviä hinnanmuutoksesta');
+            
+        $chart->getOptions()
+        ->setBars('vertical')
+        ->setHeight(400)
+        ->setWidth(1200)
+        ->setColors(['#1b9e77'])
+        ->getVAxis()
+        ->setFormat('decimal');
+        
+        $chart2Data = $this->outletTuoteService->daySpreadFirstSeen();
+        $chart2 = new \CMEN\GoogleChartsBundle\GoogleCharts\Charts\Material\ColumnChart();
+        $chart2Arr = [ ['Days', 'Kpl'] ];
+        
+        for ($i=0;$i<count($chart2Data);$i++){
+            array_push($chart2Arr,[$chart2Data[$i]['Days'],$chart2Data[$i]['CountOf']]);
+        }
+        $chart2->getData()->setArrayToDataTable($chart2Arr);
+        $chart2->getOptions()->getChart()
+            ->setTitle('Päiviä akviivisena');
+            
+        $chart2->getOptions()
+        ->setBars('vertical')
+        ->setHeight(400)
+        ->setWidth(1200)
+        ->setColors(['#5b9e11'])
+        ->getVAxis()
+        ->setFormat('decimal');
+
+        return $this->render('dayspread.html.twig',[
+            'chart2'=> $chart2,
+            'chart'=> $chart,
+            'headerStats'=>$this->updateStatsService->getStats()
+            ]);
+
+    }
 }

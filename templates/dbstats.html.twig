@@ -86,10 +86,8 @@
                     </tr>
                     <tr>
                         <td>Aktiivisena pv (avg)</td>
-                        <td>{{ (stats.getActive_days()/ stats.getActive_count())|round(1,'common') }} / 
-                        {{ (stats.getActive_daysUpdated()/ stats.getActive_count())|round(1,'common') }}</td>
-                        <td>{{ (stats.getDeleted_days()/ stats.getDeleted_count())|round(1,'common') }} / 
-                        {{ (stats.getDeleted_daysUpdated()/ stats.getDeleted_count())|round(1,'common') }}</td>
+                        <td>{{ stats.getActive_days()|round(1,'common') }} / {{ stats.getActive_daysUpdated()|round(1,'common') }}</td>
+                        <td>{{ stats.getDeleted_days()|round(1,'common') }} / {{ stats.getDeleted_daysUpdated()|round(1,'common') }}</td>
                         <td>-</td>
                     </tr>
                     <tr>

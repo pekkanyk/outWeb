@@ -1,0 +1,23 @@
+<html xmlns="http://www.w3.org/1999/xhtml" >
+    <head lang="en">
+        {{ include('fragments/_head.html.twig') }}
+    </head>
+    <body> {% block body %}
+        <header>
+            {{ include('fragments/_top_navi.html.twig') }}   
+        </header>
+        <div class="container">
+            
+            <div id="div_chart"></div>
+                <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                <script type="text/javascript">
+                {{ gc_draw(chart, 'div_chart') }}
+             </script>
+             <div id="div_chart2"></div>
+                <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                <script type="text/javascript">
+                {{ gc_draw(chart2, 'div_chart2') }}
+             </script>
+        </div>
+            {% endblock %}
+    </body>

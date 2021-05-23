@@ -35,6 +35,16 @@ class OutletTuoteService{
         
         return $outletTuote;
     }
+    
+    public function daySpread(){
+        $db = $this->entityManager->getRepository(OutletTuote::class);
+        return $db->activeDaySpread();
+    }
+    public function daySpreadFirstSeen(){
+        $db = $this->entityManager->getRepository(OutletTuote::class);
+        return $db->activeDaySpreadFirstSeen();
+    }
+    
     public function dbStats() {
         $dbstats = new DbStats();
         $db = $this->entityManager->getRepository(OutletTuote::class);
@@ -62,10 +72,10 @@ class OutletTuoteService{
         $dbstats->setDeleted_sumOut($db->deletedSumOut());
         $dbstats->setActive_sumNor($db->activeSumNor());
         $dbstats->setDeleted_sumNor($db->deletedSumNor());
-        $dbstats->setActive_days($db->activeSumDays());
-        $dbstats->setDeleted_days($db->deletedSumDays());
-        $dbstats->setActive_daysUpdated($db->activeSumDaysUpdated());
-        $dbstats->setDeleted_daysUpdated($db->deletedSumDaysUpdated());
+        $dbstats->setActive_days($db->activeAvgDays());
+        $dbstats->setDeleted_days($db->deletedAvgDays());
+        $dbstats->setActive_daysUpdated($db->activeAvgDaysUpdated());
+        $dbstats->setDeleted_daysUpdated($db->deletedAvgDaysUpdated());
         $dbstats->setDeleted_longest($db->getLongest_deleted());
         $dbstats->setActive_longest($db->getLongest_active());
         $dbstats->setLongestTop10($db->getLongestTop10());

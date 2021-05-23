@@ -89,34 +89,54 @@ class OutletTuoteRepository extends ServiceEntityRepository
                 ->getSingleScalarResult();
     }
     
-    public function activeSumDays(){
+    public function activeAvgDays(){
         return $this->createQueryBuilder('o')
-                ->select('SUM (DATE_DIFF (CURRENT_DATE(),o.firstSeen))')
+                ->select('AVG (DATE_DIFF (CURRENT_DATE(),o.firstSeen))')
                 ->andWhere('o.deleted IS NULL')
                 ->getQuery()
                 ->getSingleScalarResult();
     }
-    public function deletedSumDays(){
+    public function deletedAvgDays(){
         return $this->createQueryBuilder('o')
-                ->select('SUM (DATE_DIFF (o.deleted, o.firstSeen))')
+                ->select('AVG (DATE_DIFF (o.deleted, o.firstSeen))')
                 ->andWhere('o.deleted IS NOT NULL')
                 ->getQuery()
                 ->getSingleScalarResult();
     }
-    public function activeSumDaysUpdated(){
+    public function activeAvgDaysUpdated(){
         return $this->createQueryBuilder('o')
-                ->select('SUM (DATE_DIFF (CURRENT_DATE(),o.priceUpdatedDate))')
+                ->select('AVG (DATE_DIFF (CURRENT_DATE(),o.priceUpdatedDate))')
                 ->andWhere('o.deleted IS NULL')
                 ->getQuery()
                 ->getSingleScalarResult();
     }
-    public function deletedSumDaysUpdated(){
+    public function deletedAvgDaysUpdated(){
         return $this->createQueryBuilder('o')
-                ->select('SUM (DATE_DIFF (o.deleted, o.priceUpdatedDate))')
+                ->select('AVG (DATE_DIFF (o.deleted, o.priceUpdatedDate))')
                 ->andWhere('o.deleted IS NOT NULL')
                 ->getQuery()
                 ->getSingleScalarResult();
     }
+    public function activeDaySpread(){
+        return $this->createQueryBuilder('o')
+                ->select('COUNT(o.pid) AS CountOf, DATE_DIFF (CURRENT_DATE(),o.priceUpdatedDate) AS Days')
+                ->andWhere('o.deleted IS NULL')
+                ->groupBy('Days')
+                ->orderBy('Days', 'DESC')
+                ->getQuery()
+                ->getResult();
+    }
+    
+    public function activeDaySpreadFirstSeen(){
+        return $this->createQueryBuilder('o')
+                ->select('COUNT(o.pid) AS CountOf, DATE_DIFF (CURRENT_DATE(),o.firstSeen) AS Days')
+                ->andWhere('o.deleted IS NULL')
+                ->groupBy('Days')
+                ->orderBy('Days', 'DESC')
+                ->getQuery()
+                ->getResult();
+    }
+    
     public function getDates($alkaen, $asti) {
          return $this->createQueryBuilder('o')
                  ->select('DISTINCT o.deleted')
