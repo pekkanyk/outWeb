@@ -26,7 +26,9 @@ class StatsController extends AbstractController
     public function dailystats(Request $request): Response
     {
         $asti = new \DateTime('now', new \DateTimeZone('Europe/Helsinki'));
+        $asti->setTime(23,59,59);
         $alkaen = (new \DateTime('now', new \DateTimeZone('Europe/Helsinki')))->sub(new \DateInterval('P30D'));
+        $alkaen->setTime(23,59,59);
         $form = $this->createForm(DayStatsType::class,new Search2Dates());
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
@@ -97,14 +99,18 @@ class StatsController extends AbstractController
         $day = $this->validateDate($day);
         if($day=="0" || $day==null){
             $asti = new \DateTime('now', new \DateTimeZone('Europe/Helsinki'));
+            $asti->setTime(23,59,59);
             $alkaen = (new \DateTime('now', new \DateTimeZone('Europe/Helsinki')))->sub(new \DateInterval('P30D'));
+            $alkaen->setTime(23,59,59);
         }
         else {
             $asti = new \DateTime($day->format("Y-m-d"), new \DateTimeZone('Europe/Helsinki'));
+            $asti->setTime(23,59,59);
             $alkaen = $asti;
         }
         
-        $form = $this->createForm(DayStatsType::class,new Search2Dates($alkaen->format("Y-m-d"),$asti->format("Y-m-d")));
+        //$form = $this->createForm(DayStatsType::class,new Search2Dates($alkaen->format("Y-m-d"),$asti->format("Y-m-d")));
+        $form = $this->createForm(DayStatsType::class,new Search2Dates());
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             //return $this->redirect("/daystats/");

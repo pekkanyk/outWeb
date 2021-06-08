@@ -35,6 +35,10 @@ class OutletTuoteService{
         
         return $outletTuote;
     }
+    public function noInfo(){
+        $db = $this->entityManager->getRepository(OutletTuote::class);
+        return $db->noInfo();
+    }
     
     public function daySpread(){
         $db = $this->entityManager->getRepository(OutletTuote::class);

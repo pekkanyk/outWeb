@@ -8,7 +8,7 @@
     <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.norPrice|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }}</span></td>
     <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.alennus|round(1,'common') }}%</span></td>
     <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.warranty }} kk</span></td>
-    <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.condition }}</span></td>
+    <td><span class="{{ outTuote.myynnissa()}}" title="{{ outTuote.info }}">{{ outTuote.condition }}</span></td>
     <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.onkoA() }}</span></td>
     <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.onkoK() }}</span></td>
     <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.onkoD() }}</span></td>

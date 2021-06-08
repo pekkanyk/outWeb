@@ -110,6 +110,12 @@ class OutletTuote
      * @ORM\Column(type="date", nullable=true)
      */
     private $pidLuotu;
+    
+     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $info;
+    
     public function __construct() {
         
     }
@@ -146,6 +152,18 @@ class OutletTuote
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+    
+    public function getInfo(): ?string
+    {
+        return $this->info;
+    }
+
+    public function setInfo(?string $info): self
+    {
+        $this->info = $info;
 
         return $this;
     }
@@ -355,6 +373,7 @@ class OutletTuote
     }
     public function daysActive(){
         $today = date_create("now", new \DateTimeZone('Europe/Helsinki'));
+        $today->setTime(23,59,59);
         if ($this->deleted != null){
             $da = $this->firstSeen->diff($this->deleted)->format('%a');
         }
@@ -366,6 +385,7 @@ class OutletTuote
     
     public function daysWithLastPrice(){
         $today = date_create("now", new \DateTimeZone('Europe/Helsinki'));
+        $today->setTime(23,59,59);
         if ($this->deleted != null){
             $da = $this->priceUpdatedDate->diff($this->deleted)->format('%a');
         }

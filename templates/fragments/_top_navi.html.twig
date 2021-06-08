@@ -22,7 +22,6 @@
                                         <li><a href="/pid/">Pid</a></li>
                                         <li><a href="/firstseen/">Ensikertaa nähty</a></li>
                                         
-                                        
 				</ul>
 			</li>
                         
@@ -35,10 +34,16 @@
                                         <li><a href="/dbstats">Random stats</a></li>
                                         <li><a href="/invis">Paikkajakauma</a></li>
                                         <li><a href="/dayspread">Päiväjakauma</a></li>
-                                        <li><a href="/distinct">Samoja tuotteita</a></li>
+                                        
 				</ul>
 			</li>
-                        
+                        <li class="nav-item dropdown">
+				<a data-toggle="dropdown" class="nav-link dropdown-toggle" href="#">Hakuja <b class="caret"></b></a>
+				<ul class="dropdown-menu">					
+					<li><a href="/distinct">Samoja tuotteita</a></li>
+                                        <li><a href="/noinfo/">Ei lisätietoja (C)</a></li>
+				</ul>
+			</li>
 			<li class="nav-item"><a href="/reload" class="nav-link">Reload</a></li>
                         <li class="nav-item"><a href="/?search%5Bactivity%5D=deleted&search%5Balkaen%5D={{ "now"|date("Y-m-d", "Europe/Helsinki") }}&search%5Basti%5D={{ "now"|date("Y-m-d", "Europe/Helsinki") }}&search%5Bminprice%5D=&search%5Bmaxprice%5D=&search%5Bkl%5D=ANY&search%5BsearchStr%5D=&search%5BorderBy%5D=hakupvm&search%5Bdirection%5D=DESC&search%5Bhae%5D=" class="nav-link">Tänään poistuneet</a></li>
                         <li class="nav-item"><a href="/?search%5Bactivity%5D=active&search%5Balkaen%5D={{ "now"|date("Y-m-d", "Europe/Helsinki") }}&search%5Basti%5D={{ "now"|date("Y-m-d", "Europe/Helsinki") }}&search%5Bminprice%5D=&search%5Bmaxprice%5D=&search%5Bkl%5D=ANY&search%5BsearchStr%5D=&search%5BorderBy%5D=hakupvm&search%5Bdirection%5D=DESC&search%5Bhae%5D=" class="nav-link">Tänään päivitetyt</a></li>

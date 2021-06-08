@@ -154,7 +154,14 @@ class ListaService{
         $sortedArr= [];
         for ($i=0;$i<12;$i++){
             if ($listarivit[$i]!=null){
-                array_push($sortedArr, $this->sortByTokavika($listarivit[$i])); 
+                if ($i==10){
+                    array_push($sortedArr, $this->sortByTokavika($listarivit[$i]));
+                    //sorttaus näissä pitäisi mennä vikan numeron mukaan (TODO).
+                }
+                else {
+                    array_push($sortedArr, $this->sortByTokavika($listarivit[$i])); 
+                }
+                
             }
             else{
                 array_push($sortedArr,[]);

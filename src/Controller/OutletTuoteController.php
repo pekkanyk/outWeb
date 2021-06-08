@@ -65,6 +65,21 @@ class OutletTuoteController extends AbstractController
     public function pidPage(): Response {
         return $this->redirect("/pid/0");
     }
+    
+    /**
+     * @Route("/noinfo")
+     */
+    public function noInfo(): Response
+    {
+        $products = $this->outletTuoteService->noInfo();
+            
+        return $this->render('noinfo.html.twig',[
+            'outTuotteet'=>$products,
+            'headerStats'=>$this->updateStatsService->getStats()
+        
+            ]);
+        
+    }
     /**
      * @Route("/pid/{pid}", name="pid_infosivu")
      */

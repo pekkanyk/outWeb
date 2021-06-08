@@ -77,6 +77,7 @@ class ReloadService{
                     $dbOutTuote->setOnVarasto($newOutProducts[$i]->getOnVarasto());
                     $dbOutTuote->setVarastossa($newOutProducts[$i]->getVarastossa());
                     $dbOutTuote->setKoko($newOutProducts[$i]->getKoko());
+                    $dbOutTuote->setInfo($newOutProducts[$i]->getInfo());
                     $this->entityManager->flush();
                 }
             }
@@ -111,6 +112,7 @@ class ReloadService{
         $outletTuote->setPid($vkProduct["customerReturnsInfo"]["pid"]);
         $outletTuote->setName($vkProduct["customerReturnsInfo"]["product_name"]);
         $outletTuote->setOutPrice($vkProduct["customerReturnsInfo"]["price_with_tax"]);
+        if ($vkProduct["customerReturnsInfo"]["product_extra_info"] !="") { $outletTuote->setInfo($vkProduct["customerReturnsInfo"]["product_extra_info"]); }
         $outletTuote->setPoistotuote($vkProduct["active"]);
         if ($vkProduct["active"] == 1){
             $outletTuote->setNorPrice($vkProduct["price"]["current"]);
@@ -155,13 +157,17 @@ class ReloadService{
             $outletTuote->setOnVarasto($vkProduct["availability"]["isPurchasable"]);
             if ($vkProduct["availability"]["hasStock"]){
                 if(array_key_exists("web", $vkProduct["availability"]["stocks"])){
-                    $outletTuote->setVarastossa($vkProduct["availability"]["stocks"]["web"]["stock"]);
+                    if(array_key_exists("stock", $vkProduct["availability"]["stocks"]["web"])){
+                        $outletTuote->setVarastossa($vkProduct["availability"]["stocks"]["web"]["stock"]);
+                    }
                 }
+                    
+            }
                 else{
                     $outletTuote->setVarastossa(0);
                 }
-            }
         }
+        
         else{
             $outletTuote->setVarastossa(null);
             $outletTuote->setOnVarasto(false);

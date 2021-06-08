@@ -30,6 +30,16 @@ class OutletTuoteRepository extends ServiceEntityRepository
             ->execute()
         ;
     }
+    public function noInfo(){
+        return $this->createQueryBuilder('o')
+                ->andWhere('o.deleted IS NULL')
+                ->andWhere('o.info IS NULL')
+                ->andWhere('o.condition LIKE :condition')
+                ->setParameter('condition','C')
+                ->orderBy('o.outId','DESC')
+                ->getQuery()
+                ->getResult();
+    }
     
     public function getLongest_deleted(){
         return $this->createQueryBuilder('o')
