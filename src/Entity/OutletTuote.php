@@ -372,8 +372,8 @@ class OutletTuote
         return $this;
     }
     public function daysActive(){
-        $today = date_create("now", new \DateTimeZone('Europe/Helsinki'));
-        $today->setTime(23,59,59);
+        $today = date_create("today");
+        //$today->setTime(00,00,00);
         if ($this->deleted != null){
             $da = $this->firstSeen->diff($this->deleted)->format('%a');
         }
@@ -384,8 +384,8 @@ class OutletTuote
     }
     
     public function daysWithLastPrice(){
-        $today = date_create("now", new \DateTimeZone('Europe/Helsinki'));
-        $today->setTime(23,59,59);
+        $today = date_create("today");
+        //$today->setTime(00,00,00);
         if ($this->deleted != null){
             $da = $this->priceUpdatedDate->diff($this->deleted)->format('%a');
         }

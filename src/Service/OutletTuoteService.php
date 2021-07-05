@@ -114,24 +114,25 @@ class OutletTuoteService{
         $minprice = intval($formData->getMinprice());
         $maxprice = $this->makeMaxPrice($formData->getMaxprice());
         $kl = $this->makeKl($formData->getKl());
+        $searchStr = "%".$formData->getSearchStr()."%";
         if ($activity == "both"){
-            $act_outPrices = $db->sumActivePrices('outPrice',$alkaen,$asti,$minprice,$maxprice,$kl);
-            $act_norPrices = $db->sumActivePrices('norPrice',$alkaen,$asti,$minprice,$maxprice,$kl);
+            $act_outPrices = $db->sumActivePrices('outPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr);
+            $act_norPrices = $db->sumActivePrices('norPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr);
             $result['active'] = $this->countAle($act_outPrices, $act_norPrices);
-            $del_outPrices = $db->sumDeletedPrices('outPrice',$alkaen,$asti,$minprice,$maxprice,$kl);
-            $del_norPrices = $db->sumDeletedPrices('norPrice',$alkaen,$asti,$minprice,$maxprice,$kl);
+            $del_outPrices = $db->sumDeletedPrices('outPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr);
+            $del_norPrices = $db->sumDeletedPrices('norPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr);
             $result['deleted'] = $this->countAle($del_outPrices, $del_norPrices);
         }
         elseif ($activity=="active"){
-            $act_outPrices = $db->sumActivePrices('outPrice',$alkaen,$asti,$minprice,$maxprice,$kl);
-            $act_norPrices = $db->sumActivePrices('norPrice',$alkaen,$asti,$minprice,$maxprice,$kl);
+            $act_outPrices = $db->sumActivePrices('outPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr);
+            $act_norPrices = $db->sumActivePrices('norPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr);
             $result['active'] = $this->countAle($act_outPrices, $act_norPrices);
             $result['deleted'] = null;
         }
         else{
             $result['active'] = null;
-            $del_outPrices = $db->sumDeletedPrices('outPrice',$alkaen,$asti,$minprice,$maxprice,$kl);
-            $del_norPrices = $db->sumDeletedPrices('norPrice',$alkaen,$asti,$minprice,$maxprice,$kl);
+            $del_outPrices = $db->sumDeletedPrices('outPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr);
+            $del_norPrices = $db->sumDeletedPrices('norPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr);
             $result['deleted'] = $this->countAle($del_outPrices, $del_norPrices);
         }
         return $result;

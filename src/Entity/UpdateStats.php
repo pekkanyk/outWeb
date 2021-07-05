@@ -31,12 +31,36 @@ class UpdateStats
      * @ORM\Column(type="float", nullable=true)
      */
     private $sum;
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $deleted;
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $new;
     
     
     public function __construct() {
         
     }
+    public function getDeleted(): ?int {
+        return $this->deleted;
+    }
+
+    public function setDeleted(int $deleted): self {
+        $this->deleted = $deleted;
+        return $this;
+    }
     
+    public function getNew(): ?int {
+        return $this->new;
+    }
+
+    public function setNew(int $new): self {
+        $this->new = $new;
+        return $this;
+    }
     public function getSum(): ?float {
         return $this->sum;
     }

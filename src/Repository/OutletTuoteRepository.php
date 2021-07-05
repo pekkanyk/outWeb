@@ -234,7 +234,7 @@ class OutletTuoteRepository extends ServiceEntityRepository
                 ->getResult();
     }
     
-    public function sumDeletedPrices($price,$alkaen,$asti,$minprice,$maxprice,$kl) {
+    public function sumDeletedPrices($price,$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr) {
         return $this->createQueryBuilder('o')
                 ->select('SUM (o.'.$price.')')
                 ->andWhere('o.deleted IS NOT NULL')
@@ -242,16 +242,18 @@ class OutletTuoteRepository extends ServiceEntityRepository
                 ->andWhere('o.outPrice >= :minprice')
                 ->andWhere('o.outPrice <= :maxprice')
                 ->andWhere('o.condition IN (:kl)')
+                ->andWhere('UPPER(o.name) LIKE UPPER(:searchStr)')
                 ->setParameter('alkaen',$alkaen)
                 ->setParameter('asti',$asti)
                 ->setParameter('minprice',$minprice)
                 ->setParameter('maxprice',$maxprice)
                 ->setParameter('kl',$kl)
+                ->setParameter('searchStr',$searchStr)
                 ->getQuery()
                 ->getSingleScalarResult();
     }
     
-    public function sumActivePrices($price,$alkaen,$asti,$minprice,$maxprice,$kl) {
+    public function sumActivePrices($price,$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr) {
         return $this->createQueryBuilder('o')
                 ->select('SUM (o.'.$price.')')
                 ->andWhere('o.deleted IS NULL')
@@ -259,11 +261,13 @@ class OutletTuoteRepository extends ServiceEntityRepository
                 ->andWhere('o.outPrice >= :minprice')
                 ->andWhere('o.outPrice <= :maxprice')
                 ->andWhere('o.condition IN (:kl)')
+                ->andWhere('UPPER(o.name) LIKE UPPER(:searchStr)')
                 ->setParameter('alkaen',$alkaen)
                 ->setParameter('asti',$asti)
                 ->setParameter('minprice',$minprice)
                 ->setParameter('maxprice',$maxprice)
                 ->setParameter('kl',$kl)
+                ->setParameter('searchStr',$searchStr)
                 ->getQuery()
                 ->getSingleScalarResult();
     }
@@ -377,7 +381,8 @@ class OutletTuoteRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('o')
                 ->andWhere('mod((o.outId-:haku),:kerroin) = 0')
                 ->andWhere('o.deleted IS NULL')
-                ->orderBy('o.outId', 'ASC')
+                ->addOrderBy('o.koko', 'ASC')
+                ->addOrderBy('o.priceUpdatedDate','ASC')
                 ->setParameter('haku',$vikat)
                 ->setParameter('kerroin',$kerroin)
                 ->getQuery()

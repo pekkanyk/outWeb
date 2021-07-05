@@ -85,6 +85,8 @@ class ReloadService{
         $updatetime->setTimestamp(date_create('now', new \DateTimeZone('Europe/Helsinki')));
         $updatetime->setTotalItems(count($newOutProducts));
         $updatetime->setSum($sum);
+        $updatetime->setDeleted($db->countDeleted($updatetime->getTimestamp()));
+        $updatetime->setNew($db->countFirstSeen($updatetime->getTimestamp()));
         $this->entityManager->persist($updatetime);
         $this->entityManager->flush();
         $this->entityManager->getConnection()->commit();
@@ -183,7 +185,7 @@ class ReloadService{
                 $this->entityManager->persist($pidInfo);
             }
         if ($vkProduct["package"]["volume"]<=1200000) {$outletTuote->setKoko("P");}    
-        else if ($vkProduct["package"]["volume"]<=10000000) {$outletTuote->setKoko("K");}
+        else if ($vkProduct["package"]["volume"]<=13400000) {$outletTuote->setKoko("K");}
         else {$outletTuote->setKoko("I");}
         
         return $outletTuote;

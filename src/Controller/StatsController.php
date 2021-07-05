@@ -139,9 +139,35 @@ class StatsController extends AbstractController
         $chart->getOptions()
                 ->getVAxis()
                 ->setFormat('');
+        
+        $chart2Arr = [['Aika','Deleted','Uusia']];
+        for ($i=0;$i<count($daystats);$i++){
+            array_push($chart2Arr,[$daystats[$i]->getTimestamp(),$daystats[$i]->getDeleted(),$daystats[$i]->getNew()]);
+        }
+        
+	$chart2 = new \CMEN\GoogleChartsBundle\GoogleCharts\Charts\Material\LineChart();
+        $chart2->getData()->setArrayToDataTable($chart2Arr);
+
+        $chart2->getOptions()->getChart()->setTitle('Poistuneita & uusia päivän aikana, '.$alkaen->format('d.m.Y')." - ".$asti->format('d.m.Y'));
+        $chart2->getOptions()
+            ->setHeight(400)
+            ->setWidth(1200);
+                /*
+            ->setSeries([['axis' => 'Deleted'],
+                ['axis'=>'Uusia']])
+            ->setAxes(['y' => ['Deleted' => ['label' => 'Poistuneita (kpl)'],
+                            'Uusia' => ['side' => 'right','label' => 'Uusia (kpl)']
+                            ]]);
+                 * 
+                 */
+                 
+        $chart2->getOptions()
+                ->getVAxis()
+                ->setFormat('');
         return $this->render('stock.html.twig',[
             'form'=> $form->createView(),
             'chart'=> $chart,
+            'chart2'=>$chart2,
             'headerStats'=>$this->updateStatsService->getStats()
             ]);
 
