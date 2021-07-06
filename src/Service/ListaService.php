@@ -209,8 +209,8 @@ class ListaService{
     private function makeName($outTuote) {
         $pidDb = $this->entityManager->getRepository(PidInfo::class);
         $pidInfo = $pidDb->find($outTuote->getPid());
-        if ($pidInfo!=null) { return "OUT".$outTuote->getOutId()." ".substr($outTuote->getName(), 0,69)." ".$pidInfo->sizeStrSm()." ".$outTuote->daysActive(); }
-        else {return "OUT".$outTuote->getOutId()." ".substr($outTuote->getName(), 0,69)." "."-x-x-"." ".$outTuote->daysActive();}
+        if ($pidInfo!=null) { return "OUT".$outTuote->getOutId()." ".substr($outTuote->getName(), 0,69)." ".$pidInfo->sizeStrSm()." ".$outTuote->daysListed(); }
+        else {return "OUT".$outTuote->getOutId()." ".substr($outTuote->getName(), 0,69)." "."-x-x-"." ".$outTuote->daysListed();}
     }
     
     private function kuljetus($str) {

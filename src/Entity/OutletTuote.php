@@ -383,6 +383,13 @@ class OutletTuote
         return $da;
     }
     
+    public function daysListed(){
+        $today = date_create("today");
+        //$today->setTime(00,00,00);
+        $da = $this->firstSeen->diff($today)->format('%a');
+        return $da;
+    }
+    
     public function daysWithLastPrice(){
         $today = date_create("today");
         //$today->setTime(00,00,00);
