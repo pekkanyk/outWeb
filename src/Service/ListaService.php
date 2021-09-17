@@ -27,10 +27,17 @@ class ListaService{
         $page = [];
         $footer = ["*********************",".",".","."];
         
-        for ($i=0;$i<12;$i++){
+        for ($i=0;$i<13;$i++){
             if ($rivit[$i]!=null) {
                 $header = $this->makeHeader($i);
-                if ($i==11 || $i==10){
+                //if ($i==12 || $i==10){
+                if ($i==12){    
+                    $pagePart = array_merge($header,$rivit[$i]);
+                }
+                elseif ($i==11 && $rivit[12]==null){
+                    $pagePart = array_merge($header,$rivit[$i]);
+                }
+                elseif ($i==10 && ($rivit[12]==null && $rivit[12]==null)){
                     $pagePart = array_merge($header,$rivit[$i]);
                 }
                 else{
@@ -45,7 +52,7 @@ class ListaService{
                     $page = array_merge($page,$pagePart);
                 }
             }
-            if ($i==11){
+            if ($i==12){
                 $list= array_merge($list,$page);
             }
         }
@@ -63,15 +70,16 @@ class ListaService{
     }
     
     private function makeHeader($i){
-        if($i==10){$paikka = "MATKAHUOLTO / MUUT";}
+        if($i==10){$paikka = "MATKAHUOLTO";}
         elseif($i==11){$paikka= "Moniriviset";}
+        elseif($i==12){$paikka= "Muut hyllypaikat";}
         elseif($i==9) {$paikka="0";}
         else {$paikka = $i+1;}
         return ["********** ".$paikka." **********"];
     }
     
     private function readList($listaStr) {
-        $listarivit = array_fill(0, 12, []);
+        $listarivit = array_fill(0, 13, []);
         $edellinen = "";
         $listaArr = explode("Postal", $listaStr);
         $listaTuotteet = $this->tuoteRivitoListaRivi($listaArr);
@@ -83,8 +91,11 @@ class ListaService{
             if ($tilausnro!=null){
                 array_push($listarivit[11],$listaTuotteet[$i]);
             }
-            elseif($toimitus=="M" || ($hyllypaikka != $outVika)){
+            elseif($toimitus=="M"){
                 array_push($listarivit[10],$listaTuotteet[$i]);
+            }
+            elseif($hyllypaikka != $outVika){
+                array_push($listarivit[12],$listaTuotteet[$i]);
             }
             else{
                 //array_push($listarivit[$outVika],$listaTuotteet[$i]); //poikkeus, koska aloitetaan 1.
@@ -109,15 +120,20 @@ class ListaService{
             if (count($hyllypaikat)==1){
                 $listatuote = new ListaTuoterivi();
                 $listatuote->setOutid($this->parseOutId($riviArray[6]));
+                $outFromDb = $db->find($listatuote->getOutid());
                 $listatuote->setHyllypaikka($riviArray[4]);
-                $listatuote->setHk($this->henksu($riviArray[2]));
+                //if ($outFromDb!=null){ $listatuote->setHk($this->koko($outFromDb));}
+                $listatuote->setHk($this->henksu($riviArray[2],$outFromDb));
                 $listatuote->setTilausnro(null);
                 $listatuote->setToimitus($this->kuljetus($riviArray[3]));
                 $listatuote->setOutidTokavika($this->getTokavika($listatuote->getOutid()));
                 $listatuote->setOutidVika($this->getVika($listatuote->getOutid()));
-                $outFromDb = $db->find($listatuote->getOutid());
-                if ($outFromDb!=null){
-                    $listatuote->setTuote($this->makeName($outFromDb));
+                
+                if ($outFromDb!=null && $listatuote->getOutidVika()!=$listatuote->getHyllypaikka()){
+                        $listatuote->setTuote($this->makeNameWithHP($outFromDb,$listatuote->getHyllypaikka()));
+                }
+                elseif ($outFromDb!=null){
+                        $listatuote->setTuote($this->makeName($outFromDb));
                 }
                 else{
                     $listatuote->setTuote($riviArray[6]." <-CHECK ID");
@@ -130,7 +146,7 @@ class ListaService{
                     $listatuote = new ListaTuoterivi();
                     $listatuote->setOutid($this->parseOutId($tuotteet[$i]));
                     $listatuote->setHyllypaikka($hyllypaikat[$i]);
-                    $listatuote->setHk($this->henksu($riviArray[2]));
+                    $listatuote->setHk($this->henksu($riviArray[2],null));
                     $listatuote->setTilausnro($riviArray[0]);
                     $listatuote->setToimitus($this->kuljetus($riviArray[3]));
                     $listatuote->setOutidTokavika($this->getTokavika($listatuote->getOutid()));
@@ -152,7 +168,7 @@ class ListaService{
     
     private function sortedArr($listarivit) {
         $sortedArr= [];
-        for ($i=0;$i<12;$i++){
+        for ($i=0;$i<13;$i++){
             if ($listarivit[$i]!=null){
                 if ($i==10){
                     array_push($sortedArr, $this->sortByTokavika($listarivit[$i]));
@@ -213,6 +229,11 @@ class ListaService{
         else {return "OUT".$outTuote->getOutId()." ".substr($outTuote->getName(), 0,69)." "."-x-x-"." ".$outTuote->daysListed();}
     }
     
+    private function makeNameWithHP($outTuote,$hyllypaikka) {
+        return "OUT".$outTuote->getOutId()." ".substr($outTuote->getName(), 0,69)." ".$outTuote->daysListed()." "."HP: ".$hyllypaikka;
+        
+    }
+    
     private function kuljetus($str) {
         if (str_contains($str, "atka")){
             return "M";
@@ -223,13 +244,33 @@ class ListaService{
         }
     }
     
-    private function henksu($str) {
+    private function henksu($str, $outTuote) {
+        
         if ($str == "Ei"){
+            if ($outTuote!=null){
+                if ($outTuote->getKoko()=="I") {return "I";  }
+                //return $outTuote->getKoko();
+            }
             return "o";
         }
+        //return "o";
+            
         else{
             return "H";
         }
+    }
+    
+    private function koko($outTuote){
+        $pidDb = $this->entityManager->getRepository(PidInfo::class);
+        $pidInfo = $pidDb->find($outTuote->getPid());
+        $raja = 400;
+        if ($pidInfo!=null){
+            //if (($pidInfo->getDepth()>=$raja || $pidInfo->getHeight()>=$raja)||$pidInfo->getWidth() >=$raja){
+            if ($pidInfo->getVolume()>=$raja){
+                return "I";
+            }
+        }
+        return "o";
     }
     
 }
