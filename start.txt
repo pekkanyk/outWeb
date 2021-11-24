@@ -1,0 +1,6 @@
+screen docker-compose up
+docker exec -it php-fpm /bin/bash
+-> /etc/init.d/cron start
+-> exit
+
+

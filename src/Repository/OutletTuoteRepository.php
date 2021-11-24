@@ -41,6 +41,15 @@ class OutletTuoteRepository extends ServiceEntityRepository
                 ->getResult();
     }
     
+    public function poisto(){
+        return $this->createQueryBuilder('o')
+                ->andWhere('o.deleted IS NULL')
+                ->andWhere('o.poistotuote != TRUE')
+                ->orderBy('o.firstSeen','ASC')
+                ->getQuery()
+                ->getResult();
+    }
+    
     public function getLongest_deleted(){
         return $this->createQueryBuilder('o')
                 ->select('o.outId')

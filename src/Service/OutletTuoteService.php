@@ -40,6 +40,11 @@ class OutletTuoteService{
         return $db->noInfo();
     }
     
+    public function poisto(){
+        $db = $this->entityManager->getRepository(OutletTuote::class);
+        return $db->poisto();
+    }
+    
     public function daySpread(){
         $db = $this->entityManager->getRepository(OutletTuote::class);
         return $db->activeDaySpread();

@@ -44,6 +44,23 @@ class ListaController extends AbstractController{
             'form'=> $form->createView(),
                 ]);
     }
+    /**
+     * @Route("/shitlist/")
+     */
+    public function shitLisDefault(): Response {
+        return $this->redirect("/shitlist/7");
+    }
+    
+    /**
+     *@Route("/shitlist/{days}")
+     */
+    public function shitList(int $days, Request $request): Response {
+        $days = intval($days);
+        return $this->render('listaGenerate.html.twig',[
+            'listarivit'=>$this->listaService->makeShitList($days)
+                ]);
+        
+    }
     
     
    /*

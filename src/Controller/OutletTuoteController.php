@@ -81,6 +81,20 @@ class OutletTuoteController extends AbstractController
         
     }
     /**
+     * @Route("/poisto")
+     */
+    public function poisto(): Response
+    {
+        $products = $this->outletTuoteService->poisto();
+            
+        return $this->render('noinfo.html.twig',[
+            'outTuotteet'=>$products,
+            'headerStats'=>$this->updateStatsService->getStats()
+        
+            ]);
+        
+    }
+    /**
      * @Route("/pid/{pid}", name="pid_infosivu")
      */
     public function showPid($pid, Request $request): Response

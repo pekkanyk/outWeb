@@ -58,6 +58,122 @@ class ListaService{
         }
         return $list;
     }
+    
+    public function makeShitList($days) {
+        $rivit = $this->makeShittyList($days);
+        
+        $list = [];
+        $page = [];
+        $footer = ["*********************",".",".","."];
+        
+        for ($i=0;$i<13;$i++){
+            if ($rivit[$i]!=null) {
+                $header = $this->makeHeader($i);
+                //if ($i==12 || $i==10){
+                if ($i==12){    
+                    $pagePart = array_merge($header,$rivit[$i]);
+                }
+                elseif ($i==11 && $rivit[12]==null){
+                    $pagePart = array_merge($header,$rivit[$i]);
+                }
+                elseif ($i==10 && ($rivit[12]==null && $rivit[12]==null)){
+                    $pagePart = array_merge($header,$rivit[$i]);
+                }
+                else{
+                    $pagePart = array_merge($header,$rivit[$i],$footer);
+                }
+                if (count($page)+count($pagePart)<41){
+                    $page = array_merge($page,$pagePart);
+                }
+                else{
+                    $list = array_merge($list, $this->fillPage($page));
+                    $page = [];
+                    $page = array_merge($page,$pagePart);
+                }
+            }
+            if ($i==12){
+                $list= array_merge($list,$page);
+            }
+        }
+        return $list;
+    }
+    
+    private function makeShittyList($days) {
+        $listarivit = array_fill(0, 13, []);
+        $db = $this->entityManager->getRepository(OutletTuote::class);
+        $daysStr = "P".$days."D";
+        $activity = "active";
+        $alkaen = $this->makeDate(null, "2020-01-01");
+        $asti = (new \DateTime('now', new \DateTimeZone('Europe/Helsinki')))->sub(new \DateInterval($daysStr));
+        $asti->setTime(23,59,59);
+        $minprice = "0";
+        $maxprice = "2";
+        $orderby = "pid";
+        $direction = "ASC";
+        $searchStr = "%%";
+        $kl = ['A','B','C','D'];
+        $dbTuotteet = $db->searchActive($alkaen,$asti,$minprice,$maxprice,$orderby,$direction,$searchStr,$kl);
+        
+        $listaTuotteet = [];
+        for ($i=0;$i<count($dbTuotteet);$i++){
+            $rivinTuotteet = $this->dbTuoteToListaTuoterivi($dbTuotteet[$i]);
+            array_push($listaTuotteet,$rivinTuotteet);
+            }
+        
+        
+        
+        for ($i=0;$i<count($listaTuotteet);$i++){
+            $outVika = $listaTuotteet[$i]->getOutidVika();
+            $tilausnro = $listaTuotteet[$i]->getTilausnro();
+            $toimitus = $listaTuotteet[$i]->getToimitus();
+            $hyllypaikka = $listaTuotteet[$i]->getHyllypaikka();
+            if ($tilausnro!=null){
+                array_push($listarivit[11],$listaTuotteet[$i]);
+            }
+            elseif($toimitus=="M"){
+                array_push($listarivit[10],$listaTuotteet[$i]);
+            }
+            elseif($hyllypaikka != $outVika){
+                array_push($listarivit[12],$listaTuotteet[$i]);
+            }
+            else{
+                //array_push($listarivit[$outVika],$listaTuotteet[$i]); //poikkeus, koska aloitetaan 1.
+                if ($outVika==0){array_push($listarivit[9],$listaTuotteet[$i]);}
+                else {
+                    $luku = intval($outVika);
+                    $luku--;
+                    array_push($listarivit[$luku],$listaTuotteet[$i]); 
+                    
+                }
+            }
+        }
+        
+        return $this->sortedArr($listarivit);
+    }
+    private function dbTuoteToListaTuoterivi($outId){
+        $db = $this->entityManager->getRepository(OutletTuote::class);
+        
+                $listatuote = new ListaTuoterivi();
+                $listatuote->setOutid($outId->getOutId());
+                $listatuote->setHyllypaikka($this->getVika($listatuote->getOutid()));
+                $listatuote->setHk("o");
+                $listatuote->setTilausnro(null);
+                $listatuote->setToimitus("P");
+                $listatuote->setOutidTokavika($this->getTokavika($listatuote->getOutid()));
+                $listatuote->setOutidVika($this->getVika($listatuote->getOutid()));
+                $listatuote->setTuote($this->makeName($outId));
+            
+        return $listatuote;
+    }
+    
+    private function makeDate($date,$default) {
+        $dtz = new \DateTimeZone('Europe/Helsinki');
+        //$date = $this->validateDate($date);
+        if ($date!=null) { return $date; }
+        else { return new \DateTime($default,$dtz); }
+        
+    }
+    
     private function fillPage($page) {
         $temp = [];
         $riveja = count($page);
@@ -171,7 +287,8 @@ class ListaService{
         for ($i=0;$i<13;$i++){
             if ($listarivit[$i]!=null){
                 if ($i==10){
-                    array_push($sortedArr, $this->sortByTokavika($listarivit[$i]));
+                    //array_push($sortedArr, $this->sortByVika($listarivit[$i]));
+                    array_push($sortedArr, $this->sortByVikaAndTokavika($listarivit[$i]));
                     //sorttaus näissä pitäisi mennä vikan numeron mukaan (TODO).
                 }
                 else {
@@ -185,6 +302,31 @@ class ListaService{
         }
         return $sortedArr;
     }
+    
+    private function sortByVikaAndTokavika($arr){
+        $numerot = array_fill(0,10,[]);
+        for ($i=0;$i<count($arr);$i++){
+            array_push($numerot[$arr[$i]->getOutIdVika()],$arr[$i]);
+            
+        }
+        $numerot2 = array_fill(0,10,[]);
+        for ($i=0;$i<10;$i++){
+            $numerot2[$i]= $this->sortByTokavika($numerot[$i]);
+            if (count($numerot2[$i])!=0) {array_push($numerot2[$i],"."); }
+        }
+        return array_merge($numerot2[0],$numerot2[1],$numerot2[2],$numerot2[3],$numerot2[4],$numerot2[5],$numerot2[6],$numerot2[7],$numerot2[8],$numerot2[9]);
+
+        
+    }
+    
+    private function sortByVika($arr){
+        $numerot = array_fill(0,10,[]);
+        for ($i=0;$i<count($arr);$i++){
+            array_push($numerot[$arr[$i]->getOutIdVika()],$this->makeOneLine($arr[$i]));
+        }
+        return array_merge($numerot[0],$numerot[1],$numerot[2],$numerot[3],$numerot[4],$numerot[5],$numerot[6],$numerot[7],$numerot[8],$numerot[9]);
+    }
+    
     private function sortByTokavika($arr) {
         $numerot = array_fill(0,10,[]);
         for ($i=0;$i<count($arr);$i++){

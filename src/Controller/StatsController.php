@@ -27,7 +27,7 @@ class StatsController extends AbstractController
     {
         $asti = new \DateTime('now', new \DateTimeZone('Europe/Helsinki'));
         $asti->setTime(23,59,59);
-        $alkaen = (new \DateTime('now', new \DateTimeZone('Europe/Helsinki')))->sub(new \DateInterval('P30D'));
+        $alkaen = (new \DateTime('now', new \DateTimeZone('Europe/Helsinki')))->sub(new \DateInterval('P14D'));
         $alkaen->setTime(23,59,59);
         $form = $this->createForm(DayStatsType::class,new Search2Dates());
         $form->handleRequest($request);
@@ -54,26 +54,28 @@ class StatsController extends AbstractController
                                     //intval($datestats_rows[$i]['avgCount'])
                                     ]);
         }
-        
+        /*
 	$chart = new \CMEN\GoogleChartsBundle\GoogleCharts\Charts\Material\LineChart();
         $chart->getData()->setArrayToDataTable($chartArr);
 
         $chart->getOptions()
             ->setHeight(400)
             ->setWidth(1200);
-                /*
-            ->setSeries([['axis' => 'All'],
-                        //['axis' => 'Uusia']
-                ])
-            ->setAxes(['y' => 
-                        //['Uusia' => ['label' => '(kpl)','format'=>['pattern'=>'']]],
-                        ['All' => ['label' => '(kpl)','format'=>['pattern'=>'']]]
-                ]);
-            //->setSeries([['axis' => 'Deleted'],
-                //        ['axis' =>'Uusia'],
-                //        ['axis'=>'Total']
-              //  ]) ;
         */
+        $chart = new \CMEN\GoogleChartsBundle\GoogleCharts\Charts\Material\ColumnChart();
+        $chart->getData()->setArrayToDataTable($chartArr);
+        $chart->getOptions()->getChart()
+            ->setTitle('Uusia & Poistettuja');
+            
+        $chart->getOptions()
+        ->setBars('vertical')
+        ->setHeight(400)
+        ->setWidth(1200)
+        ->setColors(['#2222FF','#FF2222'])
+        ->getVAxis()
+        ->setFormat('decimal');
+        
+        
         return $this->render('daystats.html.twig',[
             'chart'=> $chart,
             'form'=> $form->createView(),
@@ -100,7 +102,7 @@ class StatsController extends AbstractController
         if($day=="0" || $day==null){
             $asti = new \DateTime('now', new \DateTimeZone('Europe/Helsinki'));
             $asti->setTime(23,59,59);
-            $alkaen = (new \DateTime('now', new \DateTimeZone('Europe/Helsinki')))->sub(new \DateInterval('P30D'));
+            $alkaen = (new \DateTime('now', new \DateTimeZone('Europe/Helsinki')))->sub(new \DateInterval('P14D'));
             $alkaen->setTime(23,59,59);
         }
         else {
