@@ -48,16 +48,17 @@ class ListaController extends AbstractController{
      * @Route("/shitlist/")
      */
     public function shitLisDefault(): Response {
-        return $this->redirect("/shitlist/7");
+        return $this->redirect("/shitlist/7/2");
     }
     
     /**
-     *@Route("/shitlist/{days}")
+     *@Route("/shitlist/{days}/{maxprice}")
      */
-    public function shitList(int $days, Request $request): Response {
+    public function shitList(int $days, int $maxprice, Request $request): Response {
         $days = intval($days);
+        $maxprice = intval($maxprice);
         return $this->render('listaGenerate.html.twig',[
-            'listarivit'=>$this->listaService->makeShitList($days)
+            'listarivit'=>$this->listaService->makeShitList($days,$maxprice)
                 ]);
         
     }
