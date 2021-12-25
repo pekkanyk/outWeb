@@ -286,13 +286,14 @@ class ListaService{
         $sortedArr= [];
         for ($i=0;$i<13;$i++){
             if ($listarivit[$i]!=null){
+                /*
                 if ($i==10){
                     //array_push($sortedArr, $this->sortByVika($listarivit[$i]));
                     array_push($sortedArr, $this->sortByVikaAndTokavika($listarivit[$i]));
                     //sorttaus näissä pitäisi mennä vikan numeron mukaan (TODO).
                 }
-                
-                elseif ($i==12){
+                */
+                if ($i==10 || $i==12){
                  
                     //array_push($sortedArr, $this->sortByVikaAndTokavika($listarivit[$i]));
                     usort($listarivit[$i], function($a, $b) {return strcmp($a->hyllypaikka, $b->hyllypaikka);});
