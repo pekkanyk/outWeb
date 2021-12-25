@@ -29,5 +29,5 @@ class UpdateStatsService{
         $db = $this->entityManager->getRepository(UpdateStats::class);
         return $db->getDayStats($alkaen,$asti);
     }
-    
+        
 }

@@ -14,6 +14,7 @@ use App\Entity\UpdateStats;
 use App\Model\PidStats;
 use App\Model\DbStats;
 use App\Model\Top10Row;
+use App\Model\Bstats;
 use Doctrine\ORM\EntityManagerInterface;
 
 
@@ -348,5 +349,19 @@ class OutletTuoteService{
             }
         }
         return $hyllypaikkaCount;
+    }
+    
+    public function getBstats($alkaen,$asti) {
+        $db = $this->entityManager->getRepository(OutletTuote::class);
+        $alkaen = $this->makeDate($alkaen, "2021-01-01");
+        $asti = $this->makeDate($asti, (new \DateTime("now"))->format('Y-m-d'));
+        
+        $bstats = new Bstats();
+        $bstats->setLukumaara($db->countUnder12monthWarranty($alkaen,$asti));
+        $bstats->setSumma($db->sumOutPriceUnder12monthWarranty($alkaen,$asti));
+        //$bstats->setAlkaen($alkaen);
+        //$bstats->setAsti($asti);
+        return $bstats;
+        
     }
 }

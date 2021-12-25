@@ -35,4 +35,27 @@ class SpecialController extends AbstractController
          
     }
     
+    /**
+     * @Route("/bstats")
+     */
+    public function bstats(Request $request): Response
+    {
+        $alkaen = "2021-01-01";
+        $asti = "2021-12-31";
+        $form = $this->createForm(DayStatsType::class,new Search2Dates());
+            $form->handleRequest($request);
+            if($form->isSubmitted() && $form->isValid()){
+                $alkaen = $form->getData()->getAlku();
+                $asti = $form->getData()->getLoppu();
+            }
+        
+        return $this->render('b-stats.html.twig',[
+            'form'=> $form->createView(),
+            'headerStats'=>$this->updateStatsService->getStats(),
+            'bstats'=>$this->outletTuoteService->getBstats($alkaen,$asti)
+            
+            ]);
+         
+    }
+    
 }

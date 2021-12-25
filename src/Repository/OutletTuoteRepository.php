@@ -443,6 +443,30 @@ class OutletTuoteRepository extends ServiceEntityRepository
                 ->getQuery()
                 ->getSingleScalarResult();
     }
+    
+    public function countUnder12monthWarranty($alkaen,$asti){
+        return $this->createQueryBuilder('o')
+                ->select('COUNT (o)')
+                ->andWhere('o.deleted IS NOT NULL')
+                ->andWhere('o.warranty < 12')
+                ->andWhere('o.deleted BETWEEN :alkaen AND :asti')
+                ->setParameter('alkaen',$alkaen)
+                ->setParameter('asti',$asti)
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
+    
+    public function sumOutPriceUnder12monthWarranty($alkaen,$asti){
+        return $this->createQueryBuilder('o')
+                ->select('SUM (o.outPrice)')
+                ->andWhere('o.deleted IS NOT NULL')
+                ->andWhere('o.warranty < 12')
+                ->andWhere('o.deleted BETWEEN :alkaen AND :asti')
+                ->setParameter('alkaen',$alkaen)
+                ->setParameter('asti',$asti)
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
 
     // /**
     //  * @return OutletTuote[] Returns an array of OutletTuote objects

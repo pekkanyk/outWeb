@@ -291,6 +291,14 @@ class ListaService{
                     array_push($sortedArr, $this->sortByVikaAndTokavika($listarivit[$i]));
                     //sorttaus näissä pitäisi mennä vikan numeron mukaan (TODO).
                 }
+                
+                elseif ($i==12){
+                 
+                    //array_push($sortedArr, $this->sortByVikaAndTokavika($listarivit[$i]));
+                    usort($listarivit[$i], function($a, $b) {return strcmp($a->hyllypaikka, $b->hyllypaikka);});
+                    array_push($sortedArr, $this->otherHP($listarivit[$i]));
+                }
+                
                 else {
                     array_push($sortedArr, $this->sortByTokavika($listarivit[$i])); 
                 }
@@ -301,6 +309,14 @@ class ListaService{
             }
         }
         return $sortedArr;
+    }
+    
+    private function otherHP($arr){
+        $temp[] = null;
+        for ($i=0;$i<count($arr);$i++){
+            array_push($temp,$this->makeOneLine($arr[$i]));
+        }
+        return $temp;
     }
     
     private function sortByVikaAndTokavika($arr){
@@ -372,7 +388,7 @@ class ListaService{
     }
     
     private function makeNameWithHP($outTuote,$hyllypaikka) {
-        return "OUT".$outTuote->getOutId()." ".substr($outTuote->getName(), 0,69)." ".$outTuote->daysListed()." "."HP: ".$hyllypaikka;
+        return $hyllypaikka ." OUT".$outTuote->getOutId()." ".substr($outTuote->getName(), 0,69)." ".$outTuote->daysListed();
         
     }
     

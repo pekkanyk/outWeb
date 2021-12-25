@@ -11,7 +11,7 @@ class ListaTuoterivi
     private $tuote;
     private $hk;
     private $toimitus;
-    private $hyllypaikka;
+    public $hyllypaikka;
 
     
     public function __construct() {
@@ -80,6 +80,5 @@ class ListaTuoterivi
     public function setHk($hk): void {
         $this->hk = $hk;
     }
-
-
+    
 }

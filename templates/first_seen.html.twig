@@ -18,14 +18,15 @@
                     <a href="/firstseen/{{ date|date_modify("+1 day")|date("Y-m-d") }}">==></a>
                 </div>
             </div>
+            
             <div class="row">
                 <div class="col-md-12">
                     <table class="table taulukot">
-                        <caption>Aktiivisia - {{ activeLkm }} kpl</caption>
-                        {% set dateType = "Muuttunut" %}
+                        <caption>Poistuneet - {{ deletedLkm }}kpl</caption>
+                        {% set dateType = "Poistunut" %}
                         {{ include('fragments/_outTable_header.html.twig') }}
-                        {% if active|length >0 %}
-                            {% for outTuote in active %}
+                        {% if deleted|length >0 %}
+                            {% for outTuote in deleted %}
                                 {{ include('fragments/_outTable.html.twig') }}
                             {% endfor %}
                         {% endif %}
@@ -35,11 +36,11 @@
             <div class="row">
                 <div class="col-md-12">
                     <table class="table taulukot">
-                        <caption>Poistuneet - {{ deletedLkm }}kpl</caption>
-                        {% set dateType = "Poistunut" %}
+                        <caption>Aktiivisia - {{ activeLkm }} kpl</caption>
+                        {% set dateType = "Muuttunut" %}
                         {{ include('fragments/_outTable_header.html.twig') }}
-                        {% if deleted|length >0 %}
-                            {% for outTuote in deleted %}
+                        {% if active|length >0 %}
+                            {% for outTuote in active %}
                                 {{ include('fragments/_outTable.html.twig') }}
                             {% endfor %}
                         {% endif %}
