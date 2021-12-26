@@ -56,6 +56,9 @@ class ListaService{
                 $list= array_merge($list,$page);
             }
         }
+        date_default_timezone_set('Europe/Helsinki');
+        $date = date('d.m.Y H:i:s', time());
+        array_push($list,"\n\nTulostettu: ".$date." uusin tilnro oli: ".$rivit[13][0]);
         return $list;
     }
     
@@ -197,14 +200,16 @@ class ListaService{
     private function readList($listaStr) {
         $listarivit = array_fill(0, 13, []);
         $edellinen = "";
+        $isoinTilnro = 0;
         $listaArr = explode("Postal", $listaStr);
         $listaTuotteet = $this->tuoteRivitoListaRivi($listaArr);
         for ($i=0;$i<count($listaTuotteet);$i++){
             $outVika = $listaTuotteet[$i]->getOutidVika();
             $tilausnro = $listaTuotteet[$i]->getTilausnro();
+            if ($isoinTilnro<intval($tilausnro)) {$isoinTilnro = intval($tilausnro);}
             $toimitus = $listaTuotteet[$i]->getToimitus();
             $hyllypaikka = $listaTuotteet[$i]->getHyllypaikka();
-            if ($tilausnro!=null){
+            if ($listaTuotteet[$i]->getMonirivinen()){
                 array_push($listarivit[11],$listaTuotteet[$i]);
             }
             elseif($toimitus=="M"){
@@ -224,8 +229,10 @@ class ListaService{
                 }
             }
         }
-        
-        return $this->sortedArr($listarivit);
+        $tempArr = array($isoinTilnro);
+        $sortedArrays = $this->sortedArr($listarivit);
+        array_push($sortedArrays,$tempArr);
+        return $sortedArrays;
     }
     private function riviArrToListaTuoterivi($arr){
         $riviArray = preg_split("/[\t]/", $arr);
@@ -235,12 +242,13 @@ class ListaService{
             $hyllypaikat = explode(",",$riviArray[4]);
             if (count($hyllypaikat)==1){
                 $listatuote = new ListaTuoterivi();
+                $listatuote->setMonirivinen(false);
                 $listatuote->setOutid($this->parseOutId($riviArray[6]));
                 $outFromDb = $db->find($listatuote->getOutid());
                 $listatuote->setHyllypaikka($riviArray[4]);
                 //if ($outFromDb!=null){ $listatuote->setHk($this->koko($outFromDb));}
                 $listatuote->setHk($this->henksu($riviArray[2],$outFromDb));
-                $listatuote->setTilausnro(null);
+                $listatuote->setTilausnro($riviArray[0]);
                 $listatuote->setToimitus($this->kuljetus($riviArray[3]));
                 $listatuote->setOutidTokavika($this->getTokavika($listatuote->getOutid()));
                 $listatuote->setOutidVika($this->getVika($listatuote->getOutid()));
@@ -260,6 +268,7 @@ class ListaService{
                 $tuotteet = explode("\n",$riviArray[6]);
                 for ($i=0;$i<count($hyllypaikat);$i++){
                     $listatuote = new ListaTuoterivi();
+                    $listatuote->setMonirivinen(true);
                     $listatuote->setOutid($this->parseOutId($tuotteet[$i]));
                     $listatuote->setHyllypaikka($hyllypaikat[$i]);
                     $listatuote->setHk($this->henksu($riviArray[2],null));

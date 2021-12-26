@@ -12,6 +12,7 @@ class ListaTuoterivi
     private $hk;
     private $toimitus;
     public $hyllypaikka;
+    public $monirivinen;
 
     
     public function __construct() {
@@ -81,4 +82,13 @@ class ListaTuoterivi
         $this->hk = $hk;
     }
     
+    public function getMonirivinen() {
+        return $this->monirivinen;
+    }
+
+    public function setMonirivinen($monirivinen): void {
+        $this->monirivinen = $monirivinen;
+    }
+
+
 }
