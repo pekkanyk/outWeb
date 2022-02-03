@@ -361,6 +361,19 @@
     "symfony/twig-pack": {
         "version": "v1.0.1"
     },
+    "symfony/validator": {
+        "version": "4.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.3",
+            "ref": "3eb8df139ec05414489d55b97603c5f6ca0c44cb"
+        },
+        "files": [
+            "config/packages/test/validator.yaml",
+            "config/packages/validator.yaml"
+        ]
+    },
     "symfony/var-dumper": {
         "version": "v5.2.6"
     },
@@ -369,6 +382,9 @@
     },
     "symfony/yaml": {
         "version": "v5.2.5"
+    },
+    "symfonycasts/verify-email-bundle": {
+        "version": "v1.8.0"
     },
     "twig/extra-bundle": {
         "version": "v3.3.0"
