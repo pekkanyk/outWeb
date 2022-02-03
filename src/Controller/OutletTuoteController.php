@@ -95,6 +95,20 @@ class OutletTuoteController extends AbstractController
         
     }
     /**
+     * @Route("/dumppi")
+     */
+    public function dumppi(): Response
+    {
+        $products = $this->outletTuoteService->dumppi();
+            
+        return $this->render('noinfo.html.twig',[
+            'outTuotteet'=>$products,
+            'headerStats'=>$this->updateStatsService->getStats()
+        
+            ]);
+        
+    }
+    /**
      * @Route("/pid/{pid}", name="pid_infosivu")
      */
     public function showPid($pid, Request $request): Response

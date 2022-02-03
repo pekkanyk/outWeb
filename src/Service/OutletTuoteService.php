@@ -46,6 +46,11 @@ class OutletTuoteService{
         return $db->poisto();
     }
     
+    public function dumppi(){
+        $db = $this->entityManager->getRepository(OutletTuote::class);
+        return $db->dumppi();
+    }
+    
     public function daySpread(){
         $db = $this->entityManager->getRepository(OutletTuote::class);
         return $db->activeDaySpread();
