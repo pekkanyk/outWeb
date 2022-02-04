@@ -32,7 +32,8 @@ class DefaultController extends AbstractController{
      */
     public function index(Request $request): Response
     {
-        $form = $this->createForm(SearchType::class,new SearchProducts());
+        //$form = $this->createForm(SearchType::class,new SearchProducts());
+        $form = $this->createForm(SearchType::class,new SearchProducts(), array('csrf_protection' => false));
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $products = $this->outletTuoteService->searchWith($form->getData());
