@@ -48,18 +48,51 @@
                                         <li><a href="/shitlist/">Shitlist</a></li>
 				</ul>
 			</li>
-			<li class="nav-item"><a href="/reload" class="nav-link">Reload</a></li>
+		<!--	<li class="nav-item"><a href="/reload" class="nav-link">Reload</a></li>
+                -->
                         <li class="nav-item"><a href="/search/?search%5Bactivity%5D=deleted&search%5Balkaen%5D={{ "now"|date("Y-m-d", "Europe/Helsinki") }}&search%5Basti%5D={{ "now"|date("Y-m-d", "Europe/Helsinki") }}&search%5Bminprice%5D=&search%5Bmaxprice%5D=&search%5Bkl%5D=ANY&search%5BsearchStr%5D=&search%5BorderBy%5D=hakupvm&search%5Bdirection%5D=DESC&search%5Bhae%5D=" class="nav-link">Tänään poistuneet</a></li>
                         <li class="nav-item"><a href="/search/?search%5Bactivity%5D=active&search%5Balkaen%5D={{ "now"|date("Y-m-d", "Europe/Helsinki") }}&search%5Basti%5D={{ "now"|date("Y-m-d", "Europe/Helsinki") }}&search%5Bminprice%5D=&search%5Bmaxprice%5D=&search%5Bkl%5D=ANY&search%5BsearchStr%5D=&search%5BorderBy%5D=hakupvm&search%5Bdirection%5D=DESC&search%5Bhae%5D=" class="nav-link">Tänään päivitetyt</a></li>
 			<li class="nav-item"><a href="/listat" class="nav-link">Listagenerator</a></li>
 
 		</ul>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <ul class="nav navbar-nav navbar-right ml-auto">
                     <li class="nav-item">
                         <div>Noudettu: {{ headerStats.timestamp|format_datetime('short','short', locale='fi') }}</div>
                         <div>Aktiivisia: {{ headerStats.totalItems }}</div>
                     </li>
+                    <li  class="nav-item dropdown">
+			<a data-toggle="dropdown" class="nav-link dropdown-toggle" href="#"><i class="fa fa-user-o"></i> {{ app.user.username }}</a>
+                            <ul class="dropdown-menu">					
+				<li><a href="/logout" class="dropdown-item">Kirjaudu ulos</a></li>
+				<li><a href="/tili" class="dropdown-item">Omat tiedot</a></li>
+                            </ul>
+                    </li>
 		</ul>
+                {% else %}    
+                <ul class="nav navbar-nav navbar-right ml-auto">
+			<li class="nav-item dropdown">
+				<a data-toggle="dropdown" class="nav-link dropdown-toggle" href="#"><i class="fa fa-user-o"></i> Kirjaudu</a>
+				<ul class="dropdown-menu">
+                                    <li>
+                                            <form class="form-inline login-form" action="{{ path('login') }}" method="POST">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                                <input type="text" id="username" name="_username" class="form-control" placeholder="Käyttäjätunnus" required>
+                                            </div>
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                                                <input type="password" id="password" name="_password" class="form-control" placeholder="Salasana" required>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">OK</button>
+                                            </form>                        
+                                    </li>
+				</ul>
+			</li>
+                    
+		</ul>    
+                {% endif %}    
+                    
 	</div>
 </nav>
                         

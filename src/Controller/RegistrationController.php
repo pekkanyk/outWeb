@@ -9,9 +9,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use App\Service\UpdateStatsService;
 
 class RegistrationController extends AbstractController
 {
+    private UpdateStatsService $updateStatsService;
+    
+    public function __construct(UpdateStatsService $updateStatsService) {
+        $this->updateStatsService = $updateStatsService;
+    }
+    
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
@@ -38,6 +45,7 @@ class RegistrationController extends AbstractController
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
+            'headerStats'=>$this->updateStatsService->getStats(),
         ]);
     }
 }
