@@ -25,14 +25,14 @@ class OutletTuoteController extends AbstractController
         $this->updateStatsService = $updateStatsService;
     }
     /**
-     * @Route("/outid/")
+     * @Route("/search/outid/")
      */
     public function outIdPage(): Response {
-        return $this->redirect("/outid/0");
+        return $this->redirect("/search/outid/0");
     }
         
     /**
-     * @Route("/outid/{outId}", name="outlet_tuote")
+     * @Route("/search/outid/{outId}", name="outlet_tuote")
      */
     public function show(int $outId, Request $request): Response
     {
@@ -45,7 +45,7 @@ class OutletTuoteController extends AbstractController
         $form = $this->createForm(OutIdType::class,new SearchOutId());
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            return $this->redirect("/outid/".$form->getData()->getOutId());
+            return $this->redirect("/search/outid/".$form->getData()->getOutId());
         }
         return $this->render('outlet_tuote.html.twig',[
             'headerStats'=>$this->updateStatsService->getStats(),
@@ -60,14 +60,14 @@ class OutletTuoteController extends AbstractController
                 );
     }
     /**
-     * @Route("/pid/")
+     * @Route("/search/pid/")
      */
     public function pidPage(): Response {
-        return $this->redirect("/pid/0");
+        return $this->redirect("/search/pid/0");
     }
     
     /**
-     * @Route("/noinfo")
+     * @Route("/search/noinfo")
      */
     public function noInfo(): Response
     {
@@ -81,7 +81,7 @@ class OutletTuoteController extends AbstractController
         
     }
     /**
-     * @Route("/poisto")
+     * @Route("/search/poisto")
      */
     public function poisto(): Response
     {
@@ -95,7 +95,7 @@ class OutletTuoteController extends AbstractController
         
     }
     /**
-     * @Route("/dumppi")
+     * @Route("/search/dumppi")
      */
     public function dumppi(): Response
     {
@@ -109,7 +109,7 @@ class OutletTuoteController extends AbstractController
         
     }
     /**
-     * @Route("/pid/{pid}", name="pid_infosivu")
+     * @Route("/search/pid/{pid}", name="pid_infosivu")
      */
     public function showPid($pid, Request $request): Response
     {
@@ -121,7 +121,7 @@ class OutletTuoteController extends AbstractController
         $form = $this->createForm(PidType::class,new SearchPid());
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            return $this->redirect("/pid/".$form->getData()->getPid());
+            return $this->redirect("/search/pid/".$form->getData()->getPid());
         }
         return $this->render('pid_tuote.html.twig',[
             'headerStats'=>$this->updateStatsService->getStats(),
@@ -137,13 +137,13 @@ class OutletTuoteController extends AbstractController
     }
     
     /**
-     * @Route("/firstseen/")
+     * @Route("/search/firstseen/")
      */
     public function fistSeenPage(): Response{
-        return $this->redirect("/firstseen/0");
+        return $this->redirect("/search/firstseen/0");
     }
     /**
-     * @Route("/firstseen/{date}")
+     * @Route("/search/firstseen/{date}")
      */
     public function firstSeen($date, Request $request): Response
     {
@@ -154,7 +154,7 @@ class OutletTuoteController extends AbstractController
         $form = $this->createForm(DateHakuType::class,new SearchDate());
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            return $this->redirect("/firstseen/".$form->getData()->getDate()->format('Y-m-d'));
+            return $this->redirect("/search/firstseen/".$form->getData()->getDate()->format('Y-m-d'));
         }
         return $this->render('first_seen.html.twig',[
             'headerStats'=>$this->updateStatsService->getStats(),

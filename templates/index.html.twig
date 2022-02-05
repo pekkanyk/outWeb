@@ -7,53 +7,8 @@
             {{ include('fragments/_top_navi.html.twig') }}   
         </header>
         <div class="container">
-            <div class="row">
-                    {{ form_start(form) }}
-                    <div class="col-md-2 col-sm-12">{{ form_widget(form.activity) }}</div>
-                    <div class="col-md-2 col-sm-12">{{ form_widget(form.alkaen) }}</div>
-                    <div class="col-md-2 col-sm-12">{{ form_widget(form.asti) }}</div>
-                    <div class="col-md-1 col-sm-12">{{ form_widget(form.minprice,{'attr':{'placeholder': 'min'}})  }}</div>
-                    <div class="col-md-1 col-sm-12">{{ form_widget(form.maxprice,{'attr':{'placeholder': 'max'}})  }}</div>
-                    <div class="col-md-1 col-sm-12">{{ form_widget(form.kl) }}</div>
-            </div>
-            <div class="row">
-                    <div class="col-md-4 col-sm-12">{{ form_widget(form.searchStr,{'attr':{'placeholder': 'Hae tuotteita'}}) }}</div>
-                    <div class="col-md-2 col-sm-12">{{ form_widget(form.orderBy) }}</div>
-                    <div class="col-md-2 col-sm-12">{{ form_widget(form.direction) }}</div>
-                    <div class="col-md-1 col-sm-12">{{ form_widget(form.hae) }}</div>
             
-                    {{ form_end(form) }}
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <table class="table taulukot">
-                        {% if active|length >0 %}
-                        <caption>Aktiivisia - {{ active|length }} kpl, Alennusprosentti (tot): {{ active_prosentit|round(1,'common') }} %</caption>
-                        {% set dateType = "Muuttunut" %}
-                        {{ include('fragments/_outTable_header.html.twig') }}
-                        
-                            {% for outTuote in active %}
-                                {{ include('fragments/_outTable.html.twig') }}
-                            {% endfor %}
-                        {% endif %}
-                    </table>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <table class="table taulukot">
-                        {% if deleted|length >0 %}
-                        <caption>Poistuneet - {{ deleted|length }}kpl, Alennusprosentti (tot): {{ deleted_prosentit|round(1,'common') }} %</caption>
-                        {% set dateType = "Poistunut" %}
-                        {{ include('fragments/_outTable_header.html.twig') }}
-                        
-                            {% for outTuote in deleted %}
-                                {{ include('fragments/_outTable.html.twig') }}
-                            {% endfor %}
-                        {% endif %}
-                    </table>
-                </div>
-            </div>
+            Pyydä tunnukset Pekalta
         </div>
             {% endblock %}
     </body>

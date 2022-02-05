@@ -14,7 +14,7 @@
                         <thead>
                         <tr>
                             {% for key,count in isotNumerot %}
-                                <th><a class="active" href="/invis/{{ key }}">{{ key }} ({{ count }}) kpl</a></th>
+                                <th><a class="active" href="/stats/invis/{{ key }}">{{ key }} ({{ count }}) kpl</a></th>
                             {% endfor %}
                             
                         </tr>
@@ -24,7 +24,7 @@
                                 <tr>
                                 {% set tokaVikaNro = key %}
                                 {% for key,lukema in vika %}
-                                    <td><a class="active" href="/invis/{{ tokaVikaNro }}{{ key }}">{{ tokaVikaNro }}{{ key }} (<b>{{ lukema }}</b> kpl)</a></td>
+                                    <td><a class="active" href="/stats/invis/{{ tokaVikaNro }}{{ key }}">{{ tokaVikaNro }}{{ key }} (<b>{{ lukema }}</b> kpl)</a></td>
                                 {% endfor %}
                                 </tr>
                             {% endfor %}

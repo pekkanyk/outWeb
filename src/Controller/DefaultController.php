@@ -65,29 +65,44 @@ class DefaultController extends AbstractController{
         
     }
     
-}
-/*
- * 
- * $outId = intval($outId);
-	$today = (new \DateTime())->format('Y-m-d');
-        $outletTuote = $this->outletTuoteService->getOutletTuote($outId);
-        if ($outletTuote==null){ $outletTuote = $this->outletTuoteService->makeDummy($outId);}
-        $active = $this->outletTuoteService->getActiveWithPid($outletTuote->getPid());
-        $deleted = $this->outletTuoteService->getDeletedWithPid($outletTuote->getPid());
-        $form = $this->createForm(OutIdType::class,new SearchOutId());
+    /**
+     *@Route("/search", name="search")
+     */
+    public function search(Request $request): Response
+    {
+        //$form = $this->createForm(SearchType::class,new SearchProducts());
+        $form = $this->createForm(SearchType::class,new SearchProducts(), array('csrf_protection' => false));
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            return $this->redirect("/outid/".$form->getData()->getOutId());
-        }
-        return $this->render('outlet_tuote.html.twig',[
-            'headerStats'=>$this->updateStatsService->getStats(),
+            $products = $this->outletTuoteService->searchWith($form->getData());
+            $active = $products['active'];
+            $deleted = $products['deleted'];
+            $aleprosentit = $this->outletTuoteService->aleprosentit($form->getData());
+            $deleted_prosentit = $aleprosentit['deleted'];
+            $active_prosentit = $aleprosentit['active'];
+            
+            return $this->render('search.html.twig',[
+            'active'=> $active,
+            'deleted'=> $deleted,
+            'deleted_prosentit'=>$deleted_prosentit,
+            'active_prosentit'=>$active_prosentit,
             'form'=> $form->createView(),
-            'today'=>$today,
-            'outletTuote'=> $outletTuote,
-            'active'=>$active,
-            'deleted'=>$deleted,
-            'activeLkm'=>count($active),
-            'deletedLkm'=>count($deleted),
-            'pidInfo'=> $this->outletTuoteService->getPidInfo($outletTuote->getPid())]
-                );
- */
+            'headerStats'=>$this->updateStatsService->getStats()
+        
+            ]);
+        }
+        
+        
+        return $this->render('search.html.twig',[
+            'active'=>null,
+            'deleted'=>null,
+            'form'=> $form->createView(),
+            'headerStats'=>$this->updateStatsService->getStats()
+        
+            ]);
+        
+    }
+    
+    
+    
+}

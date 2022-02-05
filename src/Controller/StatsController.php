@@ -21,7 +21,7 @@ class StatsController extends AbstractController
     }
        
     /**
-     * @Route("/daystats/")
+     * @Route("/stats/daystats/")
      */
     public function dailystats(Request $request): Response
     {
@@ -85,16 +85,16 @@ class StatsController extends AbstractController
          
     }
     /**
-     * @Route("/stock/")
+     * @Route("/stats/stock/")
      */
     public function stockWithout(): Response
     {   
         //$today = new \DateTime('now', new \DateTimeZone('Europe/Helsinki'));
         //return $this->redirect("/stock/".$today->format("Y-m-d"));
-        return $this->redirect("/stock/0");
+        return $this->redirect("/stats/stock/0");
     }
     /**
-     * @Route("/stock/{day}"), name="stock"
+     * @Route("/stats/stock/{day}"), name="stock"
      */
     public function stock($day,Request $request): Response
     {
@@ -183,7 +183,7 @@ class StatsController extends AbstractController
     }
     
     /**
-     * @Route("/dbstats")
+     * @Route("/stats/dbstats")
      */
     public function dbstats(): Response
     {
@@ -196,7 +196,7 @@ class StatsController extends AbstractController
     }
     
     /**
-     * @Route("/invis/{digits}")
+     * @Route("/stats/invis/{digits}")
      */
     public function hyllyPaikka($digits): Response
     {
@@ -218,7 +218,7 @@ class StatsController extends AbstractController
          
     }
     /**
-     * @Route("/invis")
+     * @Route("/stats/invis")
      */
     public function inventaariolista(): Response
     {
@@ -231,7 +231,7 @@ class StatsController extends AbstractController
          
     }
     /**
-     * @Route("/distinct")
+     * @Route("/stats/distinct")
      */
     public function distinctProds(): Response
     {
@@ -244,7 +244,7 @@ class StatsController extends AbstractController
     }
     
     /**
-     * @Route("/dayspread")
+     * @Route("/stats/dayspread")
      */
     public function daySpread(): Response
     {

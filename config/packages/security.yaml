@@ -14,12 +14,19 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        avoin:
+            pattern: ^/listat/
+            security: false
         main:
-            #anonymous: true
-            pattern: ~/dbstats
-            lazy: true
-            provider: app_user_provider
+            anonymous: ~
+            http_basic: ~
+            pattern: ^/
+            #security: true
+            #pattern: ^/dbstats
+            #lazy: true
+            
             form_login:
+                provider: app_user_provider
                 # "login" is the name of the route created previously
                 login_path: login
                 check_path: login
@@ -35,5 +42,8 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        #- { path: ^/dbstats, roles: ROLE_ADMIN }
+        - { path: ^/search/, roles: ROLE_USER }
+        - { path: ^/stats/, roles: ROLE_USER }
+        - { path: ^/shitlist/, roles: ROLE_USER }
+        - { path: ^/register/, roles: ROLE_USER }
