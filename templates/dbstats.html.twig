@@ -56,14 +56,14 @@
                     </tr>
                     <tr>
                         <td>Vanhin id</td>
-                        <td><a class="active" href="/outid/{{ stats.getOldest() }}">{{ stats.getOldest() }}</a></td>
-                        <td><a class="active" href="/outid/{{ stats.getOldest_deleted() }}">{{ stats.getOldest_deleted() }}</a></td>
+                        <td><a class="active" href="/search/outid/{{ stats.getOldest() }}">{{ stats.getOldest() }}</a></td>
+                        <td><a class="active" href="/search/outid/{{ stats.getOldest_deleted() }}">{{ stats.getOldest_deleted() }}</a></td>
                         <td> </td>
                     </tr>
                     <tr>
                         <td>Uusin id</td>
-                        <td><a class="active" href="/outid/{{ stats.getNewest() }}">{{ stats.getNewest() }}</a></td>
-                        <td><a class="active" href="/outid/{{ stats.getNewest_deleted() }}">{{ stats.getNewest_deleted() }}</a></td>
+                        <td><a class="active" href="/search/outid/{{ stats.getNewest() }}">{{ stats.getNewest() }}</a></td>
+                        <td><a class="active" href="/search/outid/{{ stats.getNewest_deleted() }}">{{ stats.getNewest_deleted() }}</a></td>
                         <td> </td>
                     </tr>
                     <tr>
@@ -92,14 +92,14 @@
                     </tr>
                     <tr>
                         <td>Pisimpään aktiivisena</td>
-                        <td><a class="active" href="/outid/{{ stats.getActive_longest() }}">{{ stats.getActive_longest() }}</a></td>
-                        <td><a class="active" href="/outid/{{ stats.getDeleted_longest() }}">{{ stats.getDeleted_longest() }}</a></td>
+                        <td><a class="active" href="/search/outid/{{ stats.getActive_longest() }}">{{ stats.getActive_longest() }}</a></td>
+                        <td><a class="active" href="/search/outid/{{ stats.getDeleted_longest() }}">{{ stats.getDeleted_longest() }}</a></td>
                         <td>-</td>
                     </tr>
 
                 </table>
                 <table class="table taulukot">
-                    <caption><a class="active" href="/distinct">Top 10 aktiiviset (kpl)</a></caption>
+                    <caption><a class="active" href="/search/distinct">Top 10 aktiiviset (kpl)</a></caption>
                     <thead>
                         <tr>
                         <td>Kpl</td>
@@ -127,7 +127,7 @@
                     {% for top10row in stats.getDeleted_top10() %}
                     <tr>
                         <td><span class="active">{{ top10row.getCount() }}</span></td>
-                        <td><a class="active" href="/pid/{{ top10row.getPid() }}">{{ top10row.getPid() }}</a></td>
+                        <td><a class="active" href="/search/pid/{{ top10row.getPid() }}">{{ top10row.getPid() }}</a></td>
                         <td><span class="active">{{ top10row.getName() }}</span></td>
                     </tr>
                     {% endfor %}
