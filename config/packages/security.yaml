@@ -47,3 +47,4 @@ security:
         - { path: ^/stats/, roles: ROLE_USER }
         - { path: ^/shitlist/, roles: ROLE_USER }
         - { path: ^/register/, roles: ROLE_USER }
+        - { path: ^/account/, roles: ROLE_USER }
