@@ -67,6 +67,9 @@
                             <ul class="dropdown-menu">					
 				<li><a href="/logout" class="dropdown-item">Kirjaudu ulos</a></li>
 				<li><a href="/account" class="dropdown-item">Oma tili</a></li>
+                                {% if is_granted ('ROLE_ADMIN') %}
+                                <li><a href="/register" class="dropdown-item">Register new</a></li>
+                                {% endif %}
                             </ul>
                     </li>
 		</ul>
