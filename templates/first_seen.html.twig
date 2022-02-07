@@ -13,9 +13,9 @@
                 <div class="col-md-1 col-sm-4">{{ form_widget(form.hae) }}</div>
                     {{ form_end(form) }}
                 <div class="col-md-12">
-                    <a href="/firstseen/{{ date|date_modify("-1 day")|date("Y-m-d") }}"><==</a>
+                    <a href="/search/firstseen/{{ date|date_modify("-1 day")|date("Y-m-d") }}"><==</a>
                     {{ date|format_date('short', locale='fi') }} ensi kertaa nähdyt. Yhteensä {{ activeLkm+deletedLkm }} kpl.
-                    <a href="/firstseen/{{ date|date_modify("+1 day")|date("Y-m-d") }}">==></a>
+                    <a href="/search/firstseen/{{ date|date_modify("+1 day")|date("Y-m-d") }}">==></a>
                 </div>
             </div>
             
@@ -25,10 +25,14 @@
                         <caption>Poistuneet - {{ deletedLkm }}kpl</caption>
                         {% set dateType = "Poistunut" %}
                         {{ include('fragments/_outTable_header.html.twig') }}
+                        {% if is_granted ('ROLE_HISTORY') %}
                         {% if deleted|length >0 %}
                             {% for outTuote in deleted %}
                                 {{ include('fragments/_outTable.html.twig') }}
                             {% endfor %}
+                        {% endif %}
+                        {% else %}
+                            <tr><td>Data hidden</td></tr>
                         {% endif %}
                     </table>
                 </div>

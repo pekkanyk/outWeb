@@ -1,0 +1,54 @@
+        <div class="row">
+                <div class="col-md-12">
+                    <table class="table taulukot">
+                        <caption>Bookmarks - {{ bookmarksLkm }} kpl</caption>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>OutId</th>
+                                <th>Tuote</th>
+                                <th>Hinta</th>
+                                <th title="Viimeisin hinta"> Viimeisin</th>
+                                <th title="Alennusprosentti">Ale%</th>
+                                <th>Takuu</th>
+                                <th title="Kuntoluokka">KL</th>
+                                <th title="Aktiivinen tuote">A</th>
+                                <th title="Tuote kampanjassa">K</th>
+                                <th title="Dumppaustuote">D</th>
+                                <th title="Varastossa kpl">V</th>
+                                <th>Pvm</th>
+                                <th>PA</th>
+                            </tr>
+                        </thead>
+                        {% for outTuote in bookmarks %}
+                            {% if outTuote.deleted !=null %}
+                                {% set dateType="Muuttunut" %}
+                            {% endif %}
+                            <tr>
+                                <td>[POISTA]</td>
+                                <td><a class="{{ outTuote.myynnissa()}}" title="PID {{ outTuote.pid }}"  href="/search/outid/{{ outTuote.outid }}">{{ outTuote.outId }}</a></td>
+                                <td>
+                                <a class="{{ outTuote.myynnissa()}}" title="To PID"  href="/search/pid/{{ outTuote.pid }}">.</a>
+                                    <span class="{{ outTuote.myynnissa()}}" title="PID luotu: {{ outTuote.pidLuotu|format_date('short', locale='fi') }}">{{ outTuote.name }}</span>
+                                </td>
+                                <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.outPrice|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }}</span></td>
+                                <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.norPrice|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }}</span></td>
+                                <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.alennus|round(1,'common') }}%</span></td>
+                                <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.warranty }} kk</span></td>
+                                <td><span class="{{ outTuote.myynnissa()}}" title="{{ outTuote.info }}">{{ outTuote.condition }}</span></td>
+                                <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.onkoA() }}</span></td>
+                                <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.onkoK() }}</span></td>
+                                <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.onkoD() }}</span></td>
+                                <td><span class="{{ outTuote.myynnissa()}}"><div><span title="Tilattavissa. Varastossa kpl">{{ outTuote.varastossa }}</span></div></span></td>
+                                {% if dateType == "Muuttunut" %}
+                                <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.priceUpdatedDate|format_date('short', locale='fi') }}</span></td>
+                                {% else %}
+                                <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.deleted|format_date('short', locale='fi') }}</span></td>
+                                {% endif %}
+                                <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.daysActive() }}/{{ outTuote.daysWithLastPrice() }}</span></td>
+                            </tr>
+                        {% endfor %}
+                        
+                    </table>
+                </div>
+            </div>

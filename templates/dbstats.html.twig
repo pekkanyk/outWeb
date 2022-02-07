@@ -110,7 +110,7 @@
                     {% for top10row in stats.getActive_top10() %}
                     <tr>
                         <td><span class="active">{{ top10row.getCount() }}</span></td>
-                        <td><a class="active" href="/pid/{{ top10row.getPid() }}">{{ top10row.getPid() }}</a></td>
+                        <td><a class="active" href="/search/pid/{{ top10row.getPid() }}">{{ top10row.getPid() }}</a></td>
                         <td><span class="active">{{ top10row.getName() }}</span></td>
                     </tr>
                     {% endfor %}

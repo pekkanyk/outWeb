@@ -1,26 +1,18 @@
-<html xmlns="http://www.w3.org/1999/xhtml" >
-    <head lang="en">
-        {{ include('fragments/_head.html.twig') }}
-    </head>
-    <body> {% block body %}
-        <header>
-            {{ include('fragments/_top_navi.html.twig') }}   
-        </header>
         <div class="container">
             
             
             <div class="row">
                 <div class="col-md-12">
                     <table class="table taulukot">
-                    <caption>Samoja aktiivisena (kpl)</caption>
+                    <caption>Hintatarkkailussa</caption>
                     <thead>
                         <tr>
-                        <td>Kpl</td>
+                        <td>Rajahinta</td>
                         <td>PID</td>
                         <td>Nimi</td>
                         </tr>
                     </thead>
-                    {% for row in topDistinct %}
+                    {% for row in spiraalissa %}
                     <tr>
                         <td><span class="active">{{ row.getCount() }}</span></td>
                         <td><a class="active" href="/search/pid/{{ row.getPid() }}">{{ row.getPid() }}</a></td>
@@ -34,5 +26,3 @@
                 </div>
             </div>
         </div>
-            {% endblock %}
-    </body>

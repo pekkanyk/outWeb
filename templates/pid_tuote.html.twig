@@ -79,10 +79,14 @@
                         <caption>Poistuneet - {{ deletedLkm }}kpl</caption>
                         {% set dateType = "Poistunut" %}
                         {{ include('fragments/_outTable_header.html.twig') }}
+                        {% if is_granted ('ROLE_HISTORY') %}
                         {% if deleted|length >0 %}
                             {% for outTuote in deleted %}
                                 {{ include('fragments/_outTable.html.twig') }}
                             {% endfor %}
+                        {% endif %}
+                        {% else %}
+                            <tr><td>Data hidden</td></tr>
                         {% endif %}
                     </table>
                 </div>

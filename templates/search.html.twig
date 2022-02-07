@@ -43,13 +43,16 @@
                 <div class="col-md-12">
                     <table class="table taulukot">
                         {% if deleted|length >0 %}
-                        <caption>Poistuneet - {{ deleted|length }}kpl, Alennusprosentti (tot): {{ deleted_prosentit|round(1,'common') }} %</caption>
-                        {% set dateType = "Poistunut" %}
-                        {{ include('fragments/_outTable_header.html.twig') }}
-                        
-                            {% for outTuote in deleted %}
-                                {{ include('fragments/_outTable.html.twig') }}
-                            {% endfor %}
+                            <caption>Poistuneet - {{ deleted|length }}kpl, Alennusprosentti (tot): {{ deleted_prosentit|round(1,'common') }} %</caption>
+                                {% set dateType = "Poistunut" %}
+                                {{ include('fragments/_outTable_header.html.twig') }}
+                            {% if is_granted ('ROLE_HISTORY') %}
+                                {% for outTuote in deleted %}
+                                    {{ include('fragments/_outTable.html.twig') }}
+                                {% endfor %}
+                            {% else %}
+                                <tr><td>Data hidden</td></tr>
+                            {% endif %}
                         {% endif %}
                     </table>
                 </div>

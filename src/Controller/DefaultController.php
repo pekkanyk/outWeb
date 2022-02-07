@@ -56,18 +56,18 @@ class DefaultController extends AbstractController{
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            
             $newEncodedPass = $passwordEncoder->encodePassword($dbuser,$form->get('plainPassword')->getData());
-            //testaus, että kirjoitettu salasana on nykyinen :)
             $this->userService->updatePassword($dbuser, $newEncodedPass);
-      
 
             return $this->redirectToRoute('account');
         }
         
         return $this->render('account.html.twig',[
             'changePassForm' => $form->createView(),
+            'bookmarksLkm' => "1",
+            'bookmarks' => null,
             'headerStats'=>$this->updateStatsService->getStats()
-        
             ]);
         
     }
