@@ -369,4 +369,11 @@ class OutletTuoteService{
         return $bstats;
         
     }
+    
+    public function getBookmarkedIds($bookmarks) {
+        $db = $this->entityManager->getRepository(OutletTuote::class);
+        //return $db->getRowsIn($bookmarks);
+        return $db->findBy(array('outId' => $bookmarks));
+        
+    }
 }

@@ -46,7 +46,7 @@
                 </div>
                 <div class="col-md-4 col-xs-12">
                     <table class="table taulukot">
-                        <tr><td>Pid</td><td>{{ pidStats.pid }}</td></tr>
+                        <tr><td>Pid</td><td><a href="https://www.verkkokauppa.com/fi/product/{{ pidStats.pid }}"</a>{{ pidStats.pid }}</td></tr>
                         {% if pidStats.pidCreated==null %}
                             <tr><td>Pid luotu</td><td>-</td></tr>
                         {% else %}

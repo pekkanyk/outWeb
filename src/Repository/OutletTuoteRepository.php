@@ -30,6 +30,15 @@ class OutletTuoteRepository extends ServiceEntityRepository
             ->execute()
         ;
     }
+    
+    public function getRowsIn($outIds) {
+        return $this->createQueryBuilder('o')
+                ->andWhere('o.outId IN :ids')
+                ->setParameter('ids',$outIds)
+                ->getQuery()
+                ->getResult();
+    }
+    
     public function noInfo(){
         return $this->createQueryBuilder('o')
                 ->andWhere('o.deleted IS NULL')

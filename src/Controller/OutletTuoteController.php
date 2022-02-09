@@ -7,6 +7,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\OutletTuoteService;
 use App\Service\UpdateStatsService;
+use App\Service\BookmarksService;
+use App\Service\UserService;
 use App\Form\Type\PidType;
 use App\Form\Type\OutIdType;
 use App\Form\Type\DateHakuType;
@@ -20,9 +22,13 @@ class OutletTuoteController extends AbstractController
 {
     private OutletTuoteService $outletTuoteService;
     private UpdateStatsService $updateStatsService;
-    public function __construct(OutletTuoteService $outletTuoteService, UpdateStatsService $updateStatsService) {
+    private BookmarksService $bookmarksService;
+    private UserService $userService;
+    public function __construct(OutletTuoteService $outletTuoteService, UpdateStatsService $updateStatsService, BookmarksService $bookmarksService, UserService $userService) {
         $this->outletTuoteService = $outletTuoteService;
         $this->updateStatsService = $updateStatsService;
+        $this->bookmarksService = $bookmarksService;
+        $this->userService = $userService;
     }
     /**
      * @Route("/search/outid/")
@@ -37,6 +43,8 @@ class OutletTuoteController extends AbstractController
     public function show(int $outId, Request $request): Response
     {
         $outId = intval($outId);
+        $dbUser = $this->userService->findUsername($this->getUser()->getUsername())[0];
+        $userId = $dbUser->getId();
 	$today = (new \DateTime())->format('Y-m-d');
         $outletTuote = $this->outletTuoteService->getOutletTuote($outId);
         if ($outletTuote==null){ $outletTuote = $this->outletTuoteService->makeDummy($outId);}
@@ -48,6 +56,7 @@ class OutletTuoteController extends AbstractController
             return $this->redirect("/search/outid/".$form->getData()->getOutId());
         }
         return $this->render('outlet_tuote.html.twig',[
+            'bookmarked'=>$this->bookmarksService->isBookmarked($outId, $userId),
             'headerStats'=>$this->updateStatsService->getStats(),
             'form'=> $form->createView(),
             'today'=>$today,

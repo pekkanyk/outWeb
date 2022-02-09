@@ -19,22 +19,42 @@ class BookmarksRepository extends ServiceEntityRepository
         parent::__construct($registry, Bookmarks::class);
     }
 
-    // /**
-    //  * @return Bookmarks[] Returns an array of Bookmarks objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    
+    public function getOutIdArray($value)
     {
         return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
+            ->andWhere('b.userId = :val')
             ->setParameter('val', $value)
             ->orderBy('b.id', 'ASC')
-            ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+    
+    public function getBookmark($outId,$userId){
+        return $this->createQueryBuilder('b')
+            ->andWhere('b.userId = :user')
+            ->andWhere('b.outId = :outid')
+            ->setParameter('user', $userId)
+            ->setParameter('outid', $outId)    
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+    
+    /*
+    public function getOutIdArray($userid)
+    {
+        return $this->createQueryBuilder('b')
+                ->select('b.outId')
+                ->andWhere('b.userId = :val')
+                ->setParameter('val', $userid)
+                ->orderBy('b.id','ASC')
+                ->getQuery()
+                ->getResult();
+    }
+*/
+    
 
     /*
     public function findOneBySomeField($value): ?Bookmarks

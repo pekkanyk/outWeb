@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\OutletTuoteService;
 use App\Service\UpdateStatsService;
+use App\Service\BookmarksService;
 use App\Service\UserService;
 use App\Form\Type\SearchType;
 use App\Model\SearchProducts;
@@ -27,10 +28,11 @@ class DefaultController extends AbstractController{
     private UpdateStatsService $updateStatsService;
     private UserService $userService;
     
-    public function __construct(OutletTuoteService $outletTuoteService, UpdateStatsService $updateStatsService, UserService $userService) {
+    public function __construct(OutletTuoteService $outletTuoteService, UpdateStatsService $updateStatsService, UserService $userService, BookmarksService $bookmarksService) {
         $this->outletTuoteService = $outletTuoteService;
         $this->updateStatsService = $updateStatsService;
         $this->userService = $userService;
+        $this->bookmarksService = $bookmarksService;
     }
     
     /**
@@ -62,15 +64,42 @@ class DefaultController extends AbstractController{
 
             return $this->redirectToRoute('account');
         }
+        $outIds = $this->bookmarksService->getBookmarks($dbuser->getId());
+        $bookmarks = $this->outletTuoteService->getBookmarkedIds($outIds);
         
         return $this->render('account.html.twig',[
             'changePassForm' => $form->createView(),
-            'bookmarksLkm' => "1",
-            'bookmarks' => null,
+            'bookmarksLkm' => count($bookmarks),
+            'bookmarks' => $bookmarks,
             'headerStats'=>$this->updateStatsService->getStats()
             ]);
         
     }
+    
+    /**
+     *@Route("/bookmark/{mode}/{outId}", name="bookmark")
+     */
+    public function bookmark(string $mode,int $outId, Request $request): Response
+    {
+        $outId = intval($outId);
+        $dbUser = $this->userService->findUsername($this->getUser()->getUsername())[0];
+        $userId = $dbUser->getId();
+        if ($mode == "add"){
+            $this->bookmarksService->add($outId,$userId);
+        }
+        elseif($mode == "del"){
+            $this->bookmarksService->del($outId,$userId);
+        }
+        else{
+            
+        }
+        $referer = $request->headers->get('referer');
+        if($referer==null){
+            $referer = "/";
+        }
+        return $this->redirect($referer);
+    }
+    
     
     /**
      *@Route("/search", name="search")

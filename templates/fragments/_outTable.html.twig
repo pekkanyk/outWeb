@@ -9,7 +9,14 @@
     <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.alennus|round(1,'common') }}%</span></td>
     <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.warranty }} kk</span></td>
     <td><span class="{{ outTuote.myynnissa()}}" title="{{ outTuote.info }}">{{ outTuote.condition }}</span></td>
-    <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.onkoA() }}</span></td>
+    {% if  outTuote.onkoA() == null%}
+        <td><span class="{{ outTuote.myynnissa()}}" title="Aktiivinen, linkki Verkkokaupan tuotesivulle">
+            <a href="https://www.verkkokauppa.com/fi/product/{{ outTuote.pid }}"</a><img src="/gfx/link.png"/>
+    {% else %}
+        <td><span class="{{ outTuote.myynnissa()}}" title="Poistunut, linkki Verkkokaupan tuotesivulle">
+                <a href="https://www.verkkokauppa.com/fi/product/{{ outTuote.pid }}"</a>Ei
+    {% endif %}    
+        </span></td>
     <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.onkoK() }}</span></td>
     <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.onkoD() }}</span></td>
     <td><span class="{{ outTuote.myynnissa()}}"><div><span title="Tilattavissa. Varastossa kpl">{{ outTuote.varastossa }}</span></div></span></td>
