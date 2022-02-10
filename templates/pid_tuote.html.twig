@@ -12,7 +12,13 @@
                 <div class="col-md-2 col-sm-8">{{ form_widget(form.pid,{'attr':{'placeholder': 'PID'}}) }}</div>
                 <div class="col-md-1 col-sm-4">{{ form_widget(form.hae) }}</div>
                     {{ form_end(form) }}
-                <div class="col-md-12"><h3>PID{{ pidStats.pid }} - {{ pidStats.name }}</h3></div>
+                <div class="col-md-12">
+                    {% if pricewatch == false %}
+                            <a href="/bookmark/pricewatch/add/{{ pidStats.pid }}"><img src="/gfx/ico_add.gif"/></a>
+                        {% else %}
+                            <a href="/bookmark/pricewatch/del/{{ pidStats.pid }}"><img src="/gfx/ico_remove.gif"/></a>
+                        {% endif %}
+                    <h3>PID{{ pidStats.pid }} - {{ pidStats.name }}</h3></div>
                 <div class="col-md-8 col-xs-12">
                     <table class="table taulukot">
                         <thead>
@@ -52,8 +58,8 @@
                         {% else %}
                         <tr><td>Pid luotu</td><td>{{ pidStats.pidCreated|format_date('short', locale='fi') }}</td></tr>
                         {% endif %}
-                        <tr><td>Aktiivisia</td><td>{{ activeLkm }}</td></tr>
-                        <tr><td>Poistuneita</td><td>{{ deletedLkm }}</td></tr>
+                        <tr><td>Aktiivisia</td><td>{{ active|length }}</td></tr>
+                        <tr><td>Poistuneita</td><td>{{ deleted|length }}</td></tr>
                         <tr><td>Pakkauksen koko</td><td>{{ pidStats.pidSize }} cm</td></tr>
                     </table>
                 </div>
@@ -62,7 +68,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <table class="table taulukot">
-                        <caption>Aktiivisia - {{ activeLkm }} kpl</caption>
+                        <caption>Aktiivisia - {{ active|length }} kpl</caption>
                         {% set dateType = "Muuttunut" %}
                         {{ include('fragments/_outTable_header.html.twig') }}
                         {% if active|length >0 %}
@@ -76,7 +82,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <table class="table taulukot">
-                        <caption>Poistuneet - {{ deletedLkm }}kpl</caption>
+                        <caption>Poistuneet - {{ deleted|length }} kpl</caption>
                         {% set dateType = "Poistunut" %}
                         {{ include('fragments/_outTable_header.html.twig') }}
                         {% if is_granted ('ROLE_HISTORY') %}

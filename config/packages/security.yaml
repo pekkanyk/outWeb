@@ -48,3 +48,4 @@ security:
         - { path: ^/shitlist/, roles: ROLE_USER }
         - { path: ^/register/, roles: ROLE_ADMIN }
         - { path: ^/account/, roles: ROLE_USER }
+        - { path: ^/bookmark/, roles: ROLE_USER }

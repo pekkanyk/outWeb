@@ -47,8 +47,8 @@
                     <table class="table taulukot">
                         <tr><td>Päiviä aktiivisena</td><td>{{ outletTuote.daysActive() }} pv</td></tr>
                         <tr><td>Viimeisimmällä hinnalla</td><td>{{ outletTuote.daysWithLastPrice() }} pv</td></tr>
-                        <tr><td>Samoja aktiivisena</td><td>{{ activeLkm }} kpl</td></tr>
-                        <tr><td>Samoja poistunut</td><td>{{ deletedLkm }} kpl</td></tr>
+                        <tr><td>Samoja aktiivisena</td><td>{{ active|length }} kpl</td></tr>
+                        <tr><td>Samoja poistunut</td><td>{{ deleted|length }} kpl</td></tr>
                         {% if pidInfo == null %}
                             <tr><td>Pakkauksen koko</td><td>- cm</td></tr>
                         {% else %}
@@ -68,7 +68,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <table class="table taulukot">
-                        <caption>Aktiivisia - {{ activeLkm }} kpl</caption>
+                        <caption>Aktiivisia - {{ active|length }} kpl</caption>
                         {% set dateType = "Muuttunut" %}
                         {{ include('fragments/_outTable_header.html.twig') }}
                         {% if active|length >0 %}
@@ -82,7 +82,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <table class="table taulukot">
-                        <caption>Poistuneet - {{ deletedLkm }}kpl</caption>
+                        <caption>Poistuneet - {{ deleted|length }} kpl</caption>
                         {% set dateType = "Poistunut" %}
                         {{ include('fragments/_outTable_header.html.twig') }}
                         {% if deleted|length >0 %}

@@ -11,10 +11,12 @@ namespace App\Service;
 use App\Entity\OutletTuote;
 use App\Entity\PidInfo;
 use App\Entity\UpdateStats;
+use App\Entity\PriceWatch;
 use App\Model\PidStats;
 use App\Model\DbStats;
 use App\Model\Top10Row;
 use App\Model\Bstats;
+use App\Model\PriceWatchRow;
 use Doctrine\ORM\EntityManagerInterface;
 
 
@@ -36,6 +38,9 @@ class OutletTuoteService{
         
         return $outletTuote;
     }
+    
+    
+    
     public function noInfo(){
         $db = $this->entityManager->getRepository(OutletTuote::class);
         return $db->noInfo();
@@ -258,12 +263,15 @@ class OutletTuoteService{
     }
     
     public function getPidStats($pid) {
-        $exampleOutTuote = $this->getAllWithPid($pid);
+        $db = $this->entityManager->getRepository(OutletTuote::class);
+        //$exampleOutTuote = $this->getAllWithPid($pid);
+        $exampleOutTuote = $db->getExamplePid($pid);
         $pidStats = new PidStats();
         if ($exampleOutTuote!=null){
             $active = $this->getActiveWithPid($pid);
             $deleted = $this->getDeletedWithPid($pid);
-            $pidStats->setName($exampleOutTuote[0]->getName());
+            //$pidStats->setName($exampleOutTuote[0]->getName());
+            $pidStats->setName($exampleOutTuote->getName());
             $pidStats->setActive_kaOutPrice($this->keskiarvo($active,"outPrice"));
             $pidStats->setDeleted_kaOutPrice($this->keskiarvo($deleted,"outPrice"));
             $pidStats->setActive_kaAlennus($this->keskiarvo($active,"alennus"));
@@ -276,7 +284,8 @@ class OutletTuoteService{
             $pidInfo=$this->getPidInfo($pid);
             if ($pidInfo!=null) { $pidStats->setPidSize($this->getPidInfo($pid)->sizeStr()); }
             else {$pidStats->setPidSize("- x - x -");}
-            $pidStats->setPidCreated($exampleOutTuote[0]->getPidLuotu());
+            //$pidStats->setPidCreated($exampleOutTuote[0]->getPidLuotu());
+            $pidStats->setPidCreated($exampleOutTuote->getPidLuotu());
         }
         
         return $pidStats;

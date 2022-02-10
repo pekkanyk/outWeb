@@ -19,6 +19,29 @@ class OutletTuoteRepository extends ServiceEntityRepository
         parent::__construct($registry, OutletTuote::class);
     }
     
+    public function getExamplePid($pid){
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.pid = :pid')
+            ->setParameter('pid', $pid)
+            ->orderBy('o.firstSeen','DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+    
+    public function getCheapestActivePid($pid){
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.pid = :pid')
+            ->andWhere('o.deleted IS NULL')
+            ->setParameter('pid', $pid)
+            ->orderBy('o.outPrice','ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+    
     public function setAllActiveDeleted(): void
     {
         $this->createQueryBuilder('o')

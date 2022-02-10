@@ -3,6 +3,9 @@
 namespace App\Service;
 
 use App\Entity\Bookmarks;
+use App\Entity\PriceWatch;
+use App\Entity\OutletTuote;
+use App\Model\PriceWatchRow;
 use Doctrine\ORM\EntityManagerInterface;
 
 
@@ -25,9 +28,49 @@ class BookmarksService{
         }
         return $outIds;
     }
+    
+    public function priceWatchRows($userId){
+        $db = $this->entityManager->getRepository(OutletTuote::class);
+        $priceWatchRows = [];
+        $priceWatchObjects = $this->getPriceWatches($userId);
+        for ($i=0;$i<count($priceWatchObjects);$i++){
+            $pid = $priceWatchObjects[$i]->getPid();
+            $cheapestPid = $db->getCheapestActivePid($pid);
+            $examplePid = $db->getExamplePid($pid);
+            $name = $examplePid->getName();
+            if ($cheapestPid != null){
+                $halvin = $cheapestPid->getOutPrice();
+            }
+            else{
+                $halvin = 0;
+            }
+            $limit = $priceWatchObjects[$i]->getPriceLimit();
+            $priceWatchRows[] = new PriceWatchRow($pid,$name,$halvin,$limit);
+        }
+        return $priceWatchRows;
+    }
+    
+    public function getPriceWatches($userId){
+        $db = $this->entityManager->getRepository(PriceWatch::class);
+        //$bookmarksObjects = $db->findByUserId($userId);
+       $priceWatchObjects = $db->getPidArray($userId);
+        return $priceWatchObjects;
+    }
+    
     public function isBookmarked($outId,$userId){
         $db = $this->entityManager->getRepository(Bookmarks::class);
         if ($db->getBookmark($outId,$userId) != null) {
+            return true;
+        }
+        else {
+            return false;
+        }
+        
+    }
+    
+    public function isPricewatch($pid,$userId){
+        $db = $this->entityManager->getRepository(PriceWatch::class);
+        if ($db->getPricewatch($pid,$userId) != null) {
             return true;
         }
         else {
@@ -53,6 +96,27 @@ class BookmarksService{
         $bookmarksObject = $db->getBookmark($outId,$userId);
         if ($bookmarksObject != null){
             $this->entityManager->remove($bookmarksObject);
+            $this->entityManager->flush();
+        }
+    }
+    
+    public function addPid($pid,$userId){
+        $db = $this->entityManager->getRepository(PriceWatch::class);
+        if ($db->getPricewatch($pid,$userId) == null){
+            $pricewatchObject = new PriceWatch();
+            $pricewatchObject->setPid($pid);
+            $pricewatchObject->setUserId($userId);
+            $pricewatchObject->setPriceLimit(0);
+            $this->entityManager->persist($pricewatchObject);
+            $this->entityManager->flush();
+        }
+        
+    }
+    public function delPid($pid,$userId){
+        $db = $this->entityManager->getRepository(PriceWatch::class);
+        $pricewatchObject = $db->getPricewatch($pid,$userId);
+        if ($pricewatchObject != null){
+            $this->entityManager->remove($pricewatchObject);
             $this->entityManager->flush();
         }
     }

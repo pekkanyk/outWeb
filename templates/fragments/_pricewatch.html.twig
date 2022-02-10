@@ -1,28 +1,35 @@
-        <div class="container">
-            
-            
-            <div class="row">
+        <div class="row">
                 <div class="col-md-12">
                     <table class="table taulukot">
-                    <caption>Hintatarkkailussa</caption>
-                    <thead>
-                        <tr>
-                        <td>Rajahinta</td>
-                        <td>PID</td>
-                        <td>Nimi</td>
-                        </tr>
-                    </thead>
-                    {% for row in spiraalissa %}
-                    <tr>
-                        <td><span class="active">{{ row.getCount() }}</span></td>
-                        <td><a class="active" href="/search/pid/{{ row.getPid() }}">{{ row.getPid() }}</a></td>
-                        <td><span class="active">{{ row.getName() }}</span></td>
-                    </tr>
-                    {% endfor %}
-                </table>
+                        <caption>Hintatarkkailussa (PID) - {{ pricewathcrows|length }} kpl</caption>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>PID</th>
+                                <th>Tuote</th>
+                                <th>Halvin</th>
+                                <th>Raja</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        {% for row in pricewathcrows %}
+                            <tr>
+                                <td><a href="/bookmark/pricewatch/del/{{ row.pid }}"><img src="/gfx/ico_remove.gif"/></a></td>
+                                
+                                {% if row.halvin == 0 %}
+                                    <td><a class="deleted" title="PID {{ row.pid }}"  href="/search/pid/{{ row.pid }}">{{ row.pid }}</a></td>
+                                <td><span class="deleted">{{ row.nimi }}</span></td>
+                                <td><span class="deleted">{{ row.halvin|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }}</span></td>
+                                {% else %}
+                                <td><a class="active" title="PID {{ row.pid }}"  href="/search/pid/{{ row.pid }}">{{ row.pid }}</a></td>
+                                <td><span class="active">{{ row.nimi }}</span></td>
+                                <td><span class="active">{{ row.halvin|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }}</span></td>
+                                {% endif %}
+                                <td><span class="active">{{ row.limit|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }}</span></td>
+                                <td></td>
+                            </tr>
+                        {% endfor %}
                         
-    
-            
+                    </table>
                 </div>
             </div>
-        </div>

@@ -67,9 +67,10 @@ class DefaultController extends AbstractController{
         $outIds = $this->bookmarksService->getBookmarks($dbuser->getId());
         $bookmarks = $this->outletTuoteService->getBookmarkedIds($outIds);
         
+        $priceWatchRows = $this->bookmarksService->priceWatchRows($dbuser->getId());
         return $this->render('account.html.twig',[
+            'pricewathcrows' => $priceWatchRows,
             'changePassForm' => $form->createView(),
-            'bookmarksLkm' => count($bookmarks),
             'bookmarks' => $bookmarks,
             'headerStats'=>$this->updateStatsService->getStats()
             ]);
@@ -100,6 +101,29 @@ class DefaultController extends AbstractController{
         return $this->redirect($referer);
     }
     
+    /**
+     *@Route("/bookmark/pricewatch/{mode}/{pid}", name="pricewatch")
+     */
+    public function pricewatch(string $mode,int $pid, Request $request): Response
+    {
+        $pid = intval($pid);
+        $dbUser = $this->userService->findUsername($this->getUser()->getUsername())[0];
+        $userId = $dbUser->getId();
+        if ($mode == "add"){
+            $this->bookmarksService->addPid($pid,$userId);
+        }
+        elseif($mode == "del"){
+            $this->bookmarksService->delPid($pid,$userId);
+        }
+        else{
+            
+        }
+        $referer = $request->headers->get('referer');
+        if($referer==null){
+            $referer = "/";
+        }
+        return $this->redirect($referer);
+    }
     
     /**
      *@Route("/search", name="search")

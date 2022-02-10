@@ -14,7 +14,7 @@
                     {{ form_end(form) }}
                 <div class="col-md-12">
                     <a href="/search/firstseen/{{ date|date_modify("-1 day")|date("Y-m-d") }}"><==</a>
-                    {{ date|format_date('short', locale='fi') }} ensi kertaa nähdyt. Yhteensä {{ activeLkm+deletedLkm }} kpl.
+                    {{ date|format_date('short', locale='fi') }} ensi kertaa nähdyt. Yhteensä {{ active|length+deleted|length }} kpl.
                     <a href="/search/firstseen/{{ date|date_modify("+1 day")|date("Y-m-d") }}">==></a>
                 </div>
             </div>
@@ -22,7 +22,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <table class="table taulukot">
-                        <caption>Poistuneet - {{ deletedLkm }}kpl</caption>
+                        <caption>Poistuneet - {{ deleted|length }}kpl</caption>
                         {% set dateType = "Poistunut" %}
                         {{ include('fragments/_outTable_header.html.twig') }}
                         {% if is_granted ('ROLE_HISTORY') %}
@@ -40,7 +40,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <table class="table taulukot">
-                        <caption>Aktiivisia - {{ activeLkm }} kpl</caption>
+                        <caption>Aktiivisia - {{ active|length }} kpl</caption>
                         {% set dateType = "Muuttunut" %}
                         {{ include('fragments/_outTable_header.html.twig') }}
                         {% if active|length >0 %}

@@ -19,9 +19,27 @@ class PriceWatchRepository extends ServiceEntityRepository
         parent::__construct($registry, PriceWatch::class);
     }
 
-    // /**
-    //  * @return PriceWatch[] Returns an array of PriceWatch objects
-    //  */
+    public function getPricewatch($pid,$userId){
+        return $this->createQueryBuilder('b')
+            ->andWhere('b.userId = :user')
+            ->andWhere('b.pid = :pid')
+            ->setParameter('user', $userId)
+            ->setParameter('pid', $pid)    
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+    
+    public function getPidArray($value)
+    {
+        return $this->createQueryBuilder('b')
+            ->andWhere('b.userId = :val')
+            ->setParameter('val', $value)
+            ->orderBy('b.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
     /*
     public function findByExampleField($value)
     {

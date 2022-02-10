@@ -63,8 +63,6 @@ class OutletTuoteController extends AbstractController
             'outletTuote'=> $outletTuote,
             'active'=>$active,
             'deleted'=>$deleted,
-            'activeLkm'=>count($active),
-            'deletedLkm'=>count($deleted),
             'pidInfo'=> $this->outletTuoteService->getPidInfo($outletTuote->getPid())]
                 );
     }
@@ -123,6 +121,8 @@ class OutletTuoteController extends AbstractController
     public function showPid($pid, Request $request): Response
     {
         $pid = intval($pid);
+        $dbUser = $this->userService->findUsername($this->getUser()->getUsername())[0];
+        $userId = $dbUser->getId();
 	$today = (new \DateTime())->format('Y-m-d');
         $pidStats = $this->outletTuoteService->getPidStats($pid);
         $active = $this->outletTuoteService->getActiveWithPid($pid);
@@ -133,12 +133,11 @@ class OutletTuoteController extends AbstractController
             return $this->redirect("/search/pid/".$form->getData()->getPid());
         }
         return $this->render('pid_tuote.html.twig',[
+            'pricewatch'=>$this->bookmarksService->isPricewatch($pid, $userId),
             'headerStats'=>$this->updateStatsService->getStats(),
             'today'=>$today,
             'pidStats'=>$pidStats,
             'active'=>$active,
-            'activeLkm'=>count($active),
-            'deletedLkm'=>count($deleted),
             'form'=> $form->createView(),
             'deleted'=>$deleted
             ]
@@ -171,9 +170,7 @@ class OutletTuoteController extends AbstractController
             'today'=>$today,
             'date'=>$date,
             'active'=>$active,
-            'deleted'=>$deleted,
-            'activeLkm'=>count($active),
-            'deletedLkm'=>count($deleted)]
+            'deleted'=>$deleted]
                 );
     }
     
