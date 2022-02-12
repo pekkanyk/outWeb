@@ -21,11 +21,6 @@
                             </tr>
                         </thead>
                         {% for outTuote in bookmarks %}
-                            {% if outTuote.deleted !=null %}
-                                {% set dateType="Muuttunut" %}
-                            {% else %}
-                                {% set dateType="Poistunut" %}
-                            {% endif %}
                             <tr>
                                 <td><a href="/bookmark/del/{{ outTuote.outId }}"><img src="/gfx/ico_remove.gif"/></a></td>
                                 <td><a class="{{ outTuote.myynnissa()}}" title="PID {{ outTuote.pid }}"  href="/search/outid/{{ outTuote.outid }}">{{ outTuote.outId }}</a></td>
@@ -49,7 +44,7 @@
                                 <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.onkoK() }}</span></td>
                                 <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.onkoD() }}</span></td>
                                 <td><span class="{{ outTuote.myynnissa()}}"><div><span title="Tilattavissa. Varastossa kpl">{{ outTuote.varastossa }}</span></div></span></td>
-                                {% if dateType == "Muuttunut" %}
+                                {% if outTuote.myynnissa() == "active" %}
                                 <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.priceUpdatedDate|format_date('short', locale='fi') }}</span></td>
                                 {% else %}
                                 <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.deleted|format_date('short', locale='fi') }}</span></td>
