@@ -57,6 +57,13 @@ class BookmarksService{
         return $priceWatchObjects;
     }
     
+    public function getAllPriceWatches(){
+        $db = $this->entityManager->getRepository(PriceWatch::class);
+        //$bookmarksObjects = $db->findByUserId($userId);
+       $priceWatchObjects = $db->findAll();
+        return $priceWatchObjects;
+    }
+    
     public function isBookmarked($outId,$userId){
         $db = $this->entityManager->getRepository(Bookmarks::class);
         if ($db->getBookmark($outId,$userId) != null) {
@@ -117,6 +124,17 @@ class BookmarksService{
         $pricewatchObject = $db->getPricewatch($pid,$userId);
         if ($pricewatchObject != null){
             $this->entityManager->remove($pricewatchObject);
+            $this->entityManager->flush();
+        }
+    }
+    
+    public function editPid($pid,$userId,$limit){
+        $int_limit = intval($limit);
+        $db = $this->entityManager->getRepository(PriceWatch::class);
+        $pricewatchObject = $db->getPricewatch($pid,$userId);
+        if ($pricewatchObject != null){
+            $pricewatchObject->setPriceLimit($int_limit);
+            $this->entityManager->persist($pricewatchObject);
             $this->entityManager->flush();
         }
     }

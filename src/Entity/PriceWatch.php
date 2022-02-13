@@ -37,6 +37,11 @@ class PriceWatch
      */
     private $name;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $armed;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +91,18 @@ class PriceWatch
     public function setName(?string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getArmed(): ?bool
+    {
+        return $this->armed;
+    }
+
+    public function setArmed(bool $armed): self
+    {
+        $this->armed = $armed;
 
         return $this;
     }

@@ -21,6 +21,12 @@ class UserService{
         return $user;
     }
     
+    
+    public function findByUserId($userId){
+        $db = $this->entityManager->getRepository(User::class);
+        return $db->find($userId);
+    }
+    
     public function updatePassword($user, $hashedPassword):void{
         $db = $this->entityManager->getRepository(User::class);
         $db->upgradePassword($user, $hashedPassword);

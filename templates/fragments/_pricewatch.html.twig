@@ -9,6 +9,7 @@
                                 <th>Tuote</th>
                                 <th>Halvin</th>
                                 <th>Raja</th>
+                                <th>Armed</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -25,11 +26,26 @@
                                 <td><span class="active">{{ row.nimi }}</span></td>
                                 <td><span class="active">{{ row.halvin|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }}</span></td>
                                 {% endif %}
-                                <td><span class="active">{{ row.limit|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }}</span></td>
-                                <td></td>
+                                <form method="POST" action="/bookmark/pricewatch/edit">
+                                <td>
+                                    
+                                    <input type="text" name="limit" value="{{ row.limit|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }}" id="limit_{{row.pid}}" class="noBorder inputbox-pitka" readonly="readonly"/>
+                                    <input type="hidden" name="int_limit" id="int_limit_{{ row.pid }}" value="{{ row.limit }}"/>
+                                </td>
+                                <td>
+                                    <input type="checkbox" name="armed" id="checkbox_{{row.pid}}" checked="true" onclick="return false;"/>
+                                </td>
+                                <td>
+                                    <input type="button" class="btn" value="EDIT" id="edit_{{row.pid}}" onclick="editLimit({{row.pid}})"/>
+                                    <input type="hidden" id="pid" name="pid" value="{{ row.pid }}"/>
+                                    
+                                </td>
+                                </form>
                             </tr>
                         {% endfor %}
                         
                     </table>
                 </div>
+            <!--<script inline="javascript"> var contextRoot = /*[[@{/}]]*/ '';</script>-->
+            <script src="/javascript/pwEdit.js" defer></script>
             </div>

@@ -76,6 +76,19 @@ class DefaultController extends AbstractController{
             ]);
         
     }
+    /**
+     *@Route("/bookmark/pricewatch/edit", name="pricewatchEdit")
+     */
+    public function pricewatchEdit(Request $request): Response
+    {
+        $dbUser = $this->userService->findUsername($this->getUser()->getUsername())[0];
+        $userId = $dbUser->getId();
+        $pid = $request->get('pid');
+        $limit = $request->get('limit');
+        
+        $this->bookmarksService->editPid($pid,$userId,$limit);
+        return $this->redirectToRoute('account');
+    }
     
     /**
      *@Route("/bookmark/{mode}/{outId}", name="bookmark")
@@ -124,6 +137,8 @@ class DefaultController extends AbstractController{
         }
         return $this->redirect($referer);
     }
+    
+    
     
     /**
      *@Route("/search", name="search")

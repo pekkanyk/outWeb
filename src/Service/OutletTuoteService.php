@@ -39,7 +39,10 @@ class OutletTuoteService{
         return $outletTuote;
     }
     
-    
+    public function getCheapestActivePid($pid){
+        $db = $this->entityManager->getRepository(OutletTuote::class);
+        return $db->getCheapestActivePid($pid);
+    }
     
     public function noInfo(){
         $db = $this->entityManager->getRepository(OutletTuote::class);
