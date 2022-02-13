@@ -1,5 +1,6 @@
 
 ###> symfony/framework-bundle ###
+/.gitignore
 /.env
 /.env.local
 /.env.local.php
@@ -11,3 +12,5 @@
 /docker/logs/
 ###< symfony/framework-bundle ###
 /nbproject/private/
+.env
+.gitignore
