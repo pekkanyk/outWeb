@@ -17,10 +17,10 @@
                             <tr>
                                 <td><a href="/bookmark/pricewatch/del/{{ row.pid }}"><img src="/gfx/ico_remove.gif"/></a></td>
                                 
-                                {% if row.halvin == 0 %}
+                                {% if row.halvin == 999999 %}
                                     <td><a class="deleted" title="PID {{ row.pid }}"  href="/search/pid/{{ row.pid }}">{{ row.pid }}</a></td>
                                 <td><span class="deleted">{{ row.nimi }}</span></td>
-                                <td><span class="deleted">{{ row.halvin|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }}</span></td>
+                                <td><span class="deleted">-</span></td>
                                 {% else %}
                                 <td><a class="active" title="PID {{ row.pid }}"  href="/search/pid/{{ row.pid }}">{{ row.pid }}</a></td>
                                 <td><span class="active">{{ row.nimi }}</span></td>

@@ -28,11 +28,17 @@
                     Järjestelmä lähettää sähköpostin (mikäli osoite asetettu) jos halvin tuote PID löytyy rajahinnalla tai alle. Sähköpostin lähettämisen jälkeen rivi asetetaan inaktiiviseksi 
                     jottei tule useita sähköposteja.<br> 
                     Rivin voi poistaa punaisesta ruksista tai asettaa uudelleen aktiiviseksi editoimalla.<br>
-                    Riville voi asettaa rajahinnaksi kokonaisluvun. Mikäli haluaa ilmoituksen kun ylipäätään jokin PID tulee tarjolle, voi rajahinnaksi asettaa vaikka 999999.<br>
+                    Riville voi asettaa rajahinnaksi kokonaisluvun. Mikäli haluaa ilmoituksen kun ylipäätään jokin PID tulee tarjolle, voi rajahinnaksi asettaa vaikka 9999.<br>
                     Sähköpostit menevät usein roskapostiin, tarkista siis sieltä<br>
                     <br>
                     <br>
-                    [TODO: lisää PID joka ei ole nähty] [PID] [Nimi] [RAJAHINTA] [ADD]<br>
+                    <label for="add_new">Lisää uusi PID seurantaan manuaaliseti</label>
+                    <form name="add_new" method="POST" action="/bookmark/pricewatch/add_no_db">
+                        <label for="pid">Pid</label><input type="number" name="pid" class="inputbox-pitka" />
+                        <label for="name">Nimi</label><input type="text" name="name" class="inputbox-pitka" />
+                        <label for="limit">Limit</label><input type="number" name="limit" class="inputbox-pitka" />
+                        <input type="button" class="btn" value="ADD" id="add_pid" onclick="submit()"/>
+                    </form><br>
                 </div>
                 
             </div>

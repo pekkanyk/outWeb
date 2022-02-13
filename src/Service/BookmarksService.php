@@ -37,12 +37,17 @@ class BookmarksService{
             $pid = $priceWatchObjects[$i]->getPid();
             $cheapestPid = $db->getCheapestActivePid($pid);
             $examplePid = $db->getExamplePid($pid);
-            $name = $examplePid->getName();
+            if ($examplePid != null){
+                $name = $examplePid->getName();
+            }
+            else {
+                $name = $priceWatchObjects[$i]->getName();
+            }
             if ($cheapestPid != null){
                 $halvin = $cheapestPid->getOutPrice();
             }
             else{
-                $halvin = 0;
+                $halvin = 999999;
             }
             $limit = $priceWatchObjects[$i]->getPriceLimit();
             $armed = $priceWatchObjects[$i]->getArmed();
@@ -121,6 +126,22 @@ class BookmarksService{
         }
         
     }
+    
+    public function addNoDbPid($pid,$userId,$limit,$name){
+        $db = $this->entityManager->getRepository(PriceWatch::class);
+        if ($db->getPricewatch($pid,$userId) == null){
+            $pricewatchObject = new PriceWatch();
+            $pricewatchObject->setPid($pid);
+            $pricewatchObject->setUserId($userId);
+            $pricewatchObject->setPriceLimit($limit);
+            $pricewatchObject->setName($name);
+            $pricewatchObject->setArmed(true);
+            $this->entityManager->persist($pricewatchObject);
+            $this->entityManager->flush();
+        }
+        
+    }
+    
     public function delPid($pid,$userId){
         $db = $this->entityManager->getRepository(PriceWatch::class);
         $pricewatchObject = $db->getPricewatch($pid,$userId);

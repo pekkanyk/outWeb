@@ -102,6 +102,20 @@ class DefaultController extends AbstractController{
     }
     
     /**
+     *@Route("/bookmark/pricewatch/add_no_db", name="pricewatchAddNew")
+     */
+    public function pricewatchAddNew(Request $request): Response
+    {
+        $dbUser = $this->userService->findUsername($this->getUser()->getUsername())[0];
+        $userId = $dbUser->getId();
+        $pid = intval($request->get('pid'));
+        $limit = intval($request->get('limit'));
+        $name = $request->get('name');
+        $this->bookmarksService->addNoDbPid($pid,$userId,$limit,$name);
+        return $this->redirectToRoute('account');
+    }
+    
+    /**
      *@Route("/bookmark/{mode}/{outId}", name="bookmark")
      */
     public function bookmark(string $mode,int $outId, Request $request): Response
