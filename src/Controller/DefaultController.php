@@ -77,6 +77,16 @@ class DefaultController extends AbstractController{
         
     }
     /**
+     *@Route("/account/addemail", name="addemail")
+     */
+    public function addEmail(Request $request): Response
+    {
+        $dbUser = $this->userService->findUsername($this->getUser()->getUsername())[0];
+        //$userId = $dbUser->getId();
+        $this->userService->addEmail($request->get('email'),$dbUser);
+        return $this->redirectToRoute('account');
+    }
+    /**
      *@Route("/bookmark/pricewatch/edit", name="pricewatchEdit")
      */
     public function pricewatchEdit(Request $request): Response
@@ -85,8 +95,9 @@ class DefaultController extends AbstractController{
         $userId = $dbUser->getId();
         $pid = $request->get('pid');
         $limit = $request->get('limit');
-        
-        $this->bookmarksService->editPid($pid,$userId,$limit);
+        $armed = $request->get('armed');
+        if ($armed == null){$armed=false;}
+        $this->bookmarksService->editPid($pid,$userId,$limit,$armed);
         return $this->redirectToRoute('account');
     }
     

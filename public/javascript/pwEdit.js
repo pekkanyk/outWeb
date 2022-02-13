@@ -12,6 +12,12 @@ function editLimit(pid){
     document.getElementById(edit).setAttribute("value", "OK");
 }
 
+function editEmail(){
+    document.getElementById("email").removeAttribute("readonly");
+    document.getElementById("email").setAttribute("class", "inputbox-pitka");
+    document.getElementById("edit_email").setAttribute("onclick", "submit()");
+    document.getElementById("edit_email").setAttribute("value", "SAVE");
+}
 
 
 

@@ -33,7 +33,11 @@
                                     <input type="hidden" name="int_limit" id="int_limit_{{ row.pid }}" value="{{ row.limit }}"/>
                                 </td>
                                 <td>
+                                    {% if row.armed == 1 %}
                                     <input type="checkbox" name="armed" id="checkbox_{{row.pid}}" checked="true" onclick="return false;"/>
+                                    {% else %}
+                                    <input type="checkbox" name="armed" id="checkbox_{{row.pid}}" onclick="return false;"/>
+                                    {% endif %}
                                 </td>
                                 <td>
                                     <input type="button" class="btn" value="EDIT" id="edit_{{row.pid}}" onclick="editLimit({{row.pid}})"/>

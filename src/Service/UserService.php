@@ -32,4 +32,11 @@ class UserService{
         $db->upgradePassword($user, $hashedPassword);
     }
     
+    public function addEmail($email,$user){
+        $db = $this->entityManager->getRepository(User::class);
+        $user->setEmail($email);
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+    }
+    
 }

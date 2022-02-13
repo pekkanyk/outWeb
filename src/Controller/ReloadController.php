@@ -35,8 +35,8 @@ class ReloadController extends AbstractController{
     public function reloadProducts(): Response {
         $this->reloadService->updateDb();
         //return new Response(print("done"));
-        //return $this->redirectToRoute('email_pricewatch');
-        return $this->redirectToRoute('homepage');
+        return $this->redirectToRoute('email_pricewatch');
+        //return $this->redirectToRoute('homepage');
     }
     
     /**
@@ -49,19 +49,19 @@ class ReloadController extends AbstractController{
            $outletTuote = $this->outletTuoteService->getCheapestActivePid($priceWathcObjects[$i]->getPid());
            if ($outletTuote != null && ($priceWathcObjects[$i]->getPriceLimit() > $outletTuote->getOutPrice())){
                $user = $this->userService->findByUserId($priceWathcObjects[$i]->getUserId());
-               if ($user->getEmail()!=null){
+               if ($user->getEmail()!=null && $priceWathcObjects[$i]->getArmed()){
                    $email = (new Email())
                     ->from('outweb@outweb.ddns.net')
                     ->to($user->getEmail())
                     ->subject($outletTuote->getName())
                     ->text('Tarkkailuun laittamasi tuote '.$outletTuote->getPid().' - '.$outletTuote->getName().' on outletissa  ja '
-                    . 'alle määrrittelemäsi raja-arvon. '
-                    . ''
+                    . 'alle määrrittelemäsi raja-arvon. '.$priceWathcObjects[$i]->getPriceLimit()
+                    . ' e'
                     . 'Tuotelinkki: https://www.verkkokauppa.com/fi/outlet/yksittaiskappaleet/'.$outletTuote->getOutId()
-                    . ' Merkintä poistettu' );
+                    . ' Merkinnän aktivointi poistettu' );
                     $mailer->send($email);
                     
-                    // poista rivi tietokannasta (pid,userid)
+                    $this->bookmarksService->unarmPriceWatch($outletTuote->getPid(),$user->getId());
                }
                
            }

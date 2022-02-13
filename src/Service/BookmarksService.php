@@ -45,7 +45,8 @@ class BookmarksService{
                 $halvin = 0;
             }
             $limit = $priceWatchObjects[$i]->getPriceLimit();
-            $priceWatchRows[] = new PriceWatchRow($pid,$name,$halvin,$limit);
+            $armed = $priceWatchObjects[$i]->getArmed();
+            $priceWatchRows[] = new PriceWatchRow($pid,$name,$halvin,$limit,$armed);
         }
         return $priceWatchRows;
     }
@@ -114,6 +115,7 @@ class BookmarksService{
             $pricewatchObject->setPid($pid);
             $pricewatchObject->setUserId($userId);
             $pricewatchObject->setPriceLimit(0);
+            $pricewatchObject->setArmed(true);
             $this->entityManager->persist($pricewatchObject);
             $this->entityManager->flush();
         }
@@ -128,15 +130,24 @@ class BookmarksService{
         }
     }
     
-    public function editPid($pid,$userId,$limit){
+    public function editPid($pid,$userId,$limit,$armed){
         $int_limit = intval($limit);
         $db = $this->entityManager->getRepository(PriceWatch::class);
         $pricewatchObject = $db->getPricewatch($pid,$userId);
         if ($pricewatchObject != null){
+            $pricewatchObject->setArmed($armed);
             $pricewatchObject->setPriceLimit($int_limit);
             $this->entityManager->persist($pricewatchObject);
             $this->entityManager->flush();
         }
+    }
+    
+    public function unarmPriceWatch($pid,$userId){
+        $db = $this->entityManager->getRepository(PriceWatch::class);
+        $pricewatchObject = $db->getPricewatch($pid,$userId);
+        $pricewatchObject->setArmed(false);
+        $this->entityManager->persist($pricewatchObject);
+        $this->entityManager->flush();
     }
     
 }

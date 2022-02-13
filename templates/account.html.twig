@@ -9,22 +9,36 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
-                    <div class=row>Käyttäjätunnus: {{ app.user.username }}</div>
-                    
-                </div>
-                <div class="col-md-4">
-                </div>
-                <div class="col-md-4">
+                    <div class="row">Käyttäjätunnus: {{ app.user.username }}</div>
+                    <div class="row">Email:
+                    <form method="POST" action="/account/addemail">
+                        <input type="text" name="email" value="{{ app.user.email}}" id="email" class="noBorder inputbox-pitka" readonly="readonly"/>
+                        <input type="button" class="btn" value="EDIT Email" id="edit_email" onclick="editEmail()"/>
+                    </form>
                     Salasanan vaihto: [EI TOIMI VIELÄ]
                     {{ form_start(changePassForm) }}
                     {{ form_row(changePassForm.password, {label: 'Vanha salasana', type: 'password'}) }}
                     {{ form_row(changePassForm.plainPassword) }}
                     <button type="submit" class="btn">Vaihda</button>
                     {{ form_end(changePassForm) }}
+                    </div>
                 </div>
+                <div class="col-md-8">
+                    Tuote PID:n voi asetaa seurantaan PID hakusivun kautta klikkaamalla vihreää + -kuvaketta. Lisäämisen jälkeen tällä sivulla voi asettaa riville rajahinnan. <br>
+                    Järjestelmä lähettää sähköpostin (mikäli osoite asetettu) jos halvin tuote PID löytyy rajahinnalla tai alle. Sähköpostin lähettämisen jälkeen rivi asetetaan inaktiiviseksi 
+                    jottei tule useita sähköposteja.<br> 
+                    Rivin voi poistaa punaisesta ruksista tai asettaa uudelleen aktiiviseksi editoimalla.<br>
+                    Riville voi asettaa rajahinnaksi kokonaisluvun. Mikäli haluaa ilmoituksen kun ylipäätään jokin PID tulee tarjolle, voi rajahinnaksi asettaa vaikka 999999.<br>
+                    Sähköpostit menevät usein roskapostiin, tarkista siis sieltä<br>
+                    <br>
+                    <br>
+                    [TODO: lisää PID joka ei ole nähty] [PID] [Nimi] [RAJAHINTA] [ADD]<br>
+                </div>
+                
             </div>
-            {{ include('fragments/_bookmark.html.twig') }}
+            
             {{ include('fragments/_pricewatch.html.twig') }}
+            {{ include('fragments/_bookmark.html.twig') }}
         </div>
             {% endblock %}
     </body>
