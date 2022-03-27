@@ -10,6 +10,7 @@ use App\Service\OutletTuoteService;
 use App\Service\UpdateStatsService;
 use App\Form\Type\DayStatsType;
 use App\Model\Search2Dates;
+use App\Model\WeekStats;
 
 class StatsController extends AbstractController
 {
@@ -19,7 +20,7 @@ class StatsController extends AbstractController
         $this->outletTuoteService = $outletTuoteService;
         $this->updateStatsService = $updateStatsService;
     }
-       
+    
     /**
      * @Route("/stats/daystats/")
      */
@@ -84,6 +85,88 @@ class StatsController extends AbstractController
             ]);
          
     }
+       
+    /**
+     * @Route("/stats/weekstats/")
+     */
+    public function weeklyStats(Request $request): Response
+    {
+        $asti = new \DateTime('now', new \DateTimeZone('Europe/Helsinki'));
+        $asti->setTime(23,59,59);
+        $alkaen = (new \DateTime('now', new \DateTimeZone('Europe/Helsinki')))->sub(new \DateInterval('P90D'));
+        $alkaen->setTime(23,59,59);
+        $form = $this->createForm(DayStatsType::class,new Search2Dates());
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            //return $this->redirect("/daystats/");
+            $alkaen = $form->getData()->getAlku();
+            $asti = $form->getData()->getLoppu();
+        }
+        
+        $weeks = [];
+        $weekStart = $alkaen;
+        while ($weekStart->format("D")!="Mon"){
+            $weekStart = $weekStart->add(new \DateInterval('P1D'));
+        }
+        $weekEnd = (new \DateTime($weekStart->format("Y-m-d")))->add(new \DateInterval('P6D'));
+        $weekStart->setTime(23,59,59);
+        $weekEnd->setTime(23,59,59);
+        
+        while ($weekStart < $asti){
+            
+            $week = new WeekStats($weekStart,$this->outletTuoteService->countDeleted($weekStart,$weekEnd),$this->outletTuoteService->countFirstSeen($weekStart,$weekEnd));
+            $week->setSumma_uudet($this->outletTuoteService->sumFirstseenOutPrice($weekStart,$weekEnd));
+            $week->setSumma_poistuneet($this->outletTuoteService->sumDeletedOutPrice($weekStart,$weekEnd));
+            $week->setSumma_norPrice($this->outletTuoteService->sumDeletedNorPrice($weekStart,$weekEnd));
+            $weeks[] = $week;
+            $weekStart = (new \DateTime($weekEnd->format("Y-m-d"), new \DateTimeZone('Europe/Helsinki')))->add(new \DateInterval('P1D'));
+            $weekEnd = (new \DateTime($weekStart->format("Y-m-d"), new \DateTimeZone('Europe/Helsinki')))->add(new \DateInterval('P6D'));
+            $weekStart->setTime(23,59,59);
+            $weekEnd->setTime(23,59,59);
+        }
+        $weeks = array_reverse($weeks);
+        /*
+	$dates = $this->outletTuoteService->getDates($alkaen, $asti);
+        $datestats_rows = [];
+        for ($i=0;$i<count($dates);$i++){
+            $row = $this->outletTuoteService->getNumbersFor($dates[$i]['deleted']);
+            $row_with_date = array_merge($dates[$i],$row);
+            array_push($datestats_rows,$row_with_date);
+        }
+        */
+        
+        $chartArr = [['Viikko','Deleted','Uusia']];
+        for ($i=0;$i<count($weeks);$i++){
+            array_push($chartArr,[$weeks[$i]->getAlku(),
+                                    $weeks[$i]->getPoistuneet(),
+                                    $weeks[$i]->getUudet(),
+                                    ]);
+        }
+        
+        $chart = new \CMEN\GoogleChartsBundle\GoogleCharts\Charts\Material\ColumnChart();
+        $chart->getData()->setArrayToDataTable($chartArr);
+        
+        $chart->getOptions()->getChart()
+            ->setTitle('Uusia & Poistettuja');
+            
+        $chart->getOptions()
+        ->setBars('vertical')
+        ->setHeight(400)
+        ->setWidth(1200)
+        ->setColors(['#2222FF','#FF2222'])
+        ->getVAxis()
+        ->setFormat('decimal');
+        
+        
+        return $this->render('weekstats.html.twig',[
+            'chart'=> $chart,
+            'form'=> $form->createView(),
+            'weeks'=> $weeks,
+            'headerStats'=>$this->updateStatsService->getStats()
+            ]);
+         
+    }
+    
     /**
      * @Route("/stats/stock/")
      */

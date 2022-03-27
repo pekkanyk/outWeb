@@ -18,6 +18,54 @@ class OutletTuoteRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, OutletTuote::class);
     }
+    public function countFirstSeenBetween($alku,$loppu){
+        return $this->createQueryBuilder('o')
+                ->select('COUNT (o)')
+                ->andWhere('o.firstSeen BETWEEN :alku AND :loppu')
+                ->setParameter('alku', $alku->format('Y-m-d'))
+                ->setParameter('loppu', $loppu->format('Y-m-d'))
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
+    
+    public function countDeletedBetween($alku,$loppu){
+        return $this->createQueryBuilder('o')
+                ->select('COUNT (o)')
+                ->andWhere('o.deleted BETWEEN :alku AND :loppu')
+                ->setParameter('alku', $alku->format('Y-m-d'))
+                ->setParameter('loppu', $loppu->format('Y-m-d'))
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
+    
+    public function sumFirstSeenOutPriceBetween($alku,$loppu){
+        return $this->createQueryBuilder('o')
+                ->select('SUM (o.outPrice)')
+                ->andWhere('o.firstSeen BETWEEN :alku AND :loppu')
+                ->setParameter('alku', $alku->format('Y-m-d'))
+                ->setParameter('loppu', $loppu->format('Y-m-d'))
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
+    
+    public function sumDeletedOutPriceBetween($alku,$loppu){
+        return $this->createQueryBuilder('o')
+                ->select('SUM (o.outPrice)')
+                ->andWhere('o.deleted BETWEEN :alku AND :loppu')
+                ->setParameter('alku', $alku->format('Y-m-d'))
+                ->setParameter('loppu', $loppu->format('Y-m-d'))
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
+    public function sumDeletedNorPriceBetween($alku,$loppu){
+        return $this->createQueryBuilder('o')
+                ->select('SUM (o.norPrice)')
+                ->andWhere('o.deleted BETWEEN :alku AND :loppu')
+                ->setParameter('alku', $alku->format('Y-m-d'))
+                ->setParameter('loppu', $loppu->format('Y-m-d'))
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
     
     public function getExamplePid($pid){
         return $this->createQueryBuilder('o')

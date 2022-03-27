@@ -38,6 +38,29 @@ class OutletTuoteService{
         
         return $outletTuote;
     }
+    public function countFirstSeen($alkaen,$asti){
+        $db = $this->entityManager->getRepository(OutletTuote::class);
+        return $db->countFirstSeenBetween($alkaen,$asti);
+    }
+    public function countDeleted($alkaen,$asti){
+        $db = $this->entityManager->getRepository(OutletTuote::class);
+        return $db->countDeletedBetween($alkaen,$asti);
+    }
+    
+    public function sumFirstseenOutPrice($alkaen,$asti){
+        $db = $this->entityManager->getRepository(OutletTuote::class);
+        return $db->sumFirstSeenOutPriceBetween($alkaen,$asti);
+    }
+    
+    public function sumDeletedOutPrice($alkaen,$asti){
+        $db = $this->entityManager->getRepository(OutletTuote::class);
+        return $db->sumDeletedOutPriceBetween($alkaen,$asti);
+    }
+    
+    public function sumDeletedNorPrice($alkaen,$asti){
+        $db = $this->entityManager->getRepository(OutletTuote::class);
+        return $db->sumDeletedNorPriceBetween($alkaen,$asti);
+    }
     
     public function getCheapestActivePid($pid){
         $db = $this->entityManager->getRepository(OutletTuote::class);
