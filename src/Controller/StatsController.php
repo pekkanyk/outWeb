@@ -162,7 +162,7 @@ class StatsController extends AbstractController
             ->setAxes(['y' => ['Kpl' => ['label' => 'kpl'],
                             'Summa' => ['side' => 'right','label' => 'Summa (€)'],
                             ]])
-        ->setColors(['#2222FF','#FF2222','#1b9e77','#5b9e11'])
+        ->setColors(['#2222FF','#FF2222','#1b9e77','#FFD700'])
         ->getVAxis()
         ->setFormat('decimal');
         

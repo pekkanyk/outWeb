@@ -471,7 +471,7 @@ class OutletTuoteRepository extends ServiceEntityRepository
                 ->andWhere('o.deleted IS NULL')
                 ->groupBy('o.pid')
                 ->orderBy('CountOf', 'DESC')
-                ->setMaxResults(500)
+                ->setMaxResults(100)
                 ->getQuery()
                 ->getResult();
     }
@@ -517,6 +517,18 @@ class OutletTuoteRepository extends ServiceEntityRepository
                 ->setMaxResults(1)
                 ->getQuery()
                 ->getSingleScalarResult();
+    }
+    
+    public function getNewest_deletedPid($pid){
+        return $this->createQueryBuilder('o')
+                ->select('o')
+                ->andWhere('o.deleted IS NOT NULL')
+                ->andWhere('o.pid = :pid')
+                ->orderBy('o.deleted','DESC')
+                ->setParameter('pid',$pid)
+                ->setMaxResults(1)
+                ->getQuery()
+                ->getResult();
     }
     
     public function getAvgDeletedOutId(){

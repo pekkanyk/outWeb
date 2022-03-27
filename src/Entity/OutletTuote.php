@@ -390,6 +390,13 @@ class OutletTuote
         return $da;
     }
     
+    public function deletedDaysAgo(){
+        $today = date_create("today");
+        //$today->setTime(00,00,00);
+        $da = $this->deleted->diff($today)->format('%a');
+        return $da;
+    }
+    
     public function daysWithLastPrice(){
         $today = date_create("today");
         //$today->setTime(00,00,00);

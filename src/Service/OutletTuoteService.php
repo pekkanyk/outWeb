@@ -136,8 +136,14 @@ class OutletTuoteService{
             $count = $numbers[$i]['CountOf'];
             $example = $db->findOneBy(['pid'=>$pid]);
             $name = $example->getName();
+            $viimeisinPoistunut = $db->getNewest_deletedPid($pid);
+            $viimeisinPostunutPvSitten = "-";
+            if ($viimeisinPoistunut != null){
+                //$viimeisinPoistunut = $db->find($viimeisinPoistunutOutId);
+                $viimeisinPostunutPvSitten = $viimeisinPoistunut[0]->deletedDaysAgo();
+            }
             
-            array_push($top10rows,new Top10Row($pid, $name, $count)); 
+            array_push($top10rows,new Top10Row($pid, $name, $count, $viimeisinPostunutPvSitten)); 
         }
         return $top10rows;
     }

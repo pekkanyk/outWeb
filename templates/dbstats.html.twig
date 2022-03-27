@@ -105,6 +105,7 @@
                         <td>Kpl</td>
                         <td>PID</td>
                         <td>Nimi</td>
+                        <td>Poistunut pv sitten</td>
                         </tr>
                     </thead>
                     {% for top10row in stats.getActive_top10() %}
@@ -112,6 +113,7 @@
                         <td><span class="active">{{ top10row.getCount() }}</span></td>
                         <td><a class="active" href="/search/pid/{{ top10row.getPid() }}">{{ top10row.getPid() }}</a></td>
                         <td><span class="active">{{ top10row.getName() }}</span></td>
+                        <td><span class="active">{{ top10row.getLastDel() }}</span></td>
                     </tr>
                     {% endfor %}
                 </table>
@@ -122,6 +124,7 @@
                         <td>Kpl</td>
                         <td>PID</td>
                         <td>Nimi</td>
+                        <td>Poistunut pv sitten</td>
                         </tr>
                     </thead>
                     {% for top10row in stats.getDeleted_top10() %}
@@ -129,6 +132,7 @@
                         <td><span class="active">{{ top10row.getCount() }}</span></td>
                         <td><a class="active" href="/search/pid/{{ top10row.getPid() }}">{{ top10row.getPid() }}</a></td>
                         <td><span class="active">{{ top10row.getName() }}</span></td>
+                        <td><span class="active">{{ top10row.getLastDel() }}</span></td>
                     </tr>
                     {% endfor %}
                 </table>

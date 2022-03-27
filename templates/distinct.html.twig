@@ -18,6 +18,7 @@
                         <td>Kpl</td>
                         <td>PID</td>
                         <td>Nimi</td>
+                        <td>Poistunut pv sitten</td>
                         </tr>
                     </thead>
                     {% for row in topDistinct %}
@@ -25,6 +26,7 @@
                         <td><span class="active">{{ row.getCount() }}</span></td>
                         <td><a class="active" href="/search/pid/{{ row.getPid() }}">{{ row.getPid() }}</a></td>
                         <td><span class="active">{{ row.getName() }}</span></td>
+                        <td><span class="active">{{ row.getLastDel() }}</span></td>
                     </tr>
                     {% endfor %}
                 </table>
