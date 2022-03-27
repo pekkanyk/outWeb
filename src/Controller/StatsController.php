@@ -135,11 +135,13 @@ class StatsController extends AbstractController
         }
         */
         
-        $chartArr = [['Viikko','Deleted','Uusia']];
+        $chartArr = [['Viikko','Deleted','Uusia','SumUudet','SumDeleted']];
         for ($i=0;$i<count($weeks);$i++){
             array_push($chartArr,[$weeks[$i]->getAlku(),
                                     $weeks[$i]->getPoistuneet(),
                                     $weeks[$i]->getUudet(),
+                                    floor($weeks[$i]->getSumma_uudet()),
+                                    floor($weeks[$i]->getSumma_poistuneet()),
                                     ]);
         }
         
@@ -153,7 +155,14 @@ class StatsController extends AbstractController
         ->setBars('vertical')
         ->setHeight(400)
         ->setWidth(1200)
-        ->setColors(['#2222FF','#FF2222'])
+        ->setSeries([['axis' => 'Kpl'],
+                     ['axis' => 'Kpl'],
+                     ['axis' => 'Summa'],
+                    ['axis'=>'Summa']])
+            ->setAxes(['y' => ['Kpl' => ['label' => 'kpl'],
+                            'Summa' => ['side' => 'right','label' => 'Summa (€)'],
+                            ]])
+        ->setColors(['#2222FF','#FF2222','#1b9e77','#5b9e11'])
         ->getVAxis()
         ->setFormat('decimal');
         
