@@ -37,7 +37,7 @@ class PidInfo
     private $height;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="bigint", nullable=true)
      */
     private $volume;
     
@@ -110,7 +110,7 @@ class PidInfo
         return $this;
     }
 
-    public function getVolume(): ?int
+    public function getVolume(): ?string
     {
         return $this->volume;
     }
