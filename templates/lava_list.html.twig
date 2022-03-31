@@ -1,0 +1,64 @@
+<html xmlns="http://www.w3.org/1999/xhtml" >
+    <head lang="en">
+        {{ include('fragments/_head.html.twig') }}
+    </head>
+    <body> {% block body %}
+        <header>
+            {{ include('fragments/_top_navi.html.twig') }}  
+            <link rel="stylesheet" href="/css/lavapaikat.css"/>
+        </header>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                <table>
+                    {% if puoli==0 %}
+                        {% set puoliStr = "Parilliset" %}
+                        {% set uusipuoli = 1 %}
+                    {% else %}
+                        {% set puoliStr = "Parittomat" %}
+                        {% set uusipuoli = 0 %}
+                    {% endif %}
+                    {% set seuraava = kaytava+1 %}
+                    {% set edellinen = kaytava-1 %}
+                    <caption><b>Käytävä 
+                            {% if edellinen >2 %}<a href="/lavapaikat/{{ edellinen }}/{{ puoli }}"><--</a> {%endif%}
+                            {{ kaytava }} 
+                            {% if seuraava <5 %}<a href="/lavapaikat/{{ seuraava }}/{{ puoli }}">--></a>{% endif %}, 
+                            {{ puoliStr }} <a href="/lavapaikat/{{ kaytava }}/{{ uusipuoli }}"><-></a></b></caption>
+                {% for key in lavapaikat %}
+                    <tr>
+                    {% for lavapaikka in key %}
+                        <td>
+                            <button class="button" style="background-color:{{lavapaikka.vari()}}" {%if lavapaikka.usable == false%}disabled{%endif%} onclick="lavapaikka('{{lavapaikka.id}}')">
+                            <b>{{ lavapaikka.id }}<br></b>
+                            <br>
+                            <br>
+                            Updated:<br>
+                            {{ lavapaikka.updated|format_date('short', locale='fi') }}
+                            <br>
+                                </button>
+                        </td>
+                    {% endfor %}
+                    </tr>
+                {% endfor %}
+                </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <form method="POST" action="/lavapaikat/edit">
+                    <input type="text" name="lava_text" id="lava_text" value="klikkaa"></input>
+                    <input type="button" value="0%" id="0" style="background-color:#4CAF50" class="usage" onclick="useClick(0)"></input>
+                    <input type="button" value="25%" id="25" style="background-color:#90EE90" class="usage" onclick="useClick(25)"></input>
+                    <input type="button" value="50%" id="50" style="background-color:#FFD700" class="usage" onclick="useClick(50)"></input>
+                    <input type="button" value="75%" id="75" style="background-color:#FFA500" class="usage" onclick="useClick(75)"></input>
+                    <input type="button" value="100%" id="100" style="background-color:#FF4500" class="usage" onclick="useClick(100)"></input>
+                    <input type="button" value="N/A" id="200" style="background-color:#FFE4E1" class="usage" onclick="useClick(200)"></input>
+                    <input type="hidden" name="usage" id="usage" value="0"></input>
+                    </form>
+                </div>
+            </div>
+        </div>
+            {% endblock %}
+        <script src="/javascript/lavapaikat.js" defer></script>
+    </body>

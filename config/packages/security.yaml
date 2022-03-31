@@ -49,3 +49,4 @@ security:
         - { path: ^/register/, roles: ROLE_ADMIN }
         - { path: ^/account/, roles: ROLE_USER }
         - { path: ^/bookmark/, roles: ROLE_USER }
+        - { path: ^/lavapaikat/, roles: ROLE_USER }

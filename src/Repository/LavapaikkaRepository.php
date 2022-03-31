@@ -22,20 +22,31 @@ class LavapaikkaRepository extends ServiceEntityRepository
     // /**
     //  * @return Lavapaikka[] Returns an array of Lavapaikka objects
     //  */
-    /*
-    public function findByExampleField($value)
+    
+    public function getVali($kaytava, $vali)
     {
         return $this->createQueryBuilder('l')
-            ->andWhere('l.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('l.kaytava = :kaytava')
+            ->andWhere('l.vali = :vali' )
+            ->setParameter('kaytava', $kaytava)
+            ->setParameter('vali', $vali)
             ->orderBy('l.id', 'ASC')
-            ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
-
+    public function getTaso($kaytava, $taso)
+    {
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.kaytava = :kaytava')
+            ->andWhere('l.taso = :taso' )
+            ->setParameter('kaytava', $kaytava)
+            ->setParameter('taso', $taso)
+            ->orderBy('l.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
     /*
     public function findOneBySomeField($value): ?Lavapaikka
     {

@@ -10,26 +10,96 @@ use App\Service\OutletTuoteService;
 use App\Service\UpdateStatsService;
 use App\Form\Type\DayStatsType;
 use App\Model\Search2Dates;
+use App\Form\Type\LavapaikkaType;
+use App\Entity\Lavapaikka;
+use App\Service\LavapaikkaService;
 
 class SpecialController extends AbstractController
 {
     private OutletTuoteService $outletTuoteService;
     private UpdateStatsService $updateStatsService;
-    public function __construct(OutletTuoteService $outletTuoteService, UpdateStatsService $updateStatsService) {
+    private LavapaikkaService $lavapaikkaService;
+    public function __construct(OutletTuoteService $outletTuoteService, UpdateStatsService $updateStatsService, LavapaikkaService $lavapaikkaService) {
         $this->outletTuoteService = $outletTuoteService;
         $this->updateStatsService = $updateStatsService;
+        $this->lavapaikkaService = $lavapaikkaService;
     }
        
     
     
     /**
-     * @Route("/special")
+     * @Route("/lavapaikat/add")
      */
-    public function special(): Response
+    public function addLavapaikka(Request $request): Response
+    {
+        $form = $this->createForm(LavapaikkaType::class,new Lavapaikka());
+            $form->handleRequest($request);
+            $ok = "";
+            if($form->isSubmitted() && $form->isValid()){
+                $lavapaikka = new Lavapaikka();
+                $lavapaikka->setKaytava($form->getData()->getKaytava());
+                $lavapaikka->setVali($form->getData()->getVali());
+                $lavapaikka->setTaso($form->getData()->getTaso());
+                $lavapaikka->setReuna($form->getData()->getReuna());
+                $lavapaikka->setUsable(true);
+                $lavapaikka->setId($lavapaikka->printName());
+                $this->lavapaikkaService->add($lavapaikka);
+                $ok=$lavapaikka->printName();
+            }
+        return $this->render('lava_add.html.twig',[
+            'form'=> $form->createView(),
+            'text'=> $ok,
+            'headerStats'=>$this->updateStatsService->getStats()
+            ]);
+         
+    }
+    /**
+     * @Route("/lavapaikat/")
+     */
+    public function lavapaikatDefault(): Response
     {
         
-        return $this->render('special.html.twig',[
+        return $this->redirect("/lavapaikat/3/0");
+    }
+    /**
+     * @Route("/lavapaikat/edit")
+     */
+    public function editLavapaikka(Request $request): Response
+    {
+        $lp = $request->get('lava_text');
+        $usage = $request->get('usage');
+        $this->lavapaikkaService->editUsage($lp,$usage);
         
+        $referer = $request->headers->get('referer');
+        if($referer==null){
+            $referer = "/";
+        }
+        return $this->redirect($referer);
+         
+    }
+    
+    
+    /**
+     * @Route("/lavapaikat/{kaytava}/{puoli}")
+     */
+        
+    public function lavapaikat(int $kaytava, int $puoli): Response
+    {
+        
+        $kaikkiLavapaikat = [];
+        
+        for ($i=5;$i>0;$i--){
+            $lavapaikkaRivi = $this->lavapaikkaService->getTaso($kaytava, $i);
+            $kaikkiLavapaikat[]=$this->toinenpuoli($lavapaikkaRivi, $puoli);
+        }
+        /*$puoliStr = "";
+        if ($puoli==0) {$puoliStr = "Parilliset";}
+        else {$puoliStr = "Parittomat";}
+        */
+        return $this->render('lava_list.html.twig',[
+            'kaytava'=>$kaytava,
+            'puoli'=>$puoli,
+            'lavapaikat'=> $kaikkiLavapaikat,
             'headerStats'=>$this->updateStatsService->getStats()
             ]);
          
@@ -56,6 +126,28 @@ class SpecialController extends AbstractController
             
             ]);
          
+    }
+    
+    private function toinenpuoli($lavapaikkaRivi, $puoli){
+        $lavapaikkarivit =[];
+        for ($i=0;$i<count($lavapaikkaRivi);$i++){
+            if ($puoli ==1){
+                if (!($lavapaikkaRivi[$i]->getVali() % 2 ==0)){
+                    $lavapaikkarivit[]=$lavapaikkaRivi[$i];
+                }
+            }
+            else{
+                if ($lavapaikkaRivi[$i]->getVali() % 2 ==0){
+                    $lavapaikkarivit[]=$lavapaikkaRivi[$i];
+                }
+            }
+        }
+        if ($puoli ==0){
+            return array_reverse($lavapaikkarivit);
+        }
+        else {
+        return $lavapaikkarivit;
+        }
     }
     
 }

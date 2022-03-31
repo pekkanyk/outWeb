@@ -12,8 +12,7 @@ class Lavapaikka
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=255)
      */
     private $id;
 
@@ -57,9 +56,15 @@ class Lavapaikka
      */
     private $updated;
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
+    }
+    
+    public function setId(string $id): self
+    {
+        $this->id = $id;
+        return $this;
     }
 
     public function getKaytava(): ?int
@@ -156,6 +161,32 @@ class Lavapaikka
         $this->updated = $updated;
 
         return $this;
+    }
+    
+    public function printName(): ?string
+    {
+        $k = "0".$this->kaytava;
+        if ($this->vali<=9){
+        $v = "0".$this->vali;
+        }
+        else {
+            $v = $this->vali;
+        }
+        return "3A".$k."-".$v."-".$this->taso.$this->reuna;
+        
+    }
+    
+    public function vari():?string
+    {
+        $vari = "#D3D3D3";
+        if ($this->getUsage() ==0) {$vari = "#4CAF50";}
+        else if ($this->getUsage() ==25) {$vari = "#90EE90";}
+        else if ($this->getUsage() ==50) {$vari = "#FFD700";}
+        else if ($this->getUsage() ==75) {$vari = "#FFA500";}
+        else if ($this->getUsage() ==100) {$vari = "#FF4500";}
+        else if ($this->getUsage() ==-1) {$vari = "#696969";}
+        else if ($this->getUsage() ==200) {$vari = "#FFE4E1";}
+        return $vari;
     }
 
 }
