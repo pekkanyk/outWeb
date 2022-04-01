@@ -68,7 +68,8 @@ class SpecialController extends AbstractController
     {
         $lp = $request->get('lava_text');
         $usage = $request->get('usage');
-        $this->lavapaikkaService->editUsage($lp,$usage);
+        $sisalto = $request->get('sisalto');
+        $this->lavapaikkaService->editUsage($lp,$usage,$sisalto);
         
         $referer = $request->headers->get('referer');
         if($referer==null){
@@ -87,15 +88,23 @@ class SpecialController extends AbstractController
     {
         
         $kaikkiLavapaikat = [];
-        
+        /*
         for ($i=5;$i>0;$i--){
             $lavapaikkaRivi = $this->lavapaikkaService->getTaso($kaytava, $i);
             $kaikkiLavapaikat[]=$this->toinenpuoli($lavapaikkaRivi, $puoli);
         }
-        /*$puoliStr = "";
-        if ($puoli==0) {$puoliStr = "Parilliset";}
-        else {$puoliStr = "Parittomat";}
         */
+        for ($i=5;$i>0;$i--){
+            if ($puoli == 1){
+                $kaikkiLavapaikat[] = $this->lavapaikkaService->getOddTaso($kaytava, $i);
+                
+            }
+            else{
+                $kaikkiLavapaikat[] = $this->lavapaikkaService->getEvenTaso($kaytava, $i);
+            }
+            
+        }
+        
         return $this->render('lava_list.html.twig',[
             'kaytava'=>$kaytava,
             'puoli'=>$puoli,

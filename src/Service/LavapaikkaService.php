@@ -33,14 +33,24 @@ class LavapaikkaService{
         $lavapaikat = $db->getTaso($kaytava,$taso);
         return $lavapaikat;
     }
-    
-    public function editUsage($lp,$usage){
+    public function getOddTaso($kaytava,$taso){
+        $db = $this->entityManager->getRepository(Lavapaikka::class);
+        $lavapaikat = $db->getOddTaso($kaytava,$taso);
+        return $lavapaikat;
+    }
+    public function getEvenTaso($kaytava,$taso){
+        $db = $this->entityManager->getRepository(Lavapaikka::class);
+        $lavapaikat = $db->getEvenTaso($kaytava,$taso);
+        return $lavapaikat;
+    }
+    public function editUsage($lp,$usage,$sisalto){
         $db = $this->entityManager->getRepository(Lavapaikka::class);
         $date = date_create("now", new \DateTimeZone('Europe/Helsinki'));
         $lavapaikka = $db->find($lp);
         if($lavapaikka!=null){
             $lavapaikka->setUsage($usage);
             $lavapaikka->setUpdated($date);
+            $lavapaikka->setSisalto($sisalto);
         }
         $this->entityManager->persist($lavapaikka);
         $this->entityManager->flush();

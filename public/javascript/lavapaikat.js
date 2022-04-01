@@ -1,5 +1,7 @@
 function lavapaikka(lavapaikka){
+    var sisalto = document.getElementById(lavapaikka).getAttribute("title");
     document.getElementById("lava_text").setAttribute("value", lavapaikka);
+    document.getElementById("sisalto").innerHTML = sisalto;
 
 }
 

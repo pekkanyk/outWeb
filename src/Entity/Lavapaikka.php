@@ -188,5 +188,17 @@ class Lavapaikka
         else if ($this->getUsage() ==200) {$vari = "#FFE4E1";}
         return $vari;
     }
+    
+    public function daysEdited(){
+        if ($this->usable){
+        $today = date_create("today");
+        //$today->setTime(00,00,00);
+        $da = $this->updated->diff($today)->format('%a');
+        return $da;
+        }
+        else{
+            return "-";
+        }
+    }
 
 }

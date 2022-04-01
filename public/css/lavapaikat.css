@@ -19,6 +19,8 @@ td    {
   display: inline-block;
   font-size: 14px;
   border-radius: 8px;
+  width:75px;
+  height: 90px;
 }
 
 
@@ -28,4 +30,10 @@ td    {
   text-decoration: none;
   width: 100px;
   height: 50px;
+}
+
+.content{
+    text-align: top;
+    width: 250px;
+    height: 150px;
 }

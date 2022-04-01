@@ -47,6 +47,33 @@ class LavapaikkaRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+    public function getOddTaso($kaytava, $taso)
+    {
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.kaytava = :kaytava')
+            ->andWhere('l.taso = :taso' )
+            ->andWhere('mod(l.vali,2) != 0')
+            ->setParameter('kaytava', $kaytava)
+            ->setParameter('taso', $taso)
+            ->orderBy('l.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    public function getEvenTaso($kaytava, $taso)
+    {
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.kaytava = :kaytava')
+            ->andWhere('l.taso = :taso' )
+            ->andWhere('mod(l.vali,2) = 0')
+            ->setParameter('kaytava', $kaytava)
+            ->setParameter('taso', $taso)
+            ->orderBy('l.vali', 'DESC')
+            ->addOrderBy('l.reuna', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
     /*
     public function findOneBySomeField($value): ?Lavapaikka
     {
