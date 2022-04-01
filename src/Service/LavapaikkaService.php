@@ -51,9 +51,10 @@ class LavapaikkaService{
             $lavapaikka->setUsage($usage);
             $lavapaikka->setUpdated($date);
             $lavapaikka->setSisalto($sisalto);
+            $this->entityManager->persist($lavapaikka);
+            $this->entityManager->flush();
         }
-        $this->entityManager->persist($lavapaikka);
-        $this->entityManager->flush();
+        
     }
     
 }
