@@ -190,7 +190,7 @@ class Lavapaikka
     }
     
     public function daysEdited(){
-        if ($this->usable){
+        if ($this->usable && $this->updated != null){
         $today = date_create("today");
         //$today->setTime(00,00,00);
         $da = $this->updated->diff($today)->format('%a');
