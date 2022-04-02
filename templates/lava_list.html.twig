@@ -7,6 +7,7 @@
             {{ include('fragments/_top_navi.html.twig') }}  
             <link rel="stylesheet" href="/css/lavapaikat.css"/>
         </header>
+            <sidescroller>
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -52,32 +53,30 @@
                 </div>
             </div>
              </div>
-    
+                </sidescroller>
             <div class="container">
             <div class="row">
-                <div class="col-sm-2 col-md-2">
-                    <form method="POST" action="/lavapaikat/edit" id="lavapaikka_form">
-                    <input type="text" name="lava_text" id="lava_text" value="klikkaa"></input>
-                </div>
-                
-                <div class="col-sm-2 col-md-1"><input type="button" value="0%" id="0" style="background-color:#4CAF50" class="usage" onclick="useClick(0)"></input></div>
-                <div class="col-sm-2 col-md-1"><input type="button" value="25%" id="25" style="background-color:#90EE90" class="usage" onclick="useClick(25)"></input></div>
-                <div class="col-sm-2 col-md-1"><input type="button" value="50%" id="50" style="background-color:#FFD700" class="usage" onclick="useClick(50)"></input></div>
-                <div class="col-sm-2 col-md-1"><input type="button" value="75%" id="75" style="background-color:#FFA500" class="usage" onclick="useClick(75)"></input></div>
-                <div class="col-sm-2 col-md-1"><input type="button" value="100%" id="100" style="background-color:#FF4500" class="usage" onclick="useClick(100)"></input></div>
-                <div class="col-sm-2 col-md-1"><input type="button" value="N/A" id="200" style="background-color:#FFE4E1" class="usage" onclick="useClick(200)"></input></div>
+                <form method="POST" action="/lavapaikat/edit" id="lavapaikka_form">
+                <input type="text" name="lava_text" id="lava_text" value="klikkaa" hidden></input>
                 <input type="hidden" name="usage" id="usage" value="0"></input>
-            </div>
-                    
+                <span class="sticky">
+                <div class="col-xs-4 col-md-1"><input type="button" value="0%" id="0" style="background-color:#4CAF50" class="usage" onclick="useClick(0)"></input></div>
+                <div class="col-xs-4 col-md-1"><input type="button" value="25%" id="25" style="background-color:#90EE90" class="usage" onclick="useClick(25)"></input></div>
+                <div class="col-xs-4 col-md-1"><input type="button" value="50%" id="50" style="background-color:#FFD700" class="usage" onclick="useClick(50)"></input></div>
+                <div class="col-xs-4 col-md-1"><input type="button" value="75%" id="75" style="background-color:#FFA500" class="usage" onclick="useClick(75)"></input></div>
+                <div class="col-xs-4 col-md-1"><input type="button" value="100%" id="100" style="background-color:#FF4500" class="usage" onclick="useClick(100)"></input></div>
+                <div class="col-xs-4 col-md-1"><input type="button" value="N/A" id="200" style="background-color:#FFE4E1" class="usage" onclick="useClick(200)"></input></div>
                 
-            <div class="row">
-                <div class="col-md-12">
-                    <textarea name="sisalto" id="sisalto" class="content" maxlength="500" form="lavapaikka_form"></textarea>
-                    <br><br>
-                    </form>
+                <div class="col-xs-12 col-md-6"><textarea name="sisalto" id="sisalto" class="content" maxlength="500" form="lavapaikka_form"></textarea></div>
+                </span>
+                </form>
                 </div>
             </div>
-            </div>
+            
+                <br>
+                <br>
+                    <br>
+                <br>
             {% endblock %}
         <script src="/javascript/lavapaikat.js" defer></script>
         <span id="btn_temp_style" hidden>none</span>

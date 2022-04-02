@@ -25,15 +25,28 @@ td    {
 
 
 .usage{
-  padding: 2px 2px;
+  padding: 2px 0px;
   text-align: center;
   text-decoration: none;
-  width: 100px;
+  width: 98%;
   height: 50px;
+  border-radius: 8px;
 }
 
 .content{
     text-align: top;
     width: 250px;
     height: 150px;
+}
+
+.sticky{
+    position: webkit-sticky;
+    position: sticky;
+    left: 0;
+}
+sidescroller{
+  display:block;
+  align-items: center;
+  overflow-x: auto;
+  overflow-y: hidden;
 }

@@ -36,6 +36,7 @@ class SpecialController extends AbstractController
             $form->handleRequest($request);
             $ok = "";
             if($form->isSubmitted() && $form->isValid()){
+                
                 $lavapaikka = new Lavapaikka();
                 $lavapaikka->setKaytava($form->getData()->getKaytava());
                 $lavapaikka->setVali($form->getData()->getVali());
@@ -43,8 +44,13 @@ class SpecialController extends AbstractController
                 $lavapaikka->setReuna($form->getData()->getReuna());
                 $lavapaikka->setUsable(true);
                 $lavapaikka->setId($lavapaikka->printName());
-                $this->lavapaikkaService->add($lavapaikka);
-                $ok=$lavapaikka->printName();
+                if ($this->lavapaikkaService->find($lavapaikka->getId()) == null){
+                    $this->lavapaikkaService->add($lavapaikka);
+                    $ok=$lavapaikka->printName();
+                }
+                else {
+                    $ok="Olemassa jo!";
+                }
             }
         return $this->render('lava_add.html.twig',[
             'form'=> $form->createView(),
@@ -77,6 +83,17 @@ class SpecialController extends AbstractController
         }
         return $this->redirect($referer);
          
+    }
+    
+    /**
+     * @Route("/lavapaikat/disenable/{lavapaikka}")
+     */
+    public function enadisableLavapaikka(String $lavapaikka): Response
+    {
+        $this->lavapaikkaService->enableOrDisable($lavapaikka);
+        
+        
+        return $this->redirect("/lavapaikat");
     }
     
     

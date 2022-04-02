@@ -56,5 +56,20 @@ class LavapaikkaService{
         }
         
     }
-    
+    public function enableOrDisable($lp){
+        $db = $this->entityManager->getRepository(Lavapaikka::class);
+        $lavapaikka = $db->find($lp);
+        if ($lavapaikka != null){
+            if ($lavapaikka->getUsable()){
+                $lavapaikka->setUsable(false);
+                $lavapaikka->setUsage(-1);
+            }
+            else {
+                $lavapaikka->setUsable(true);
+                $lavapaikka->setUsage(0);
+            }
+            $this->entityManager->persist($lavapaikka);
+            $this->entityManager->flush();
+        }
+    }
 }
