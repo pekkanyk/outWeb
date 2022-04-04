@@ -13,7 +13,10 @@ function lavapaikka(lavapaikka){
         document.getElementById(templavapaikka).setAttribute("style",old_color);
     }
     document.getElementById("lava_text").setAttribute("value", lavapaikka);
+    document.getElementById("lava_text").select();
+    document.execCommand("copy");
     document.getElementById("sisalto").innerHTML = sisalto;
+    document.getElementById("sisalto").focus();
     document.getElementById(lavapaikka).setAttribute("style","background-color:#C0C0C0");
 
     document.getElementById("btn_temp_id").innerHTML = lavapaikka;

@@ -35,6 +35,9 @@
                             {%if lavapaikka.usable == true%}
                             <button id="{{lavapaikka.id}}" title="{{ lavapaikka.sisalto }}" class="button" style="background-color:{{lavapaikka.vari()}}" onclick="lavapaikka('{{lavapaikka.id}}')">
                             <b>{{ lavapaikka.id }}<br></b>
+                            {% if lavapaikka.sisalto != "" %}
+                                <b>*</b>
+                            {% endif %}
                             <br>
                             <b>{{ lavapaikka.daysEdited() }} pv</b><br>
                             {{ lavapaikka.updated|format_date('short', locale='fi') }}

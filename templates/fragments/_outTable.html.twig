@@ -2,7 +2,7 @@
     <td><a class="{{ outTuote.myynnissa()}}" title="PID {{ outTuote.pid }}"  href="/search/outid/{{ outTuote.outid }}">{{ outTuote.outId }}</a></td>
     <td>
         <a class="{{ outTuote.myynnissa()}}" title="To PID"  href="/search/pid/{{ outTuote.pid }}">.</a>
-        <span class="{{ outTuote.myynnissa()}}" title="PID luotu: {{ outTuote.pidLuotu|format_date('short', locale='fi') }}">{{ outTuote.name }}</span>
+        <span class="{{ outTuote.myynnissa()}}" title="PID luotu: {{ outTuote.pidLuotu|format_date('short', locale='fi') }}" onclick="copyOutId({{outTuote.outId}})">{{ outTuote.name }}</span>
     </td>
     <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.outPrice|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }}</span></td>
     <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.norPrice|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }}</span></td>
