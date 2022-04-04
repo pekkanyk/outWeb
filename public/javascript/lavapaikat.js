@@ -1,7 +1,12 @@
 function lavapaikka(lavapaikka){
     var sisalto = document.getElementById(lavapaikka).getAttribute("title");
-    var original_color = document.getElementById(lavapaikka).getAttribute("style");
     var templavapaikka = document.getElementById("btn_temp_id").innerHTML;
+    if (templavapaikka !== lavapaikka){
+        var original_color = document.getElementById(lavapaikka).getAttribute("style");
+    }
+    else {
+        var original_color = document.getElementById("btn_temp_style").innerHTML;
+    }
     var old_color = document.getElementById("btn_temp_style").innerHTML;
     
     if (templavapaikka !== "none"){

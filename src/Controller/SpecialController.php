@@ -65,7 +65,7 @@ class SpecialController extends AbstractController
     public function lavapaikatDefault(): Response
     {
         
-        return $this->redirect("/lavapaikat/3/0");
+        return $this->redirect("/lavapaikat/4/0");
     }
     /**
      * @Route("/lavapaikat/edit")

@@ -25,7 +25,9 @@
                             {% if edellinen >2 %}<a href="/lavapaikat/{{ edellinen }}/{{ puoli }}"><--</a> {%endif%}
                             {{ kaytava }} 
                             {% if seuraava <5 %}<a href="/lavapaikat/{{ seuraava }}/{{ puoli }}">--></a>{% endif %}, 
-                            {{ puoliStr }} <a href="/lavapaikat/{{ kaytava }}/{{ uusipuoli }}"><-></a></b></caption>
+                            {{ puoliStr }} <a href="/lavapaikat/{{ kaytava }}/{{ uusipuoli }}"><-></a></b>
+                            <input type="text" name="lava_text" id="lava_text" value="" placeholder="Valitse" form="lavapaikka_form"></input>
+                    </caption>
                 {% for key in lavapaikat %}
                     <tr>
                     {% for lavapaikka in key %}
@@ -57,7 +59,6 @@
             <div class="container">
             <div class="row">
                 <form method="POST" action="/lavapaikat/edit" id="lavapaikka_form">
-                <input type="text" name="lava_text" id="lava_text" value="klikkaa" hidden></input>
                 <input type="hidden" name="usage" id="usage" value="0"></input>
                 <span class="sticky">
                 <div class="col-xs-4 col-md-1"><input type="button" value="0%" id="0" style="background-color:#4CAF50" class="usage" onclick="useClick(0)"></input></div>
@@ -67,7 +68,9 @@
                 <div class="col-xs-4 col-md-1"><input type="button" value="100%" id="100" style="background-color:#FF4500" class="usage" onclick="useClick(100)"></input></div>
                 <div class="col-xs-4 col-md-1"><input type="button" value="N/A" id="200" style="background-color:#FFE4E1" class="usage" onclick="useClick(200)"></input></div>
                 
-                <div class="col-xs-12 col-md-6"><textarea name="sisalto" id="sisalto" class="content" maxlength="500" form="lavapaikka_form"></textarea></div>
+                <div class="col-xs-12 col-md-6"><textarea name="sisalto" id="sisalto" class="content" maxlength="500" form="lavapaikka_form"></textarea>
+                    
+                </div>
                 </span>
                 </form>
                 </div>
