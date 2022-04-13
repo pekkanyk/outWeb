@@ -180,12 +180,16 @@ class DefaultController extends AbstractController{
             $aleprosentit = $this->outletTuoteService->aleprosentit($form->getData());
             $deleted_prosentit = $aleprosentit['deleted'];
             $active_prosentit = $aleprosentit['active'];
+            $active_sum_outprice = $aleprosentit['active_sum_outprice'];
+            $deleted_sum_outprice = $aleprosentit['deleted_sum_outprice'];
             
             return $this->render('search.html.twig',[
             'active'=> $active,
             'deleted'=> $deleted,
             'deleted_prosentit'=>$deleted_prosentit,
             'active_prosentit'=>$active_prosentit,
+            'active_sum_outprice'=> $active_sum_outprice,
+            'deleted_sum_outprice'=>$deleted_sum_outprice,
             'form'=> $form->createView(),
             'headerStats'=>$this->updateStatsService->getStats()
         

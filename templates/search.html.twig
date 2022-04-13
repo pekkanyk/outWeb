@@ -28,7 +28,7 @@
                 <div class="col-md-12">
                     <table class="table taulukot">
                         {% if active|length >0 %}
-                        <caption>Aktiivisia - {{ active|length }} kpl, Alennusprosentti (tot): {{ active_prosentit|round(1,'common') }} %</caption>
+                        <caption>Aktiivisia - {{ active|length }} kpl, Alennusprosentti (tot): {{ active_prosentit|round(1,'common') }} %, Yhteensä(out): {{ active_sum_outprice|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }} , Keskihinta(out): {{ (active_sum_outprice/active|length)|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }}</caption>
                         {% set dateType = "Muuttunut" %}
                         {{ include('fragments/_outTable_header.html.twig') }}
                         
@@ -43,7 +43,7 @@
                 <div class="col-md-12">
                     <table class="table taulukot">
                         {% if deleted|length >0 %}
-                            <caption>Poistuneet - {{ deleted|length }} kpl, Alennusprosentti (tot): {{ deleted_prosentit|round(1,'common') }} %</caption>
+                            <caption>Poistuneet - {{ deleted|length }} kpl, Alennusprosentti (tot): {{ deleted_prosentit|round(1,'common') }} %, Yhteensä(out): {{ deleted_sum_outprice|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }} , Keskihinta(out): {{ (deleted_sum_outprice/deleted|length)|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }}</caption>
                                 {% set dateType = "Poistunut" %}
                                 {{ include('fragments/_outTable_header.html.twig') }}
                             {% if is_granted ('ROLE_HISTORY') %}

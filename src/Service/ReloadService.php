@@ -170,7 +170,7 @@ class ReloadService{
                 }
         }
         
-        else{
+        else{ 
             $outletTuote->setVarastossa(null);
             $outletTuote->setOnVarasto(false);
         }
@@ -187,6 +187,14 @@ class ReloadService{
         if ($vkProduct["package"]["volume"]<=1200000) {$outletTuote->setKoko("P");}    
         else if ($vkProduct["package"]["volume"]<=13400000) {$outletTuote->setKoko("K");}
         else {$outletTuote->setKoko("I");}
+        /*VAK, ei toteutettu, JSON:ssa "vakType":null / jotain muuta
+        if ($vkProduct["vakType"]!=null){
+         $outletTuote->setVak(true);
+        }
+        else {
+        $outletTuote->setVak(false);
+        }
+        */
         
         return $outletTuote;
     }

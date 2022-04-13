@@ -170,18 +170,24 @@ class OutletTuoteService{
             $del_outPrices = $db->sumDeletedPrices('outPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr);
             $del_norPrices = $db->sumDeletedPrices('norPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr);
             $result['deleted'] = $this->countAle($del_outPrices, $del_norPrices);
+            $result['active_sum_outprice'] = $act_outPrices;
+            $result['deleted_sum_outprice'] = $del_outPrices;
         }
         elseif ($activity=="active"){
             $act_outPrices = $db->sumActivePrices('outPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr);
             $act_norPrices = $db->sumActivePrices('norPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr);
             $result['active'] = $this->countAle($act_outPrices, $act_norPrices);
             $result['deleted'] = null;
+            $result['active_sum_outprice'] = $act_outPrices;
+            $result['deleted_sum_outprice'] = null;
         }
         else{
             $result['active'] = null;
             $del_outPrices = $db->sumDeletedPrices('outPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr);
             $del_norPrices = $db->sumDeletedPrices('norPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr);
             $result['deleted'] = $this->countAle($del_outPrices, $del_norPrices);
+            $result['active_sum_outprice'] = null;
+            $result['deleted_sum_outprice'] = $del_outPrices;
         }
         return $result;
     }
@@ -416,5 +422,5 @@ class OutletTuoteService{
         //return $db->getRowsIn($bookmarks);
         return $db->findBy(array('outId' => $bookmarks));
         
-    }
+    }   
 }
