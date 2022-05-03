@@ -25,6 +25,7 @@
                                 <th>Summa(uusia)</th>
                                 <th>Poistuneita kpl</th>
                                 <th>Summa (poistuneita)</th>
+                                <th>Keskihinta</th>
                                 <th>kok. ale% (poistuneita)</th>
                             </tr>
                         </thead>
@@ -36,6 +37,7 @@
                                 <td><span class="active">{{ week.summa_uudet|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }}</span></td>
                                 <td><span class="active">{{ week.poistuneet }}</span></td>
                                 <td><span class="active">{{ week.summa_poistuneet|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }}</span></td>
+                                <td><span class="active">{{ (week.summa_poistuneet/week.poistuneet)|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }}</span></td>
                                 <td><span class="active">{{ week.aleProsentti()|round(1,'common') }}%</span></td>
                             </tr>
                         {% endfor %}
