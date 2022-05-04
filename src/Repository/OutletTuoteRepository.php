@@ -130,6 +130,17 @@ class OutletTuoteRepository extends ServiceEntityRepository
                 ->getResult();
     }
     
+    public function poisto_lastPrice($minimum){
+        return $this->createQueryBuilder('o')
+                ->andWhere('o.outPrice >= :minimum')
+                ->andWhere('o.deleted IS NULL')
+                ->andWhere('o.poistotuote != TRUE')
+                ->setParameter('minimum', $minimum)
+                ->orderBy('o.priceUpdatedDate','ASC')
+                ->getQuery()
+                ->getResult();
+    }
+    
     public function dumppi(){
         return $this->createQueryBuilder('o')
                 ->andWhere('o.deleted IS NULL')

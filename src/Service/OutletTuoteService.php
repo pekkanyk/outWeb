@@ -77,6 +77,11 @@ class OutletTuoteService{
         return $db->poisto();
     }
     
+    public function poisto_lastPrice($minimum){
+        $db = $this->entityManager->getRepository(OutletTuote::class);
+        return $db->poisto_lastPrice($minimum);
+    }
+    
     public function dumppi(){
         $db = $this->entityManager->getRepository(OutletTuote::class);
         return $db->dumppi();
