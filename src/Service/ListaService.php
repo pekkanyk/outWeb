@@ -62,8 +62,8 @@ class ListaService{
         return $list;
     }
     
-    public function makeShitList($days,$maxprice) {
-        $rivit = $this->makeShittyList($days,$maxprice);
+    public function makeShitList($days,$maxprice,$maxnormal) {
+        $rivit = $this->makeShittyList($days,$maxprice,$maxnormal);
         
         $list = [];
         $page = [];
@@ -101,7 +101,7 @@ class ListaService{
         return $list;
     }
     
-    private function makeShittyList($days,$maxprice) {
+    private function makeShittyList($days,$maxprice,$nor_max) {
         $listarivit = array_fill(0, 13, []);
         $db = $this->entityManager->getRepository(OutletTuote::class);
         $daysStr = "P".$days."D";
@@ -110,12 +110,13 @@ class ListaService{
         $asti = (new \DateTime('now', new \DateTimeZone('Europe/Helsinki')))->sub(new \DateInterval($daysStr));
         $asti->setTime(23,59,59);
         $minprice = "0";
+        $nor_min = "0";
         //$maxprice = "2";
         $orderby = "pid";
         $direction = "ASC";
         $searchStr = "%%";
         $kl = ['A','B','C','D'];
-        $dbTuotteet = $db->searchActive($alkaen,$asti,$minprice,$maxprice,$orderby,$direction,$searchStr,$kl);
+        $dbTuotteet = $db->searchActiveWithNorPrice($alkaen,$asti,$minprice,$maxprice,$orderby,$direction,$searchStr,$kl,$nor_min,$nor_max);
         
         $listaTuotteet = [];
         for ($i=0;$i<count($dbTuotteet);$i++){

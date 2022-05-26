@@ -17,6 +17,7 @@ use App\Model\DbStats;
 use App\Model\Top10Row;
 use App\Model\Bstats;
 use App\Model\PriceWatchRow;
+use App\Model\PriceProsStats;
 use Doctrine\ORM\EntityManagerInterface;
 
 
@@ -96,39 +97,41 @@ class OutletTuoteService{
         return $db->activeDaySpreadFirstSeen();
     }
     
-    public function dbStats() {
+    public function dbStats($alkaen,$asti) {
         $dbstats = new DbStats();
         $db = $this->entityManager->getRepository(OutletTuote::class);
-        $dbstats->setActive_count($db->countActiveRows());
-        $dbstats->setDeleted_count($db->countDeletedRows());
-        $dbstats->setDeleted_uniikit($db->countDistinctDeletedRows());
-        $dbstats->setActive_uniikit($db->countDistinctActiveRows());
-        $dbstats->setActive_top10($this->getTop10($db->top10DistinctActiveNumbers()));
-        $dbstats->setDeleted_top10($this->getTop10($db->top10DistinctDeletedNumbers()));
-        $dbstats->setActive_count_A($db->countActiveRowsCondition('A'));
-        $dbstats->setActive_count_B($db->countActiveRowsCondition('B'));
-        $dbstats->setActive_count_C($db->countActiveRowsCondition('C'));
-        $dbstats->setActive_count_D($db->countActiveRowsCondition('D'));
-        $dbstats->setDeleted_count_A($db->countDeletedRowsCondition('A'));
-        $dbstats->setDeleted_count_B($db->countDeletedRowsCondition('B'));
-        $dbstats->setDeleted_count_C($db->countDeletedRowsCondition('C'));
-        $dbstats->setDeleted_count_D($db->countDeletedRowsCondition('D'));
-        $dbstats->setOldest($db->findOneBy(['deleted'=>null],['outId'=>'ASC'])->getOutId());
-        $dbstats->setOldest_deleted($db->getOldest_deleted());
-        $dbstats->setNewest($db->findOneBy(['deleted'=>null],['outId'=>'DESC'])->getOutId());
-        $dbstats->setNewest_deleted($db->getNewest_deleted());
-        $dbstats->setAvgId($db->getAvgActiveOutId());
-        $dbstats->setAvgId_deleted($db->getAvgDeletedOutId());
-        $dbstats->setActive_sumOut($db->activeSumOut());
-        $dbstats->setDeleted_sumOut($db->deletedSumOut());
-        $dbstats->setActive_sumNor($db->activeSumNor());
-        $dbstats->setDeleted_sumNor($db->deletedSumNor());
-        $dbstats->setActive_days($db->activeAvgDays());
-        $dbstats->setDeleted_days($db->deletedAvgDays());
-        $dbstats->setActive_daysUpdated($db->activeAvgDaysUpdated());
-        $dbstats->setDeleted_daysUpdated($db->deletedAvgDaysUpdated());
-        $dbstats->setDeleted_longest($db->getLongest_deleted());
-        $dbstats->setActive_longest($db->getLongest_active());
+        $dbstats->setActive_count($db->countActiveRows($alkaen,$asti));
+        $dbstats->setDeleted_count($db->countDeletedRows($alkaen,$asti));
+        $dbstats->setDeleted_uniikit($db->countDistinctDeletedRows($alkaen,$asti));
+        $dbstats->setActive_uniikit($db->countDistinctActiveRows($alkaen,$asti));
+        $dbstats->setActive_top10($this->getTop10($db->top10DistinctActiveNumbers($alkaen,$asti)));
+        $dbstats->setDeleted_top10($this->getTop10($db->top10DistinctDeletedNumbers($alkaen,$asti)));
+        $dbstats->setActive_count_A($db->countActiveRowsCondition($alkaen,$asti,'A'));
+        $dbstats->setActive_count_B($db->countActiveRowsCondition($alkaen,$asti,'B'));
+        $dbstats->setActive_count_C($db->countActiveRowsCondition($alkaen,$asti,'C'));
+        $dbstats->setActive_count_D($db->countActiveRowsCondition($alkaen,$asti,'D'));
+        $dbstats->setDeleted_count_A($db->countDeletedRowsCondition($alkaen,$asti,'A'));
+        $dbstats->setDeleted_count_B($db->countDeletedRowsCondition($alkaen,$asti,'B'));
+        $dbstats->setDeleted_count_C($db->countDeletedRowsCondition($alkaen,$asti,'C'));
+        $dbstats->setDeleted_count_D($db->countDeletedRowsCondition($alkaen,$asti,'D'));
+        //$dbstats->setOldest($db->findOneBy(['deleted'=>null],['outId'=>'ASC'])->getOutId());
+        $dbstats->setOldest($db->getOldest($alkaen,$asti));
+        $dbstats->setOldest_deleted($db->getOldest_deleted($alkaen,$asti));
+        //$dbstats->setNewest($db->findOneBy(['deleted'=>null],['outId'=>'DESC'])->getOutId());
+        $dbstats->setNewest($db->getNewest($alkaen,$asti));
+        $dbstats->setNewest_deleted($db->getNewest_deleted($alkaen,$asti));
+        $dbstats->setAvgId($db->getAvgActiveOutId($alkaen,$asti));
+        $dbstats->setAvgId_deleted($db->getAvgDeletedOutId($alkaen,$asti));
+        $dbstats->setActive_sumOut($db->activeSumOut($alkaen,$asti));
+        $dbstats->setDeleted_sumOut($db->deletedSumOut($alkaen,$asti));
+        $dbstats->setActive_sumNor($db->activeSumNor($alkaen,$asti));
+        $dbstats->setDeleted_sumNor($db->deletedSumNor($alkaen,$asti));
+        $dbstats->setActive_days($db->activeAvgDays($alkaen,$asti));
+        $dbstats->setDeleted_days($db->deletedAvgDays($alkaen,$asti));
+        $dbstats->setActive_daysUpdated($db->activeAvgDaysUpdated($alkaen,$asti));
+        $dbstats->setDeleted_daysUpdated($db->deletedAvgDaysUpdated($alkaen,$asti));
+        $dbstats->setDeleted_longest($db->getLongest_deleted($alkaen,$asti));
+        $dbstats->setActive_longest($db->getLongest_active($alkaen,$asti));
         $dbstats->setLongestTop10($db->getLongestTop10());
         return $dbstats;
     }
@@ -427,5 +430,36 @@ class OutletTuoteService{
         //return $db->getRowsIn($bookmarks);
         return $db->findBy(array('outId' => $bookmarks));
         
-    }   
+    }
+    
+    public function prosPrice($alkaen,$asti){
+        $db = $this->entityManager->getRepository(OutletTuote::class);
+        $maxPrices = [];
+        $maxPrice = 0;
+        $minPrice = 0;
+        $kerroin = 1;
+        $count = 0;
+        while ($maxPrice<5000){
+            $minPrice = $maxPrice;
+            $maxPrice = $maxPrice + $kerroin*10;
+            $sumOut = $db->sumOutPriceBetweenNorPrice($minPrice,$maxPrice,$alkaen,$asti);
+            $sumNor = $db->sumNorPriceBetweenNorPrice($minPrice,$maxPrice,$alkaen,$asti);
+            $count = $db->countBetweenNorPrice($minPrice,$maxPrice,$alkaen,$asti);
+            $maxPrices[]=new PriceProsStats($minPrice,$maxPrice,$sumOut,$sumNor,$count);
+            if ($maxPrice<500){ 
+                
+            }
+            elseif ($maxPrice<1000){
+                $kerroin = 5;
+            }
+            elseif($maxPrice<2000){
+                $kerroin = 10;
+            }
+            else {
+                $kerroin = 50;
+            }
+        }
+        
+        return $maxPrices;
+    }
 }

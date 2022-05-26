@@ -90,6 +90,11 @@
                             {% for outTuote in deleted %}
                                 {{ include('fragments/_outTable.html.twig') }}
                             {% endfor %}
+                      <div id="div_chart"></div>
+                        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                        <script type="text/javascript">
+                        {{ gc_draw(chart, 'div_chart') }}
+                        </script>
                         {% endif %}
                         {% else %}
                             <tr><td>Data hidden</td></tr>

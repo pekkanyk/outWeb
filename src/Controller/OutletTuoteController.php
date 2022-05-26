@@ -151,6 +151,27 @@ class OutletTuoteController extends AbstractController
         $pidStats = $this->outletTuoteService->getPidStats($pid);
         $active = $this->outletTuoteService->getActiveWithPid($pid);
         $deleted = $this->outletTuoteService->getDeletedWithPid($pid);
+        
+        $chartArr = [['Päivä','NorPrice','OutPrice']];
+        for ($i=count($deleted)-1;$i>=0;$i--){
+            array_push($chartArr,[$deleted[$i]->getDeleted(),
+                                    $deleted[$i]->getNorPrice(),
+                                    $deleted[$i]->getOutPrice(),
+                                    ]);
+        }
+        $chart = new \CMEN\GoogleChartsBundle\GoogleCharts\Charts\Material\LineChart();
+        $chart->getData()->setArrayToDataTable($chartArr);
+
+        $chart->getOptions()->getChart()->setTitle('Hintahistoria');
+        $chart->getOptions()
+            ->setHeight(400)
+            ->setWidth(1200)
+            //->setSeries([['axis' => 'Price']])
+            ->setAxes(['y' => ['Price' => ['label' => 'Hinta (€)']] ]);
+        $chart->getOptions()
+                ->getVAxis()
+                ->setFormat('');
+        
         $form = $this->createForm(PidType::class,new SearchPid());
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
@@ -162,6 +183,7 @@ class OutletTuoteController extends AbstractController
             'today'=>$today,
             'pidStats'=>$pidStats,
             'active'=>$active,
+            'chart'=>$chart,
             'form'=> $form->createView(),
             'deleted'=>$deleted
             ]

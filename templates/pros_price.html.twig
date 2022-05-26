@@ -1,0 +1,46 @@
+<html xmlns="http://www.w3.org/1999/xhtml" >
+    <head lang="en">
+        {{ include('fragments/_head.html.twig') }}
+    </head>
+    <body> {% block body %}
+        <header>
+            {{ include('fragments/_top_navi.html.twig') }}   
+        </header>
+        <div class="container">
+            <div class="row">
+                {{ form_start(form) }}
+                <div class="col-md-2 col-sm-8">{{ form_widget(form.alku) }}</div>
+                <div class="col-md-2 col-sm-8">{{ form_widget(form.loppu) }}</div>
+                <div class="col-md-1 col-sm-4">{{ form_widget(form.hae) }}</div>
+                    {{ form_end(form) }}
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    {{ alkaen|format_date('short', locale='fi') }} - {{ asti|format_date('short', locale='fi') }}
+                    <table class="table taulukot">
+                        <thead>
+                        <tr>
+                        <th>Min...Max</th>
+                        <th>Summa (out)</th>
+                        <th>Ale%</th>
+                        <th>kpl</th>
+                        </tr>
+                        </thead>
+                        {% for row in prices %}
+                            {% set ale = 0 %}
+                            {% if row.sumNor != 0%}
+                                {% set ale =  (100*(1-(row.sumOut/row.sumNor)))%}
+                            {% endif %}
+                            <tr>
+                                <td><span class="active">{{ row.nimi }}</span></td>
+                                <td><span class="active">{{ row.sumOut|format_currency('EUR', {rounding_mode: 'floor'}, locale='fi') }}</span></td>
+                                <td><span class="active">{{ ale|round(1,'common') }}%</span></td>
+                                <td><span class="active">{{ row.count }}</span></td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+            {% endblock %}
+    </body>

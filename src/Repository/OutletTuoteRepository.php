@@ -151,20 +151,26 @@ class OutletTuoteRepository extends ServiceEntityRepository
                 ->getResult();
     }
     
-    public function getLongest_deleted(){
+    public function getLongest_deleted($alkaen,$asti){
         return $this->createQueryBuilder('o')
                 ->select('o.outId')
                 ->andWhere('o.deleted IS NOT NULL')
+                ->andWhere('o.deleted BETWEEN :alkaen AND :asti')
+                ->setParameter('alkaen',$alkaen)
+                ->setParameter('asti',$asti)
                 ->orderBy('DATE_DIFF (o.deleted, o.firstSeen)','DESC')
                 ->setMaxResults(1)
                 ->getQuery()
                 ->getSingleScalarResult();
     }
     
-    public function getLongest_active(){
+    public function getLongest_active($alkaen,$asti){
         return $this->createQueryBuilder('o')
                 ->select('o.outId')
                 ->andWhere('o.deleted IS NULL')
+                ->andWhere('o.firstSeen BETWEEN :alkaen AND :asti')
+                ->setParameter('alkaen',$alkaen)
+                ->setParameter('asti',$asti)
                 ->orderBy('DATE_DIFF (CURRENT_DATE(), o.firstSeen)','DESC')
                 ->setMaxResults(1)
                 ->getQuery()
@@ -178,62 +184,86 @@ class OutletTuoteRepository extends ServiceEntityRepository
                 ->getQuery()
                 ->getResult();
     }
-    public function activeSumOut(){
+    public function activeSumOut($alkaen,$asti){
         return $this->createQueryBuilder('o')
                 ->select('SUM (o.outPrice)')
                 ->andWhere('o.deleted IS NULL')
+                ->andWhere('o.firstSeen BETWEEN :alkaen AND :asti')
+                ->setParameter('alkaen',$alkaen)
+                ->setParameter('asti',$asti)
                 ->getQuery()
                 ->getSingleScalarResult();
     }
     
-    public function activeSumNor(){
+    public function activeSumNor($alkaen,$asti){
         return $this->createQueryBuilder('o')
                 ->select('SUM (o.norPrice)')
                 ->andWhere('o.deleted IS NULL')
+                ->andWhere('o.firstSeen BETWEEN :alkaen AND :asti')
+                ->setParameter('alkaen',$alkaen)
+                ->setParameter('asti',$asti)
                 ->getQuery()
                 ->getSingleScalarResult();
     }
-    public function deletedSumOut(){
+    public function deletedSumOut($alkaen,$asti){
         return $this->createQueryBuilder('o')
                 ->select('SUM (o.outPrice)')
                 ->andWhere('o.deleted IS NOT NULL')
+                ->andWhere('o.deleted BETWEEN :alkaen AND :asti')
+                ->setParameter('alkaen',$alkaen)
+                ->setParameter('asti',$asti)
                 ->getQuery()
                 ->getSingleScalarResult();
     }
     
-    public function deletedSumNor(){
+    public function deletedSumNor($alkaen,$asti){
         return $this->createQueryBuilder('o')
                 ->select('SUM (o.norPrice)')
                 ->andWhere('o.deleted IS NOT NULL')
+                ->andWhere('o.deleted BETWEEN :alkaen AND :asti')
+                ->setParameter('alkaen',$alkaen)
+                ->setParameter('asti',$asti)
                 ->getQuery()
                 ->getSingleScalarResult();
     }
     
-    public function activeAvgDays(){
+    public function activeAvgDays($alkaen,$asti){
         return $this->createQueryBuilder('o')
                 ->select('AVG (DATE_DIFF (CURRENT_DATE(),o.firstSeen))')
                 ->andWhere('o.deleted IS NULL')
+                ->andWhere('o.firstSeen BETWEEN :alkaen AND :asti')
+                ->setParameter('alkaen',$alkaen)
+                ->setParameter('asti',$asti)
                 ->getQuery()
                 ->getSingleScalarResult();
     }
-    public function deletedAvgDays(){
+    public function deletedAvgDays($alkaen,$asti){
         return $this->createQueryBuilder('o')
                 ->select('AVG (DATE_DIFF (o.deleted, o.firstSeen))')
                 ->andWhere('o.deleted IS NOT NULL')
+                ->andWhere('o.deleted BETWEEN :alkaen AND :asti')
+                ->setParameter('alkaen',$alkaen)
+                ->setParameter('asti',$asti)
                 ->getQuery()
                 ->getSingleScalarResult();
     }
-    public function activeAvgDaysUpdated(){
+    public function activeAvgDaysUpdated($alkaen,$asti){
         return $this->createQueryBuilder('o')
                 ->select('AVG (DATE_DIFF (CURRENT_DATE(),o.priceUpdatedDate))')
                 ->andWhere('o.deleted IS NULL')
+                ->andWhere('o.firstSeen BETWEEN :alkaen AND :asti')
+                ->setParameter('alkaen',$alkaen)
+                ->setParameter('asti',$asti)
                 ->getQuery()
                 ->getSingleScalarResult();
     }
-    public function deletedAvgDaysUpdated(){
+    public function deletedAvgDaysUpdated($alkaen,$asti){
         return $this->createQueryBuilder('o')
                 ->select('AVG (DATE_DIFF (o.deleted, o.priceUpdatedDate))')
                 ->andWhere('o.deleted IS NOT NULL')
+                ->andWhere('o.deleted BETWEEN :alkaen AND :asti')
+                ->setParameter('alkaen',$alkaen)
+                ->setParameter('asti',$asti)
                 ->getQuery()
                 ->getSingleScalarResult();
     }
@@ -324,6 +354,28 @@ class OutletTuoteRepository extends ServiceEntityRepository
                 ->getQuery()
                 ->getResult();
     }
+    public function searchActiveWithNorPrice($alkaen,$asti,$minprice,$maxprice,$orderby,$direction,$searchStr,$kl,$nor_min,$nor_max){
+        return $this->createQueryBuilder('o')
+                ->andWhere('o.deleted IS NULL')
+                ->andWhere('o.priceUpdatedDate BETWEEN :alkaen AND :asti')
+                ->andWhere('o.outPrice >= :minprice')
+                ->andWhere('o.outPrice <= :maxprice')
+                ->andWhere('o.norPrice >= :nor_min')
+                ->andWhere('o.norPrice <= :nor_max')
+                ->andWhere('UPPER(o.name) LIKE UPPER(:searchStr)')
+                ->andWhere('o.condition IN (:kl)')
+                ->orderBy('o.'.$orderby,$direction)
+                ->setParameter('alkaen',$alkaen)
+                ->setParameter('asti',$asti)
+                ->setParameter('minprice',$minprice)
+                ->setParameter('maxprice',$maxprice)
+                ->setParameter('nor_min',$nor_min)
+                ->setParameter('nor_max',$nor_max)
+                ->setParameter('searchStr',$searchStr)
+                ->setParameter('kl',$kl)
+                ->getQuery()
+                ->getResult();
+    }
     
     public function searchDeleted($alkaen,$asti,$minprice,$maxprice,$orderby,$direction,$searchStr,$kl){
         return $this->createQueryBuilder('o')
@@ -407,57 +459,78 @@ class OutletTuoteRepository extends ServiceEntityRepository
         ;
     }
     
-    public function countActiveRows(){
+    public function countActiveRows($alkaen,$asti){
         return $this->createQueryBuilder('o')
                 ->select('COUNT (o)')
                 ->andWhere('o.deleted IS NULL')
+                ->andWhere('o.firstSeen BETWEEN :alkaen AND :asti')
+                ->setParameter('alkaen',$alkaen)
+                ->setParameter('asti',$asti)
                 ->getQuery()
                 ->getSingleScalarResult();
     }
-    public function countDeletedRows(){
+    public function countDeletedRows($alkaen,$asti){
         return $this->createQueryBuilder('o')
                 ->select('COUNT (o)')
                 ->andWhere('o.deleted IS NOT NULL')
+                ->andWhere('o.deleted BETWEEN :alkaen AND :asti')
+                ->setParameter('alkaen',$alkaen)
+                ->setParameter('asti',$asti)
                 ->getQuery()
                 ->getSingleScalarResult();
     }
-    public function countDistinctDeletedRows(){
+    public function countDistinctDeletedRows($alkaen,$asti){
         return $this->createQueryBuilder('o')
                 ->select('COUNT (DISTINCT o.pid)')
                 ->andWhere('o.deleted IS NOT NULL')
+                ->andWhere('o.deleted BETWEEN :alkaen AND :asti')
+                ->setParameter('alkaen',$alkaen)
+                ->setParameter('asti',$asti)
                 ->getQuery()
                 ->getSingleScalarResult();
     }
-    public function countDistinctActiveRows(){
+    public function countDistinctActiveRows($alkaen,$asti){
         return $this->createQueryBuilder('o')
                 ->select('COUNT (DISTINCT o.pid)')
                 ->andWhere('o.deleted IS NULL')
+                ->andWhere('o.firstSeen BETWEEN :alkaen AND :asti')
+                ->setParameter('alkaen',$alkaen)
+                ->setParameter('asti',$asti)
                 ->getQuery()
                 ->getSingleScalarResult();
     }
     
-    public function countActiveRowsCondition($condition){
+    public function countActiveRowsCondition($alkaen,$asti,$condition){
         return $this->createQueryBuilder('o')
                 ->select('COUNT (o)')
                 ->andWhere('o.deleted IS NULL')
                 ->andWhere('o.condition = :condition')
+                ->andWhere('o.firstSeen BETWEEN :alkaen AND :asti')
+                ->setParameter('alkaen',$alkaen)
+                ->setParameter('asti',$asti)
                 ->setParameter('condition',$condition)
                 ->getQuery()
                 ->getSingleScalarResult();
     }
-    public function countDeletedRowsCondition($condition){
+    public function countDeletedRowsCondition($alkaen,$asti,$condition){
         return $this->createQueryBuilder('o')
                 ->select('COUNT (o)')
                 ->andWhere('o.deleted IS NOT NULL')
                 ->andWhere('o.condition = :condition')
+                ->andWhere('o.deleted BETWEEN :alkaen AND :asti')
+                ->setParameter('alkaen',$alkaen)
+                ->setParameter('asti',$asti)
                 ->setParameter('condition',$condition)
                 ->getQuery()
                 ->getSingleScalarResult();
     }
-    public function top10DistinctActiveNumbers() {
+    public function top10DistinctActiveNumbers($alkaen,$asti) {
         return $this->createQueryBuilder('o')
                 ->select('(o.pid),COUNT(o.pid) AS CountOf')
                 ->andWhere('o.deleted IS NULL')
+                ->andWhere('o.firstSeen BETWEEN :alkaen AND :asti')
+                ->setParameter('alkaen',$alkaen)
+                ->setParameter('asti',$asti)
                 ->groupBy('o.pid')
                 ->orderBy('CountOf', 'DESC')
                 ->setMaxResults(10)
@@ -465,10 +538,13 @@ class OutletTuoteRepository extends ServiceEntityRepository
                 ->getResult();
     }
     
-    public function top10DistinctDeletedNumbers() {
+    public function top10DistinctDeletedNumbers($alkaen,$asti) {
         return $this->createQueryBuilder('o')
                 ->select('(o.pid),COUNT(o.pid) AS CountOf')
                 ->andWhere('o.deleted IS NOT NULL')
+                ->andWhere('o.deleted BETWEEN :alkaen AND :asti')
+                ->setParameter('alkaen',$alkaen)
+                ->setParameter('asti',$asti)
                 ->groupBy('o.pid')
                 ->orderBy('CountOf', 'DESC')
                 ->setMaxResults(10)
@@ -510,20 +586,52 @@ class OutletTuoteRepository extends ServiceEntityRepository
                 ->getSingleScalarResult();
     }
     
-    public function getOldest_deleted(){
+    public function getOldest_deleted($alkaen,$asti){
         return $this->createQueryBuilder('o')
                 ->select('o.outId')
                 ->andWhere('o.deleted IS NOT NULL')
+                ->andWhere('o.deleted BETWEEN :alkaen AND :asti')
+                ->setParameter('alkaen',$alkaen)
+                ->setParameter('asti',$asti)
                 ->orderBy('o.outId','ASC')
                 ->setMaxResults(1)
                 ->getQuery()
                 ->getSingleScalarResult();
     }
     
-    public function getNewest_deleted(){
+    public function getOldest($alkaen,$asti){
+        return $this->createQueryBuilder('o')
+                ->select('o.outId')
+                ->andWhere('o.deleted IS NULL')
+                ->andWhere('o.firstSeen BETWEEN :alkaen AND :asti')
+                ->setParameter('alkaen',$alkaen)
+                ->setParameter('asti',$asti)
+                ->orderBy('o.outId','ASC')
+                ->setMaxResults(1)
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
+    
+    public function getNewest_deleted($alkaen,$asti){
         return $this->createQueryBuilder('o')
                 ->select('o.outId')
                 ->andWhere('o.deleted IS NOT NULL')
+                ->andWhere('o.deleted BETWEEN :alkaen AND :asti')
+                ->setParameter('alkaen',$alkaen)
+                ->setParameter('asti',$asti)
+                ->orderBy('o.outId','DESC')
+                ->setMaxResults(1)
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
+    
+    public function getNewest($alkaen,$asti){
+        return $this->createQueryBuilder('o')
+                ->select('o.outId')
+                ->andWhere('o.deleted IS NULL')
+                ->andWhere('o.firstSeen BETWEEN :alkaen AND :asti')
+                ->setParameter('alkaen',$alkaen)
+                ->setParameter('asti',$asti)
                 ->orderBy('o.outId','DESC')
                 ->setMaxResults(1)
                 ->getQuery()
@@ -542,17 +650,23 @@ class OutletTuoteRepository extends ServiceEntityRepository
                 ->getResult();
     }
     
-    public function getAvgDeletedOutId(){
+    public function getAvgDeletedOutId($alkaen,$asti){
         return $this->createQueryBuilder('o')
                 ->select('AVG (o.outId)')
                 ->andWhere('o.deleted IS NOT NULL')
+                ->andWhere('o.deleted BETWEEN :alkaen AND :asti')
+                ->setParameter('alkaen',$alkaen)
+                ->setParameter('asti',$asti)
                 ->getQuery()
                 ->getSingleScalarResult();
     }
-    public function getAvgActiveOutId(){
+    public function getAvgActiveOutId($alkaen,$asti){
         return $this->createQueryBuilder('o')
                 ->select('AVG (o.outId)')
                 ->andWhere('o.deleted IS NULL')
+                ->andWhere('o.firstSeen BETWEEN :alkaen AND :asti')
+                ->setParameter('alkaen',$alkaen)
+                ->setParameter('asti',$asti)
                 ->getQuery()
                 ->getSingleScalarResult();
     }
@@ -581,32 +695,45 @@ class OutletTuoteRepository extends ServiceEntityRepository
                 ->getSingleScalarResult();
     }
 
-    // /**
-    //  * @return OutletTuote[] Returns an array of OutletTuote objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
+    public function sumOutPriceBetweenNorPrice($minPrice,$maxPrice,$alkaen,$asti){
         return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('o.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+                ->select('SUM (o.outPrice)')
+                ->andWhere('o.norPrice > :min AND o.norPrice <= :max')
+                ->andWhere('o.deleted IS NOT NULL')
+                ->andWhere('o.deleted BETWEEN :alkaen AND :asti')
+                ->setParameter('min',$minPrice)
+                ->setParameter('max',$maxPrice)
+                ->setParameter('alkaen',$alkaen)
+                ->setParameter('asti',$asti)
+                ->getQuery()
+                ->getSingleScalarResult();
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?OutletTuote
-    {
+    
+    public function sumNorPriceBetweenNorPrice($minPrice,$maxPrice,$alkaen,$asti){
         return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+                ->select('SUM (o.norPrice)')
+                ->andWhere('o.norPrice > :min AND o.norPrice <= :max')
+                ->andWhere('o.deleted IS NOT NULL')
+                ->andWhere('o.deleted BETWEEN :alkaen AND :asti')
+                ->setParameter('min',$minPrice)
+                ->setParameter('max',$maxPrice)
+                ->setParameter('alkaen',$alkaen)
+                ->setParameter('asti',$asti)
+                ->getQuery()
+                ->getSingleScalarResult();
     }
-    */
+    
+    public function countBetweenNorPrice($minPrice,$maxPrice,$alkaen,$asti){
+        return $this->createQueryBuilder('o')
+                ->select('COUNT (o)')
+                ->andWhere('o.norPrice > :min AND o.norPrice <= :max')
+                ->andWhere('o.deleted IS NOT NULL')
+                ->andWhere('o.deleted BETWEEN :alkaen AND :asti')
+                ->setParameter('min',$minPrice)
+                ->setParameter('max',$maxPrice)
+                ->setParameter('alkaen',$alkaen)
+                ->setParameter('asti',$asti)
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
 }

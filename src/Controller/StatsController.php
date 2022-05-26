@@ -277,10 +277,25 @@ class StatsController extends AbstractController
     /**
      * @Route("/stats/dbstats")
      */
-    public function dbstats(): Response
+    public function dbstats(Request $request): Response
     {
-        $dbstats = $this->outletTuoteService->dbStats();
+        $asti = new \DateTime('now', new \DateTimeZone('Europe/Helsinki'));
+        $asti->setTime(23,59,59);
+        $alkaen = date_create_from_format('d-m-Y', '01-01-2010');
+        $alkaen->setTime(23,59,59);
+        $form = $this->createForm(DayStatsType::class,new Search2Dates());
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            //return $this->redirect("/daystats/");
+            $alkaen = $form->getData()->getAlku();
+            $asti = $form->getData()->getLoppu();
+        }
+        $dbstats = $this->outletTuoteService->dbStats($alkaen,$asti);
         return $this->render('dbstats.html.twig',[
+            'alkaen'=>$alkaen,
+            'asti'=>$asti,
+            'headerStats'=>$this->updateStatsService->getStats(),
+            'form'=> $form->createView(),
             'stats'=>$dbstats,
             'headerStats'=>$this->updateStatsService->getStats()
             ]);
@@ -322,6 +337,33 @@ class StatsController extends AbstractController
             ]);
          
     }
+    /**
+     * @Route("/stats/pricepros")
+     */
+    public function pricepros(Request $request): Response
+    {
+        $asti = new \DateTime('now', new \DateTimeZone('Europe/Helsinki'));
+        $asti->setTime(23,59,59);
+        $alkaen = date_create_from_format('d-m-Y', '01-01-2010');
+        $alkaen->setTime(23,59,59);
+        $form = $this->createForm(DayStatsType::class,new Search2Dates());
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            //return $this->redirect("/daystats/");
+            $alkaen = $form->getData()->getAlku();
+            $asti = $form->getData()->getLoppu();
+        }
+        
+        return $this->render('pros_price.html.twig',[
+            'alkaen'=>$alkaen,
+            'asti'=>$asti,
+            'headerStats'=>$this->updateStatsService->getStats(),
+            'form'=> $form->createView(),
+            'prices'=>$this->outletTuoteService->prosPrice($alkaen,$asti)
+            ]);
+         
+    }
+    
     /**
      * @Route("/stats/distinct")
      */
