@@ -184,6 +184,16 @@ class OutletTuoteRepository extends ServiceEntityRepository
                 ->getQuery()
                 ->getResult();
     }
+    public function getLongestTop1000($maxprice){
+        return $this->createQueryBuilder('o')
+                ->andWhere('o.deleted IS NULL')
+                ->andWhere('o.outPrice <= :max')
+                ->orderBy('DATE_DIFF (CURRENT_DATE(), o.firstSeen)','DESC')
+                ->setParameter('max',$maxprice)
+                ->setMaxResults(1000)
+                ->getQuery()
+                ->getResult();
+    }
     public function activeSumOut($alkaen,$asti){
         return $this->createQueryBuilder('o')
                 ->select('SUM (o.outPrice)')

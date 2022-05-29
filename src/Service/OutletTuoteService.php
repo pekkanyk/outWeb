@@ -136,6 +136,11 @@ class OutletTuoteService{
         return $dbstats;
     }
     
+    public function getOldest1000($max) {
+        $db = $this->entityManager->getRepository(OutletTuote::class);
+        return $db->getLongestTop1000(intval($max));
+    }
+    
     private function getTop10($numbers){
         $top10rows = [];
         $db = $this->entityManager->getRepository(OutletTuote::class);

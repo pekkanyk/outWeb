@@ -112,10 +112,25 @@ class OutletTuoteController extends AbstractController
     /**
      * @Route("/search/poisto_lastprice/{minimum}")
      */
-    public function poisto2(int $minimum, Request $request): Response
+    public function poisto2(int $minimum): Response
     {
-        $minimum = intval($minimum);
-        $products = $this->outletTuoteService->poisto_lastPrice($minimum);
+        $products = $this->outletTuoteService->poisto_lastPrice(intval($minimum));
+        
+        
+        return $this->render('noinfo.html.twig',[
+            'outTuotteet'=>$products,
+            'headerStats'=>$this->updateStatsService->getStats()
+        
+            ]);
+        
+    }
+    
+    /**
+     * @Route("/search/oldest/{max}")
+     */
+    public function vanhimmat(int $max): Response
+    {
+        $products = $this->outletTuoteService->getOldest1000($max);
         
         
         return $this->render('noinfo.html.twig',[
