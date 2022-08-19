@@ -397,7 +397,14 @@ class ListaService{
     }
     
     private function makeNameWithHP($outTuote,$hyllypaikka) {
-        return $hyllypaikka ." OUT".$outTuote->getOutId()." ".substr($outTuote->getName(), 0,69)." ".$outTuote->daysListed();
+        
+        $pidDb = $this->entityManager->getRepository(PidInfo::class);
+        $pidInfo = $pidDb->find($outTuote->getPid());
+        if ($pidInfo!=null && $pidInfo->getWeight() > 34999) { 
+            return $hyllypaikka ." OUT".$outTuote->getOutId()." ".substr($outTuote->getName(), 0,65)." ".$outTuote->daysListed()." KYK";
+        }
+        else { 
+            return $hyllypaikka ." OUT".$outTuote->getOutId()." ".substr($outTuote->getName(), 0,69)." ".$outTuote->daysListed(); }
         
     }
     

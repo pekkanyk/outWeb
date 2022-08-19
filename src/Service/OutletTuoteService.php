@@ -175,20 +175,21 @@ class OutletTuoteService{
         $minprice = intval($formData->getMinprice());
         $maxprice = $this->makeMaxPrice($formData->getMaxprice());
         $kl = $this->makeKl($formData->getKl());
+        $size = $this->makeKl($formData->getSize());
         $searchStr = "%".$formData->getSearchStr()."%";
         if ($activity == "both"){
-            $act_outPrices = $db->sumActivePrices('outPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr);
-            $act_norPrices = $db->sumActivePrices('norPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr);
+            $act_outPrices = $db->sumActivePrices('outPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr,$size);
+            $act_norPrices = $db->sumActivePrices('norPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr,$size);
             $result['active'] = $this->countAle($act_outPrices, $act_norPrices);
-            $del_outPrices = $db->sumDeletedPrices('outPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr);
-            $del_norPrices = $db->sumDeletedPrices('norPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr);
+            $del_outPrices = $db->sumDeletedPrices('outPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr,$size);
+            $del_norPrices = $db->sumDeletedPrices('norPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr,$size);
             $result['deleted'] = $this->countAle($del_outPrices, $del_norPrices);
             $result['active_sum_outprice'] = $act_outPrices;
             $result['deleted_sum_outprice'] = $del_outPrices;
         }
         elseif ($activity=="active"){
-            $act_outPrices = $db->sumActivePrices('outPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr);
-            $act_norPrices = $db->sumActivePrices('norPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr);
+            $act_outPrices = $db->sumActivePrices('outPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr,$size);
+            $act_norPrices = $db->sumActivePrices('norPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr,$size);
             $result['active'] = $this->countAle($act_outPrices, $act_norPrices);
             $result['deleted'] = null;
             $result['active_sum_outprice'] = $act_outPrices;
@@ -196,8 +197,8 @@ class OutletTuoteService{
         }
         else{
             $result['active'] = null;
-            $del_outPrices = $db->sumDeletedPrices('outPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr);
-            $del_norPrices = $db->sumDeletedPrices('norPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr);
+            $del_outPrices = $db->sumDeletedPrices('outPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr,$size);
+            $del_norPrices = $db->sumDeletedPrices('norPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr,$size);
             $result['deleted'] = $this->countAle($del_outPrices, $del_norPrices);
             $result['active_sum_outprice'] = null;
             $result['deleted_sum_outprice'] = $del_outPrices;
@@ -223,27 +224,32 @@ class OutletTuoteService{
         $direction = $formData->getDirection();
         $searchStr = "%".$formData->getSearchStr()."%";
         $kl = $this->makeKl($formData->getKl());
+        $size = $this->makeSize($formData->getSize());
         if ($activity == "both"){
             $orderby= $this->makeOrderBy($orderby, 'active');
-            $result['active'] = $db->searchActive($alkaen,$asti,$minprice,$maxprice,$orderby,$direction,$searchStr,$kl);
+            $result['active'] = $db->searchActive($alkaen,$asti,$minprice,$maxprice,$orderby,$direction,$searchStr,$kl,$size);
             $orderby= $this->makeOrderBy($orderby, 'deleted');
-            $result['deleted'] = $db->searchDeleted($alkaen,$asti,$minprice,$maxprice,$orderby,$direction,$searchStr,$kl);
+            $result['deleted'] = $db->searchDeleted($alkaen,$asti,$minprice,$maxprice,$orderby,$direction,$searchStr,$kl,$size);
         }
         elseif ($activity=="active"){
             $orderby= $this->makeOrderBy($orderby, 'active');
-            $result['active'] = $db->searchActive($alkaen,$asti,$minprice,$maxprice,$orderby,$direction,$searchStr,$kl);
+            $result['active'] = $db->searchActive($alkaen,$asti,$minprice,$maxprice,$orderby,$direction,$searchStr,$kl,$size);
             $result['deleted'] = null;
         }
         else{
             $result['active'] = null;
             $orderby= $this->makeOrderBy($orderby, 'deleted');
-            $result['deleted'] = $db->searchDeleted($alkaen,$asti,$minprice,$maxprice,$orderby,$direction,$searchStr,$kl);
+            $result['deleted'] = $db->searchDeleted($alkaen,$asti,$minprice,$maxprice,$orderby,$direction,$searchStr,$kl,$size);
         }
         return $result;
     }
     private function makeKl($kl) {
         if ($kl=='ANY'){return ['A','B','C','D'];}
         else { return [$kl];}
+    }
+    private function makeSize($size) {
+        if ($size=='ANY'){return ['P','K','I','L','V'];}
+        else { return [$size];}
     }
     
     private function validateDate($date, $format = 'Y-m-d'){

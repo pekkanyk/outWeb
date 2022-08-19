@@ -15,12 +15,15 @@
                     <div class="col-md-1 col-sm-12">{{ form_widget(form.minprice,{'attr':{'placeholder': 'min'}})  }}</div>
                     <div class="col-md-1 col-sm-12">{{ form_widget(form.maxprice,{'attr':{'placeholder': 'max'}})  }}</div>
                     <div class="col-md-1 col-sm-12">{{ form_widget(form.kl) }}</div>
+                    <div class="col-md-1 col-sm-12">{{ form_widget(form.size) }}</div>
+                    
             </div>
             <div class="row">
                     <div class="col-md-4 col-sm-12">{{ form_widget(form.searchStr,{'attr':{'placeholder': 'Hae tuotteita'}}) }}</div>
                     <div class="col-md-2 col-sm-12">{{ form_widget(form.orderBy) }}</div>
                     <div class="col-md-2 col-sm-12">{{ form_widget(form.direction) }}</div>
                     <div class="col-md-1 col-sm-12">{{ form_widget(form.hae) }}</div>
+                    
             
                     {{ form_end(form) }}
             </div>

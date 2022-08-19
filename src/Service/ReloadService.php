@@ -184,9 +184,17 @@ class ReloadService{
                         , $vkProduct["package"]["volume"]);
                 $this->entityManager->persist($pidInfo);
             }
-        if ($vkProduct["package"]["volume"]<=1200000) {$outletTuote->setKoko("P");}    
+        if ($vkProduct["package"]["weight"]>=35000) {$outletTuote->setKoko("L");}
+        else if ($vkProduct["package"]["volume"]<=1200000) {$outletTuote->setKoko("P");}    
         else if ($vkProduct["package"]["volume"]<=13400000) {$outletTuote->setKoko("K");}
         else {$outletTuote->setKoko("I");}
+        
+        if (array_key_exists("vakType", $vkProduct)) {
+            if($vkProduct["vakType"]!=null){
+                $outletTuote->setKoko("V");
+            }
+            
+        }
         /*VAK, ei toteutettu, JSON:ssa "vakType":null / jotain muuta
         if ($vkProduct["vakType"]!=null){
          $outletTuote->setVak(true);

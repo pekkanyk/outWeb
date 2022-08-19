@@ -13,6 +13,7 @@ class SearchProducts
     private $alkaen;
     private $asti;
     private $kl;
+    private $size;
     
     public function __construct() {
         
@@ -88,6 +89,14 @@ class SearchProducts
     public function setDirection($direction): void {
         $this->direction = $direction;
     }
+    public function getSize() {
+        return $this->size;
+    }
+
+    public function setSize($size): void {
+        $this->size = $size;
+    }
+
 
 
 }

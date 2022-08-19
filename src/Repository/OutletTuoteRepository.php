@@ -346,7 +346,7 @@ class OutletTuoteRepository extends ServiceEntityRepository
                 ->getSingleScalarResult();
     }
     
-    public function searchActive($alkaen,$asti,$minprice,$maxprice,$orderby,$direction,$searchStr,$kl){
+    public function searchActive($alkaen,$asti,$minprice,$maxprice,$orderby,$direction,$searchStr,$kl,$size){
         return $this->createQueryBuilder('o')
                 ->andWhere('o.deleted IS NULL')
                 ->andWhere('o.priceUpdatedDate BETWEEN :alkaen AND :asti')
@@ -354,6 +354,7 @@ class OutletTuoteRepository extends ServiceEntityRepository
                 ->andWhere('o.outPrice <= :maxprice')
                 ->andWhere('UPPER(o.name) LIKE UPPER(:searchStr)')
                 ->andWhere('o.condition IN (:kl)')
+                ->andWhere('o.koko IN (:size)')
                 ->orderBy('o.'.$orderby,$direction)
                 ->setParameter('alkaen',$alkaen)
                 ->setParameter('asti',$asti)
@@ -361,6 +362,7 @@ class OutletTuoteRepository extends ServiceEntityRepository
                 ->setParameter('maxprice',$maxprice)
                 ->setParameter('searchStr',$searchStr)
                 ->setParameter('kl',$kl)
+                ->setParameter('size',$size)
                 ->getQuery()
                 ->getResult();
     }
@@ -387,7 +389,7 @@ class OutletTuoteRepository extends ServiceEntityRepository
                 ->getResult();
     }
     
-    public function searchDeleted($alkaen,$asti,$minprice,$maxprice,$orderby,$direction,$searchStr,$kl){
+    public function searchDeleted($alkaen,$asti,$minprice,$maxprice,$orderby,$direction,$searchStr,$kl,$size){
         return $this->createQueryBuilder('o')
                 ->andWhere('o.deleted IS NOT NULL')
                 ->andWhere('o.deleted BETWEEN :alkaen AND :asti')
@@ -395,6 +397,7 @@ class OutletTuoteRepository extends ServiceEntityRepository
                 ->andWhere('o.outPrice <= :maxprice')
                 ->andWhere('UPPER(o.name) LIKE UPPER(:searchStr)')
                 ->andWhere('o.condition IN (:kl)')
+                ->andWhere('o.koko IN (:size)')
                 ->orderBy('o.'.$orderby,$direction)
                 ->setParameter('alkaen',$alkaen)
                 ->setParameter('asti',$asti)
@@ -402,11 +405,12 @@ class OutletTuoteRepository extends ServiceEntityRepository
                 ->setParameter('maxprice',$maxprice)
                 ->setParameter('searchStr',$searchStr)
                 ->setParameter('kl',$kl)
+                ->setParameter('size',$size)
                 ->getQuery()
                 ->getResult();
     }
     
-    public function sumDeletedPrices($price,$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr) {
+    public function sumDeletedPrices($price,$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr,$size) {
         return $this->createQueryBuilder('o')
                 ->select('SUM (o.'.$price.')')
                 ->andWhere('o.deleted IS NOT NULL')
@@ -414,18 +418,20 @@ class OutletTuoteRepository extends ServiceEntityRepository
                 ->andWhere('o.outPrice >= :minprice')
                 ->andWhere('o.outPrice <= :maxprice')
                 ->andWhere('o.condition IN (:kl)')
+                ->andWhere('o.koko IN (:size)')
                 ->andWhere('UPPER(o.name) LIKE UPPER(:searchStr)')
                 ->setParameter('alkaen',$alkaen)
                 ->setParameter('asti',$asti)
                 ->setParameter('minprice',$minprice)
                 ->setParameter('maxprice',$maxprice)
                 ->setParameter('kl',$kl)
+                ->setParameter('size',$size)
                 ->setParameter('searchStr',$searchStr)
                 ->getQuery()
                 ->getSingleScalarResult();
     }
     
-    public function sumActivePrices($price,$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr) {
+    public function sumActivePrices($price,$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr,$size) {
         return $this->createQueryBuilder('o')
                 ->select('SUM (o.'.$price.')')
                 ->andWhere('o.deleted IS NULL')
@@ -433,12 +439,14 @@ class OutletTuoteRepository extends ServiceEntityRepository
                 ->andWhere('o.outPrice >= :minprice')
                 ->andWhere('o.outPrice <= :maxprice')
                 ->andWhere('o.condition IN (:kl)')
+                ->andWhere('o.koko IN (:size)')
                 ->andWhere('UPPER(o.name) LIKE UPPER(:searchStr)')
                 ->setParameter('alkaen',$alkaen)
                 ->setParameter('asti',$asti)
                 ->setParameter('minprice',$minprice)
                 ->setParameter('maxprice',$maxprice)
                 ->setParameter('kl',$kl)
+                ->setParameter('size',$size)
                 ->setParameter('searchStr',$searchStr)
                 ->getQuery()
                 ->getSingleScalarResult();
