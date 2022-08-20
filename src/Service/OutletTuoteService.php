@@ -175,7 +175,7 @@ class OutletTuoteService{
         $minprice = intval($formData->getMinprice());
         $maxprice = $this->makeMaxPrice($formData->getMaxprice());
         $kl = $this->makeKl($formData->getKl());
-        $size = $this->makeKl($formData->getSize());
+        $size = $this->makeSize($formData->getSize());
         $searchStr = "%".$formData->getSearchStr()."%";
         if ($activity == "both"){
             $act_outPrices = $db->sumActivePrices('outPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr,$size);
