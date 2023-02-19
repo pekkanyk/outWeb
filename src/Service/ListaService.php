@@ -61,6 +61,46 @@ class ListaService{
         array_push($list,"\n\nTulostettu: ".$date." uusin tilnro oli: ".$rivit[13][0]);
         return $list;
     }
+    public function makeList2($listaStr) {
+        $rivit = $this->readList2($listaStr);
+        $list = [];
+        $page = [];
+        $footer = ["*********************",".",".","."];
+        
+        for ($i=0;$i<13;$i++){
+            if ($rivit[$i]!=null) {
+                $header = $this->makeHeader($i);
+                //if ($i==12 || $i==10){
+                if ($i==12){    
+                    $pagePart = array_merge($header,$rivit[$i]);
+                }
+                elseif ($i==11 && $rivit[12]==null){
+                    $pagePart = array_merge($header,$rivit[$i]);
+                }
+                elseif ($i==10 && ($rivit[12]==null && $rivit[12]==null)){
+                    $pagePart = array_merge($header,$rivit[$i]);
+                }
+                else{
+                    $pagePart = array_merge($header,$rivit[$i],$footer);
+                }
+                if (count($page)+count($pagePart)<41){
+                    $page = array_merge($page,$pagePart);
+                }
+                else{
+                    $list = array_merge($list, $this->fillPage($page));
+                    $page = [];
+                    $page = array_merge($page,$pagePart);
+                }
+            }
+            if ($i==12){
+                $list= array_merge($list,$page);
+            }
+        }
+        date_default_timezone_set('Europe/Helsinki');
+        $date = date('d.m.Y H:i:s', time());
+        array_push($list,"\n\nTulostettu: ".$date." uusin tilnro oli: ".$rivit[13][0]);
+        return $list;
+    }
     
     public function makeShitList($days,$maxprice,$maxnormal) {
         $rivit = $this->makeShittyList($days,$maxprice,$maxnormal);
@@ -214,6 +254,43 @@ class ListaService{
                 array_push($listarivit[11],$listaTuotteet[$i]);
             }
             elseif($toimitus=="M"){
+                array_push($listarivit[10],$listaTuotteet[$i]);
+            }
+            elseif($hyllypaikka != $outVika){
+                array_push($listarivit[12],$listaTuotteet[$i]);
+            }
+            else{
+                //array_push($listarivit[$outVika],$listaTuotteet[$i]); //poikkeus, koska aloitetaan 1.
+                if ($outVika==0){array_push($listarivit[9],$listaTuotteet[$i]);}
+                else {
+                    $luku = intval($outVika);
+                    $luku--;
+                    array_push($listarivit[$luku],$listaTuotteet[$i]); 
+                    
+                }
+            }
+        }
+        $tempArr = array($isoinTilnro);
+        $sortedArrays = $this->sortedArr($listarivit);
+        array_push($sortedArrays,$tempArr);
+        return $sortedArrays;
+    }
+    private function readList2($listaStr) {
+        $listarivit = array_fill(0, 13, []);
+        $edellinen = "";
+        $isoinTilnro = 0;
+        $listaArr = explode("Postal", $listaStr);
+        $listaTuotteet = $this->tuoteRivitoListaRivi($listaArr);
+        for ($i=0;$i<count($listaTuotteet);$i++){
+            $outVika = $listaTuotteet[$i]->getOutidVika();
+            $tilausnro = $listaTuotteet[$i]->getTilausnro();
+            if ($isoinTilnro<intval($tilausnro)) {$isoinTilnro = intval($tilausnro);}
+            $toimitus = $listaTuotteet[$i]->getToimitus();
+            $hyllypaikka = $listaTuotteet[$i]->getHyllypaikka();
+            if ($listaTuotteet[$i]->getMonirivinen()){
+                array_push($listarivit[11],$listaTuotteet[$i]);
+            }
+            elseif($toimitus=="xxxx"){
                 array_push($listarivit[10],$listaTuotteet[$i]);
             }
             elseif($hyllypaikka != $outVika){

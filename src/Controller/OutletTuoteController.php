@@ -124,6 +124,21 @@ class OutletTuoteController extends AbstractController
             ]);
         
     }
+    /**
+     * @Route("/search/fakelist/pid/{pid}")
+     */
+    public function poistolistana(int $pid): Response
+    {
+        $products = $this->outletTuoteService->getActiveWithPid($pid);
+        
+        
+        return $this->render('fakelist.html.twig',[
+            'outTuotteet'=>$products,
+            'headerStats'=>$this->updateStatsService->getStats()
+        
+            ]);
+        
+    }
     
     /**
      * @Route("/search/oldest/{max}")

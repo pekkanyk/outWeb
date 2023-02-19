@@ -15,7 +15,7 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         avoin:
-            pattern: ^/listat/
+            pattern: ^/listat/            
             security: false
         main:
             anonymous: ~

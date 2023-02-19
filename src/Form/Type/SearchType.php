@@ -47,7 +47,8 @@ class SearchType extends AbstractType
                             'Nimi'=> 'name',
                             'Pid'=> 'pid',
                             'OutID'=> 'outId',
-                            'Päivämäärä'=> 'hakupvm',
+                            'Pvm (last)'=> 'hakupvm',
+                            'Pvm (first)'=>'firstSeen',
                             'Hinta (out)'=> 'outPrice',
                             'Hinta (nor)'=>'norPrice']
                 ])
