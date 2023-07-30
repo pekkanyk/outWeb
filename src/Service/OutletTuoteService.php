@@ -19,15 +19,37 @@ use App\Model\Bstats;
 use App\Model\PriceWatchRow;
 use App\Model\PriceProsStats;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 
 class OutletTuoteService{
+    private $client;
     private $entityManager;
-    
-    public function __construct(EntityManagerInterface $entityManager)
+        
+    public function __construct(HttpClientInterface $client, EntityManagerInterface $entityManager)
     {
+        $this->client = $client;
         $this->entityManager = $entityManager;
     }
+    
+    public function getHintaPuntari($i):string
+    {
+        
+        $response = $this->client->request(
+                'GET',
+                'https://api.verkkokauppa.com/api/v1/pricedata/'.$i
+        );
+        if ($response->getStatusCode()==200){
+        return $response->getContent();
+        }
+        else {
+            return 'none';
+        }
+        
+        
+        
+    }
+    
     public function makeDummy($outId){
         $today = date_create("now", new \DateTimeZone('Europe/Helsinki'));
         $outletTuote = new OutletTuote();
@@ -177,19 +199,20 @@ class OutletTuoteService{
         $kl = $this->makeKl($formData->getKl());
         $size = $this->makeSize($formData->getSize());
         $searchStr = "%".$formData->getSearchStr()."%";
+        $act = $formData->getAct();
         if ($activity == "both"){
-            $act_outPrices = $db->sumActivePrices('outPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr,$size);
-            $act_norPrices = $db->sumActivePrices('norPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr,$size);
+            $act_outPrices = $db->sumActivePrices('outPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr,$size,$act);
+            $act_norPrices = $db->sumActivePrices('norPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr,$size,$act);
             $result['active'] = $this->countAle($act_outPrices, $act_norPrices);
-            $del_outPrices = $db->sumDeletedPrices('outPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr,$size);
-            $del_norPrices = $db->sumDeletedPrices('norPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr,$size);
+            $del_outPrices = $db->sumDeletedPrices('outPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr,$size,$act);
+            $del_norPrices = $db->sumDeletedPrices('norPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr,$size,$act);
             $result['deleted'] = $this->countAle($del_outPrices, $del_norPrices);
             $result['active_sum_outprice'] = $act_outPrices;
             $result['deleted_sum_outprice'] = $del_outPrices;
         }
         elseif ($activity=="active"){
-            $act_outPrices = $db->sumActivePrices('outPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr,$size);
-            $act_norPrices = $db->sumActivePrices('norPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr,$size);
+            $act_outPrices = $db->sumActivePrices('outPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr,$size,$act);
+            $act_norPrices = $db->sumActivePrices('norPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr,$size,$act);
             $result['active'] = $this->countAle($act_outPrices, $act_norPrices);
             $result['deleted'] = null;
             $result['active_sum_outprice'] = $act_outPrices;
@@ -197,8 +220,8 @@ class OutletTuoteService{
         }
         else{
             $result['active'] = null;
-            $del_outPrices = $db->sumDeletedPrices('outPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr,$size);
-            $del_norPrices = $db->sumDeletedPrices('norPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr,$size);
+            $del_outPrices = $db->sumDeletedPrices('outPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr,$size,$act);
+            $del_norPrices = $db->sumDeletedPrices('norPrice',$alkaen,$asti,$minprice,$maxprice,$kl,$searchStr,$size,$act);
             $result['deleted'] = $this->countAle($del_outPrices, $del_norPrices);
             $result['active_sum_outprice'] = null;
             $result['deleted_sum_outprice'] = $del_outPrices;
@@ -225,21 +248,22 @@ class OutletTuoteService{
         $searchStr = "%".$formData->getSearchStr()."%";
         $kl = $this->makeKl($formData->getKl());
         $size = $this->makeSize($formData->getSize());
+        $act = $formData->getAct();
         if ($activity == "both"){
             $orderby= $this->makeOrderBy($orderby, 'active');
-            $result['active'] = $db->searchActive($alkaen,$asti,$minprice,$maxprice,$orderby,$direction,$searchStr,$kl,$size);
+            $result['active'] = $db->searchActive($alkaen,$asti,$minprice,$maxprice,$orderby,$direction,$searchStr,$kl,$size,$act);
             $orderby= $this->makeOrderBy($orderby, 'deleted');
-            $result['deleted'] = $db->searchDeleted($alkaen,$asti,$minprice,$maxprice,$orderby,$direction,$searchStr,$kl,$size);
+            $result['deleted'] = $db->searchDeleted($alkaen,$asti,$minprice,$maxprice,$orderby,$direction,$searchStr,$kl,$size,$act);
         }
         elseif ($activity=="active"){
             $orderby= $this->makeOrderBy($orderby, 'active');
-            $result['active'] = $db->searchActive($alkaen,$asti,$minprice,$maxprice,$orderby,$direction,$searchStr,$kl,$size);
+            $result['active'] = $db->searchActive($alkaen,$asti,$minprice,$maxprice,$orderby,$direction,$searchStr,$kl,$size,$act);
             $result['deleted'] = null;
         }
         else{
             $result['active'] = null;
             $orderby= $this->makeOrderBy($orderby, 'deleted');
-            $result['deleted'] = $db->searchDeleted($alkaen,$asti,$minprice,$maxprice,$orderby,$direction,$searchStr,$kl,$size);
+            $result['deleted'] = $db->searchDeleted($alkaen,$asti,$minprice,$maxprice,$orderby,$direction,$searchStr,$kl,$size,$act);
         }
         return $result;
     }
@@ -251,6 +275,7 @@ class OutletTuoteService{
         if ($size=='ANY'){return ['P','K','I','L','V'];}
         else { return [$size];}
     }
+    
     
     private function validateDate($date, $format = 'Y-m-d'){
     $d = \DateTime::createFromFormat($format, $date);
@@ -338,6 +363,7 @@ class OutletTuoteService{
             $pidStats->setActive_kaActiveDays($this->keskiarvo($active,"days"));
             $pidStats->setDeleted_kaActiveDays($this->keskiarvo($deleted,"days"));
             $pidStats->setPid($pid);
+            $pidStats->setAktiivinen($exampleOutTuote->getPoistotuote());
             $pidInfo=$this->getPidInfo($pid);
             if ($pidInfo!=null) { $pidStats->setPidSize($this->getPidInfo($pid)->sizeStr()); }
             else {$pidStats->setPidSize("- x - x -");}

@@ -16,6 +16,7 @@ class PidStats
     private $pid;
     private $name;
     private $pidSize;
+    private $aktiivinen;
   
     public function __construct() {
         $this->name = "Not in database";
@@ -29,8 +30,16 @@ class PidStats
     public function getPidSize() {
         return $this->pidSize;
     }
+    
+    public function getAktiivinen() {
+        return $this->aktiivinen;
+    }
 
-    public function setPidSize($pidSize): void {
+    public function setAktiivinen($aktiivinen): void {
+        $this->aktiivinen = $aktiivinen;
+    }
+
+        public function setPidSize($pidSize): void {
         $this->pidSize = $pidSize;
     }
 

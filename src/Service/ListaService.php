@@ -102,6 +102,47 @@ class ListaService{
         return $list;
     }
     
+    public function makeList3($listaStr) {
+        $rivit = $this->readManualList($listaStr);
+        $list = [];
+        $page = [];
+        $footer = ["*********************",".",".","."];
+        
+        for ($i=0;$i<13;$i++){
+            if ($rivit[$i]!=null) {
+                $header = $this->makeHeader($i);
+                //if ($i==12 || $i==10){
+                if ($i==12){    
+                    $pagePart = array_merge($header,$rivit[$i]);
+                }
+                elseif ($i==11 && $rivit[12]==null){
+                    $pagePart = array_merge($header,$rivit[$i]);
+                }
+                elseif ($i==10 && ($rivit[12]==null && $rivit[12]==null)){
+                    $pagePart = array_merge($header,$rivit[$i]);
+                }
+                else{
+                    $pagePart = array_merge($header,$rivit[$i],$footer);
+                }
+                if (count($page)+count($pagePart)<41){
+                    $page = array_merge($page,$pagePart);
+                }
+                else{
+                    $list = array_merge($list, $this->fillPage($page));
+                    $page = [];
+                    $page = array_merge($page,$pagePart);
+                }
+            }
+            if ($i==12){
+                $list= array_merge($list,$page);
+            }
+        }
+        date_default_timezone_set('Europe/Helsinki');
+        $date = date('d.m.Y H:i:s', time());
+        array_push($list,"\n\nTulostettu: ".$date);
+        return $list;
+    }
+    
     public function makeShitList($days,$maxprice,$maxnormal) {
         $rivit = $this->makeShittyList($days,$maxprice,$maxnormal);
         
@@ -312,6 +353,34 @@ class ListaService{
         array_push($sortedArrays,$tempArr);
         return $sortedArrays;
     }
+    
+    private function readManualList($listaStr) {
+        $listarivit = array_fill(0, 13, []);
+        $edellinen = "";
+        
+        //$listaArr = explode("Postal", $listaStr);
+        $listaArr = preg_split('/\r\n|\r|\n/', $listaStr);
+        $listaTuotteet = $this->tuoteRivitoListaRivi_export($listaArr);
+        for ($i=0;$i<count($listaTuotteet);$i++){
+            $outVika = $listaTuotteet[$i]->getOutidVika();
+            $hyllypaikka = $listaTuotteet[$i]->getHyllypaikka();
+            if($hyllypaikka != $outVika){
+                array_push($listarivit[12],$listaTuotteet[$i]);
+            }
+            else{
+                //array_push($listarivit[$outVika],$listaTuotteet[$i]); //poikkeus, koska aloitetaan 1.
+                if ($outVika==0){array_push($listarivit[9],$listaTuotteet[$i]);}
+                else {
+                    $luku = intval($outVika);
+                    $luku--;
+                    array_push($listarivit[$luku],$listaTuotteet[$i]); 
+                }
+            }
+        }
+        $sortedArrays = $this->sortedArr($listarivit);
+        return $sortedArrays;
+    }
+    
     private function riviArrToListaTuoterivi($arr){
         $riviArray = preg_split("/[\t]/", $arr);
         $db = $this->entityManager->getRepository(OutletTuote::class);
@@ -364,6 +433,41 @@ class ListaService{
                     array_push($listatuotteet,$listatuote);
                     }
             }
+        }
+        
+        return $listatuotteet;
+    }
+    
+    private function riviArrToListaTuoterivi_export($arr){
+        //$riviArray = preg_split("/[\t]/", $arr);
+        $riviArray = preg_split('/\s+/', $arr);
+        $db = $this->entityManager->getRepository(OutletTuote::class);
+        $listatuotteet = [];
+        if (count($riviArray)>=1){
+            
+            $listatuote = new ListaTuoterivi();
+            $listatuote->setMonirivinen(false);
+            $listatuote->setOutid($this->parseOutId($riviArray[0]));
+            $outFromDb = $db->find($listatuote->getOutid());
+            $listatuote->setHk("o");
+            $listatuote->setTilausnro("99999999999");
+            $listatuote->setToimitus("P");
+            $listatuote->setOutidTokavika($this->getTokavika($listatuote->getOutid()));
+            $listatuote->setOutidVika($this->getVika($listatuote->getOutid()));
+            if (count($riviArray)>1){ $hyllypaikat = $riviArray[1];}
+            else { $hyllypaikat = $this->getVika($listatuote->getOutid()); }
+            $listatuote->setHyllypaikka($hyllypaikat);
+            
+            if ($listatuote->getOutidVika()!=$listatuote->getHyllypaikka()){
+                $listatuote->setTuote($this->makeNameWithHP($outFromDb,$listatuote->getHyllypaikka()));
+            }
+            else{
+                $listatuote->setTuote($this->makeName($outFromDb));
+            }
+            
+            array_push($listatuotteet,$listatuote);
+            
+            
         }
         
         return $listatuotteet;
@@ -439,13 +543,29 @@ class ListaService{
     }
     
     private function makeOneLine($listatuote){
+        if ($listatuote->getToimitus() == "M"){
+            return "MH ".$listatuote->getHk()." ".$listatuote->getTuote();
+        }
+        else {
         return $listatuote->getHk()." ".$listatuote->getTuote();
+        }
     }
     
     private function tuoteRivitoListaRivi($riviArr) {
         $listaTuotteet = [];
         for ($i=0;$i<count($riviArr);$i++){
             $rivinTuotteet = $this->riviArrToListaTuoterivi($riviArr[$i]);
+            for ($j=0;$j<count($rivinTuotteet);$j++){
+                array_push($listaTuotteet,$rivinTuotteet[$j]);
+            }
+        }
+        return $listaTuotteet;
+    }
+    
+    private function tuoteRivitoListaRivi_export($riviArr) {
+        $listaTuotteet = [];
+        for ($i=0;$i<count($riviArr);$i++){
+            $rivinTuotteet = $this->riviArrToListaTuoterivi_export($riviArr[$i]);
             for ($j=0;$j<count($rivinTuotteet);$j++){
                 array_push($listaTuotteet,$rivinTuotteet[$j]);
             }

@@ -41,7 +41,11 @@ class SearchType extends AbstractType
                             'I'=>'I',
                             'L'=>'L',
                             'V'=>'V']
-                ])    
+                ])
+            ->add('act',ChoiceType::class,[
+                'choices'=>['ALL'=> 'ALL',
+                            'Ei'=>'Ei']
+                ])
             ->add('orderBy',ChoiceType::class,[
                 'choices'=>['Alennus %'=> 'alennus',
                             'Nimi'=> 'name',

@@ -181,14 +181,31 @@ class OutletTuoteController extends AbstractController
         $pidStats = $this->outletTuoteService->getPidStats($pid);
         $active = $this->outletTuoteService->getActiveWithPid($pid);
         $deleted = $this->outletTuoteService->getDeletedWithPid($pid);
-        
-        $chartArr = [['Päivä','NorPrice','OutPrice']];
+
+        $chartArr = [['Päivä','NorPrice','OutPrice','Hintapuntari']];
         for ($i=count($deleted)-1;$i>=0;$i--){
             array_push($chartArr,[$deleted[$i]->getDeleted(),
                                     $deleted[$i]->getNorPrice(),
                                     $deleted[$i]->getOutPrice(),
+                                    null,
                                     ]);
         }
+        if ($pidStats->getAktiivinen()){
+            $hintapuntariJson = $this->outletTuoteService->getHintaPuntari($pid);
+            if ($hintapuntariJson!='none'){
+            $hintapuntari = json_decode($hintapuntariJson,true);
+            for ($i = 0; $i < count($hintapuntari['label']);$i++){
+                if ($hintapuntari['new'][$i]!= null){
+                    array_push($chartArr,[new \DateTime($hintapuntari['label'][$i]),
+                        null,
+                        null,
+                        $hintapuntari['new'][$i]
+                        ]);
+                }
+            }}
+            
+        }
+        
         $chart = new \CMEN\GoogleChartsBundle\GoogleCharts\Charts\Material\LineChart();
         $chart->getData()->setArrayToDataTable($chartArr);
 

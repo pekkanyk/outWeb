@@ -9,11 +9,11 @@
     <body>
         <div>
             <a href="/listat_no_mh/">Matkahuolto Special listagen </a> - 
-            <a href="/listat_export/">Manual list</a>
+            <a href="/listat/">Default list gen</a>
         </div>
             <div>
             {{ form_start(form) }}
-                {{ form_widget(form.string,{'attr':{'placeholder': 'Insert list', 'rows':'40', 'wrap':'none'}}) }}</div>
+                {{ form_widget(form.string,{'attr':{'placeholder': 'OUTxxxxxx HYLLYPAIKKA. Jos hyllypaikkaa ei ole, tulee vika numero.', 'rows':'40', 'wrap':'none'}}) }}</div>
                 {{ form_widget(form.Generate) }}</div>
                     {{ form_end(form) }}
         </div>

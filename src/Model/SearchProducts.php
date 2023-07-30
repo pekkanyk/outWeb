@@ -14,6 +14,7 @@ class SearchProducts
     private $asti;
     private $kl;
     private $size;
+    private $act;
     
     public function __construct() {
         
@@ -97,6 +98,12 @@ class SearchProducts
         $this->size = $size;
     }
 
+    public function getAct() {
+        return $this->act;
+    }
 
+    public function setAct($act): void {
+        $this->act = $act;
+    }
 
 }

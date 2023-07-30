@@ -64,6 +64,25 @@ class ListaController extends AbstractController{
                 ]);
     }
     /**
+     *@Route("/listat_export")
+     */
+    public function listaForm3(Request $request): Response {
+        $form = $this->createForm(ListaType::class, new ListaGenerate());
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            
+            return $this->render('listaGenerate.html.twig',[
+            'listarivit'=>$this->listaService->makeList3($form->getData()->getString())
+                ]);
+            
+        }
+        
+        return $this->render('listaForm_export.html.twig',[
+            'form'=> $form->createView(),
+                ]);
+    }
+    
+    /**
      * @Route("/shitlist/")
      */
     public function shitLisDefault(): Response {
