@@ -214,8 +214,27 @@ class StatsController extends AbstractController
         //$today = date_create("now", new \DateTimeZone('Europe/Helsinki'));
         $daystats = $this->updateStatsService->getDayStats($alkaen,$asti);
         $chartArr = [['Aika','Aktiivisia','Summa']];
+        $filtered = 0;
         for ($i=0;$i<count($daystats);$i++){
-            array_push($chartArr,[$daystats[$i]->getTimestamp(),$daystats[$i]->getTotalItems(),$daystats[$i]->getSum()]);
+            if ($i>0){
+                $lastSum = $daystats[$i-1]->getSum();
+                if ($daystats[$i]->getSum() > $lastSum+10000 && $filtered == 0){
+                    $sum = $lastSum+200;
+                    $filtered = 1;
+                }
+                elseif($daystats[$i]->getSum() < $lastSum-10000 && $filtered == 0){
+                    $sum = $lastSum-200;
+                    $filtered = 1;
+                }
+                else {
+                    $sum = $daystats[$i]->getSum();
+                    $filtered = 0;
+                }
+            }
+            else {
+                $sum = $daystats[$i]->getSum();
+            }
+            array_push($chartArr,[$daystats[$i]->getTimestamp(),$daystats[$i]->getTotalItems(),$sum]);
         }
         
 	$chart = new \CMEN\GoogleChartsBundle\GoogleCharts\Charts\Material\LineChart();
@@ -236,7 +255,20 @@ class StatsController extends AbstractController
         
         $chart2Arr = [['Aika','Deleted','Uusia']];
         for ($i=0;$i<count($daystats);$i++){
-            array_push($chart2Arr,[$daystats[$i]->getTimestamp(),$daystats[$i]->getDeleted(),$daystats[$i]->getNew()]);
+            if ($i>0){
+                $lastDeleted = $daystats[$i-1]->getDeleted();
+                if ($daystats[$i]->getDeleted() > $lastDeleted+200){
+                    $deleted = $lastDeleted+10;
+                }
+                else {
+                    $deleted = $daystats[$i]->getDeleted();
+                }  
+            }
+            else {
+                $deleted = $daystats[$i]->getDeleted();
+            }
+            //array_push($chart2Arr,[$daystats[$i]->getTimestamp(),$daystats[$i]->getDeleted(),$daystats[$i]->getNew()]);
+            array_push($chart2Arr,[$daystats[$i]->getTimestamp(),$deleted,$daystats[$i]->getNew()]);
         }
         
 	$chart2 = new \CMEN\GoogleChartsBundle\GoogleCharts\Charts\Material\LineChart();
@@ -266,7 +298,7 @@ class StatsController extends AbstractController
             ]);
 
     }
-    
+
     private function validateDate($date, $format = 'Y-m-d'){
     $d = \DateTime::createFromFormat($format, $date);
     //return $d && $d->format($format) === $date;
