@@ -170,10 +170,20 @@ class ReloadService{
                 }
         }
         
+/* originaali
         else{ 
             $outletTuote->setVarastossa(null);
             $outletTuote->setOnVarasto(false);
         }
+*/
+// testi
+	else{
+	    $date = date_create('now', new \DateTimeZone('Europe/Helsinki'));
+	    $hour = intval($date->format('H'));
+            $outletTuote->setVarastossa($hour);
+            $outletTuote->setOnVarasto(true);
+	}
+// end test
         $dbPidInfo = $pidDb->find($vkProduct["customerReturnsInfo"]["pid"]);
         if ($dbPidInfo == null){
                 $pidInfo = new PidInfo($vkProduct["customerReturnsInfo"]["pid"]

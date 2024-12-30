@@ -21,10 +21,11 @@
         </span></td>
     <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.onkoK() }}</span></td>
     <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.onkoD() }}</span></td>
-    <td><span class="{{ outTuote.myynnissa()}}"><div><span title="Tilattavissa. Varastossa kpl">{{ outTuote.varastossa }}</span></div></span></td>
     {% if dateType == "Muuttunut" %}
+	<td><span class="{{ outTuote.myynnissa()}}"><div><span title=""></span></div></span></td>
         <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.priceUpdatedDate|format_date('short', locale='fi') }}</span></td>
     {% else %}
+	<td><span class="{{ outTuote.myynnissa()}}"><div><span title="Poistunut klo">{{ outTuote.varastossa }}</span></div></span></td>
         <td><span class="{{ outTuote.myynnissa()}}">{{ outTuote.deleted|format_date('short', locale='fi') }}</span></td>
     {% endif %}
     
