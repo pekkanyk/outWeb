@@ -169,7 +169,7 @@ class OutletTuoteController extends AbstractController
             ]);
         
     }
-    /**
+   /**
      * @Route("/search/pid/{pid}", name="pid_infosivu")
      */
     public function showPid($pid, Request $request): Response
@@ -194,15 +194,38 @@ class OutletTuoteController extends AbstractController
             $hintapuntariJson = $this->outletTuoteService->getHintaPuntari($pid);
             if ($hintapuntariJson!='none'){
             $hintapuntari = json_decode($hintapuntariJson,true);
+            
             for ($i = 0; $i < count($hintapuntari['label']);$i++){
-                if ($hintapuntari['new'][$i]!= null){
+                if ($i==0){
+                    $lastPrice=$hintapuntari['new'][$i];
+                }
+                
+                if ($hintapuntari['new'][$i] != null){
+                    if ($lastPrice != $hintapuntari['new'][$i]){
+                        $dateMinusMinute = new \DateTime($hintapuntari['label'][$i]);
+                        $dateMinusMinute->modify("-1 minute");
+                        array_push($chartArr,[$dateMinusMinute,
+                        null,
+                        null,
+                        $lastPrice
+                        ]);
+                    $lastPrice = $hintapuntari['new'][$i];
+                    }
+                    
                     array_push($chartArr,[new \DateTime($hintapuntari['label'][$i]),
                         null,
                         null,
                         $hintapuntari['new'][$i]
                         ]);
                 }
-            }}
+            }
+            array_push($chartArr,[new \DateTime("now"),
+                        null,
+                        null,
+                        $lastPrice
+                        ]);
+            
+            }
             
         }
         
@@ -236,7 +259,6 @@ class OutletTuoteController extends AbstractController
             ]
                 );
     }
-    
     /**
      * @Route("/search/firstseen/")
      */
