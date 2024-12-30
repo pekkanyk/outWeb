@@ -8,12 +8,14 @@ class Top10Row
     private $name;
     private $count;
     private $lastDel;
+    private $size;
     
-    public function __construct($pid, $name, $count,$lastDel) {
+    public function __construct($pid, $name, $count,$lastDel,$size) {
         $this->pid = $pid;
         $this->name = $name;
         $this->count = $count;
         $this->lastDel = $lastDel;
+        $this->size = $size;
     }
     public function getPid() {
         return $this->pid;
@@ -46,6 +48,15 @@ class Top10Row
     public function setLastDel($lastDel): void {
         $this->lastDel = $lastDel;
     }
+    public function getSize() {
+        return $this->size;
+    }
+
+    public function setSize($size): void {
+        $this->size = $size;
+    }
+
+
 
 
 

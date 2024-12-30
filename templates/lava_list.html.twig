@@ -64,18 +64,26 @@
                 <form method="POST" action="/lavapaikat/edit" id="lavapaikka_form">
                 <input type="hidden" name="usage" id="usage" value="0"></input>
                 <span class="sticky">
-                <div class="col-xs-4 col-md-1"><input type="button" value="0%" id="0" style="background-color:#4CAF50" class="usage" onclick="useClick(0)"></input></div>
+                <div class="col-xs-4 col-md-1"><input type="button" value="Inventoi" id="0" style="background-color:#4CAF50" class="usage" onclick="useClick(0)"></input></div>
+                <!-- 
                 <div class="col-xs-4 col-md-1"><input type="button" value="25%" id="25" style="background-color:#90EE90" class="usage" onclick="useClick(25)"></input></div>
                 <div class="col-xs-4 col-md-1"><input type="button" value="50%" id="50" style="background-color:#FFD700" class="usage" onclick="useClick(50)"></input></div>
                 <div class="col-xs-4 col-md-1"><input type="button" value="75%" id="75" style="background-color:#FFA500" class="usage" onclick="useClick(75)"></input></div>
                 <div class="col-xs-4 col-md-1"><input type="button" value="100%" id="100" style="background-color:#FF4500" class="usage" onclick="useClick(100)"></input></div>
+                -->
                 <div class="col-xs-4 col-md-1"><input type="button" value="N/A" id="200" style="background-color:#FFE4E1" class="usage" onclick="useClick(200)"></input></div>
                 
-                <div class="col-xs-12 col-md-6"><textarea name="sisalto" id="sisalto" class="content" maxlength="500" form="lavapaikka_form"></textarea>
-                    
-                </div>
+                <div class="col-xs-12 col-md-6"><textarea name="sisalto" id="sisalto" class="content" maxlength="500" form="lavapaikka_form"></textarea></div>
+                
+                
                 </span>
                 </form>
+                {{ form_start(outid_haku) }}
+                <div class="col-md-2 col-sm-8">{{ form_widget(outid_haku.outId,{'attr':{'placeholder': 'OutId'}}) }}</div>
+                <div class="col-md-1 col-sm-4">{{ form_widget(outid_haku.hae) }}</div>
+                {{ form_end(outid_haku) }}
+                <div class="col-md-2 col-sm-8">{{ sijainti }}</div>
+
                 </div>
             </div>
             

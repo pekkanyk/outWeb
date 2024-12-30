@@ -161,7 +161,8 @@ class OutletTuoteRepository extends ServiceEntityRepository
                 ->orderBy('DATE_DIFF (o.deleted, o.firstSeen)','DESC')
                 ->setMaxResults(1)
                 ->getQuery()
-                ->getSingleScalarResult();
+                //->getSingleScalarResult();
+                ->getOneOrNullResult();
     }
     
     public function getLongest_active($alkaen,$asti){
@@ -174,8 +175,10 @@ class OutletTuoteRepository extends ServiceEntityRepository
                 ->orderBy('DATE_DIFF (CURRENT_DATE(), o.firstSeen)','DESC')
                 ->setMaxResults(1)
                 ->getQuery()
-                ->getSingleScalarResult();
+                //->getSingleScalarResult();
+                ->getOneOrNullResult();
     }
+
     public function getLongestTop10(){
         return $this->createQueryBuilder('o')
                 ->andWhere('o.deleted IS NULL')
@@ -720,9 +723,9 @@ class OutletTuoteRepository extends ServiceEntityRepository
                 ->orderBy('o.outId','ASC')
                 ->setMaxResults(1)
                 ->getQuery()
-                ->getSingleScalarResult();
+//                ->getSingleScalarResult();
+                ->getOneOrNullResult();
     }
-    
     public function getNewest_deleted($alkaen,$asti){
         return $this->createQueryBuilder('o')
                 ->select('o.outId')
@@ -746,7 +749,8 @@ class OutletTuoteRepository extends ServiceEntityRepository
                 ->orderBy('o.outId','DESC')
                 ->setMaxResults(1)
                 ->getQuery()
-                ->getSingleScalarResult();
+                //->getSingleScalarResult();
+                ->getOneOrNullResult();
     }
     
     public function getNewest_deletedPid($pid){

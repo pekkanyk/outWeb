@@ -171,6 +171,7 @@ class OutletTuoteService{
             $count = $numbers[$i]['CountOf'];
             $example = $db->findOneBy(['pid'=>$pid]);
             $name = $example->getName();
+            $size = $example->getKoko();
             $viimeisinPoistunut = $db->getNewest_deletedPid($pid);
             $viimeisinPostunutPvSitten = "-";
             if ($viimeisinPoistunut != null){
@@ -178,7 +179,7 @@ class OutletTuoteService{
                 $viimeisinPostunutPvSitten = $viimeisinPoistunut[0]->deletedDaysAgo();
             }
             
-            array_push($top10rows,new Top10Row($pid, $name, $count, $viimeisinPostunutPvSitten)); 
+            array_push($top10rows,new Top10Row($pid, $name, $count, $viimeisinPostunutPvSitten,$size)); 
         }
         return $top10rows;
     }
@@ -187,7 +188,7 @@ class OutletTuoteService{
         $db = $this->entityManager->getRepository(OutletTuote::class);
         return $this->getTop10($db->topDistinctActiveNumbers());
     }
-    
+
     public function aleprosentit($formData){
         $db = $this->entityManager->getRepository(OutletTuote::class);
         $result = [];

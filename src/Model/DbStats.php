@@ -64,7 +64,13 @@ class DbStats
     }
 
         public function getActive_sumOut() {
-        return $this->active_sumOut;
+        $summa = $this->active_sumOut;
+        if ($summa == 0){
+            return 0.01;
+        }
+        else {
+            return $summa;
+        }
     }
 
     public function getDeleted_sumOut() {
@@ -72,7 +78,13 @@ class DbStats
     }
 
     public function getActive_sumNor() {
-        return $this->active_sumNor;
+        $summa = $this->active_sumNor;
+        if ($summa == 0){
+            return 0.001;
+        }
+        else {
+            return $summa;
+        }
     }
 
     public function getDeleted_sumNor() {
@@ -80,11 +92,23 @@ class DbStats
     }
 
     public function getActive_longest() {
-        return $this->active_longest;
+        $la = $this->active_longest;
+        if ($la != null){
+            return $la["outId"];
+        }
+        else{
+            return null;
+        }
     }
 
     public function getDeleted_longest() {
-        return $this->deleted_longest;
+        $dl = $this->deleted_longest;
+        if ($dl != null){
+            return $dl["outId"];
+        }
+        else{
+            return null;
+        }
     }
 
     public function setActive_sumOut($active_sumOut): void {
@@ -208,11 +232,23 @@ class DbStats
     }
 
     public function getOldest() {
-        return $this->oldest;
+        $oldest = $this->oldest;
+        if ($oldest != null){
+            return $oldest["outId"];
+        }
+        else {
+            return null;
+        }
     }
 
     public function getNewest() {
-        return $this->newest;
+        $newest = $this->newest;
+        if ($newest != null){
+            return $newest["outId"];
+        }
+        else{
+            return null;
+        }
     }
 
     public function setActive_uniikit($active_uniikit): void {

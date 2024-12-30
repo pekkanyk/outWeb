@@ -13,6 +13,8 @@ use App\Model\Search2Dates;
 use App\Form\Type\LavapaikkaType;
 use App\Entity\Lavapaikka;
 use App\Service\LavapaikkaService;
+use App\Model\SearchOutId;
+use App\Form\Type\OutIdType;
 
 class SpecialController extends AbstractController
 {
@@ -101,16 +103,10 @@ class SpecialController extends AbstractController
      * @Route("/lavapaikat/{kaytava}/{puoli}")
      */
         
-    public function lavapaikat(int $kaytava, int $puoli): Response
+    public function lavapaikat(int $kaytava, int $puoli, Request $request): Response
     {
         
         $kaikkiLavapaikat = [];
-        /*
-        for ($i=5;$i>0;$i--){
-            $lavapaikkaRivi = $this->lavapaikkaService->getTaso($kaytava, $i);
-            $kaikkiLavapaikat[]=$this->toinenpuoli($lavapaikkaRivi, $puoli);
-        }
-        */
         for ($i=5;$i>0;$i--){
             if ($puoli == 1){
                 $kaikkiLavapaikat[] = $this->lavapaikkaService->getOddTaso($kaytava, $i);
@@ -121,10 +117,22 @@ class SpecialController extends AbstractController
             }
             
         }
+        $sijainti = "";
+        $form = $this->createForm(OutIdType::class,new SearchOutId());
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $sijainti = "Sijainti: ";
+            $sijainnit = $this->lavapaikkaService->haeOutId("%".$form->getData()->getOutId()."%");
+            for ($i=0;$i<count($sijainnit);$i++){
+                $sijainti = $sijainti . $sijainnit[$i]->getId()." ";
+            }
+        }
         
         return $this->render('lava_list.html.twig',[
             'kaytava'=>$kaytava,
             'puoli'=>$puoli,
+            'sijainti'=>$sijainti,
+            'outid_haku'=> $form->createView(),
             'lavapaikat'=> $kaikkiLavapaikat,
             'headerStats'=>$this->updateStatsService->getStats()
             ]);

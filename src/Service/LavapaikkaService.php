@@ -72,4 +72,9 @@ class LavapaikkaService{
             $this->entityManager->flush();
         }
     }
+    public function haeOutId($outid){
+        $db = $this->entityManager->getRepository(Lavapaikka::class);
+        $lavapaikat = $db->haeOutId($outid);
+        return $lavapaikat;
+    }
 }

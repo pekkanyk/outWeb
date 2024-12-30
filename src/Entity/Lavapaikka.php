@@ -175,7 +175,8 @@ class Lavapaikka
         return "3A".$k."-".$v."-".$this->taso.$this->reuna;
         
     }
-    
+/* 
+ * original function   
     public function vari():?string
     {
         $vari = "#D3D3D3";
@@ -188,7 +189,27 @@ class Lavapaikka
         else if ($this->getUsage() ==200) {$vari = "#FFE4E1";}
         return $vari;
     }
-    
+ */  
+    public function vari():?string
+    {
+        $vari = "#D3D3D3";
+        if ($this->getUsage() ==200) {$vari = "#FFE4E1";}
+        else if ($this->getUsage() ==-1) {$vari = "#696969";}
+        else {
+            $da = $this->daysEdited();
+            if ($da == "-") {$vari = "#FF4500";}
+            else {
+                if (intval($da)>90) {$vari = "#FF4500";}
+                else if (intval($da)>60) {$vari = "#FFA500";}
+                else if (intval($da)>30) {$vari = "#FFD700";}
+                else if (intval($da)>14) {$vari = "#90EE90";}
+                else {$vari = "#4CAF50";}
+            }
+            
+        }
+        
+        return $vari;
+    }
     public function daysEdited(){
         if ($this->usable && $this->updated != null){
         $today = date_create("today");

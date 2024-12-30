@@ -98,6 +98,7 @@ class ReloadService{
     }
        
     private function getJsonFromVk($i):string
+    /*
     {
         $response = $this->client->request(
                 'GET',
@@ -106,6 +107,15 @@ class ReloadService{
         return $response->getContent();
     }
     
+     */
+    {
+        $response = $this->client->request(
+                'GET',
+                'https://web-api.service.verkkokauppa.com/search?private=true&pageNo='.$i.'&isCustomerReturn=true'
+        );
+        return $response->getContent();
+    }
+
     private function generateOutletTuoteFromTable($vkProduct): OutletTuote
     {   
         $pidDb = $this->entityManager->getRepository(PidInfo::class);
@@ -155,6 +165,7 @@ class ReloadService{
             }
             
         }
+	if (array_key_exists("availability", $vkProduct)){
         if ($vkProduct["availability"]!=null){
             $outletTuote->setOnVarasto($vkProduct["availability"]["isPurchasable"]);
             if ($vkProduct["availability"]["hasStock"]){
@@ -169,7 +180,7 @@ class ReloadService{
                     $outletTuote->setVarastossa(0);
                 }
         }
-        
+        }
 /* originaali
         else{ 
             $outletTuote->setVarastossa(null);

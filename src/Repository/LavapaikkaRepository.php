@@ -74,6 +74,16 @@ class LavapaikkaRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+    public function haeOutId($haku)
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.sisalto LIKE :haku')
+            ->setParameter('haku', $haku)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     /*
     public function findOneBySomeField($value): ?Lavapaikka
     {

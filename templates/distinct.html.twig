@@ -19,6 +19,7 @@
                         <td>PID</td>
                         <td>Nimi</td>
                         <td>Poistunut pv sitten</td>
+                        <td>Koko</td>
                         </tr>
                     </thead>
                     {% for row in topDistinct %}
@@ -27,6 +28,7 @@
                         <td><a class="active" href="/search/pid/{{ row.getPid() }}">{{ row.getPid() }}</a></td>
                         <td><span class="active">{{ row.getName() }}</span></td>
                         <td><span class="active">{{ row.getLastDel() }}</span></td>
+                        <td><span class="active">{{ row.getSize() }}</span></td>
                     </tr>
                     {% endfor %}
                 </table>
